@@ -15,7 +15,7 @@ const Navbar = () => {
 
     <div className="flex items-center justify-between py-5 font-medium">
 
-      <img src={logo} alt="Brand_logo" className="w-50" />
+      <img src={logo} alt="Brand_logo" className="w-32 sm:w-40 md:w-45 " />
 
       <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
         <NavLink to="/" className="flex flex-col gap-1 items-center">
@@ -37,7 +37,7 @@ const Navbar = () => {
       </ul>
 
 
-      <div className="flex flex-row gap-6">
+      <div className="flex flex-row gap-3 sm:gap-6 items-center">
         <div>
           <IoSearch className="cursor-pointer" />
         </div>
@@ -62,7 +62,7 @@ const Navbar = () => {
       
       {/*This is for drop down menu */}
 
-      <div className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${visible?'w-full': 'w-0'}`}>
+      <div className={`absolute top-0 right-0 bottom-auto  overflow-hidden bg-black transition-all ${visible?'w-50': 'w-0'}`}>
             <div className="flex flex-col text-gray-600">
                 <div onClick={()=> setvisible(false)} className="flex items-center gap-4 p-3 ">
                     <IoArrowBack />
