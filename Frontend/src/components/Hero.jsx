@@ -3,7 +3,7 @@ import { Pagination, Navigation, Scrollbar } from "swiper/modules";
 
 import iPhone_16 from '../assets/iPhone_16.png'
 import shoe from '../assets/Shoes.png'
-import fruit_thali from '../assets/fruit_thali.png'
+import fruit_thali from '../assets/Fruit_thali.png'
 
 import "swiper/css";
 import "swiper/css/navigation";
