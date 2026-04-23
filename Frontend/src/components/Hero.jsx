@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation, Scrollbar } from "swiper/modules";
+import { Pagination, Navigation, Scrollbar, Autoplay } from "swiper/modules";
 
 import iPhone_16 from '../assets/iPhone_16.png'
 import shoe from '../assets/Shoes.png'
@@ -14,12 +14,12 @@ const Hero = () => {
   return (
     <div className="w-full overflow-hidden rounded-2xl md:rounded-4xl">
       <Swiper
-        modules={[Pagination, Navigation, Scrollbar]}
+        modules={[Pagination, Navigation, Scrollbar, Autoplay]}
         spaceBetween={50}
         slidesPerView={1}
         navigation
         autoplay={{
-            delay: 2,
+            delay: 3000,
             disableOnInteraction: false,
         }}
         pagination={{ clickable: true }}
