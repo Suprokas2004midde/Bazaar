@@ -1,5 +1,5 @@
 import { createContext } from "react"
-import { productsDummyData } from "../assets/asset";
+import { productsDummyData, bestSeller } from "../assets/asset";
 
 export const ShopContext = createContext()
 
@@ -9,7 +9,7 @@ export const ShopContextProvider = (props) =>{
     const DeliveryFees = 50;
 
     const value = {
-        productsDummyData, CurrencySym, DeliveryFees,
+        productsDummyData, CurrencySym, DeliveryFees, bestSeller,
     }
 
     return (

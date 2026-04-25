@@ -295,3 +295,69 @@ export const addressDummyData = [
     "__v": 0
   }
 ]
+
+export const bestSeller = [
+  {
+    "_id": "bs001",
+    "name": "Apple AirPods Pro 2nd gen",
+    "description": "Apple AirPods Pro (2nd Gen) with MagSafe Case (USB-C) provide excellent sound, active noise cancellation, and a comfortable fit. The USB-C case ensures quick charging, and they pair seamlessly with Apple devices for an effortless audio experience.",
+    "price": 499.99,
+    "offerPrice": 399.99,
+    "image": [
+      "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/k4dafzhwhgcn5tnoylrw.webp",
+      "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/j212frakb8hdrhvhajhg.webp",
+      "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/imwuugqxsajuwqpkegb5.webp",
+      "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/k1oqaslw5tb3ebw01vvj.webp"
+    ],
+    "category": "Earphone",
+    "bestseller": true
+  },
+  {
+    "_id": "bs002",
+    "name": "Samsung Galaxy S23",
+    "description": "The Samsung Galaxy S23 offers an all-encompassing mobile experience with its advanced AMOLED display, offering vibrant visuals and smooth interactions.",
+    "price": 899.99,
+    "offerPrice": 799.99,
+    "image": [
+      "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/xjd4eprpwqs7odbera1w.webp"
+    ],
+    "category": "Smartphone",
+    "bestseller": true
+  },
+  {
+    "_id": "bs003",
+    "name": "PlayStation 5",
+    "description": "The PlayStation 5 takes gaming to the next level with ultra-HD graphics, a powerful 825GB SSD, and ray tracing technology for realistic visuals.",
+    "price": 599.99,
+    "offerPrice": 499.99,
+    "image": [
+      "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/dd3l13vfoartrgbvkkh5.webp"
+    ],
+    "category": "Accessories",
+    "bestseller": true
+  },
+  {
+    "_id": "bs004",
+    "name": "MacBook Pro 16",
+    "description": "The MacBook Pro 16, powered by Apple's M2 Pro chip, offers outstanding performance with 16GB RAM and a 512GB SSD.",
+    "price": 2799.99,
+    "offerPrice": 2499.99,
+    "image": [
+      "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/rzri7kytphxalrm9rubd.webp"
+    ],
+    "category": "Laptop",
+    "bestseller": true
+  },
+  {
+    "_id": "bs005",
+    "name": "Sony WF-1000XM5",
+    "description": "Sony WF-1000XM5 true wireless earbuds deliver immersive sound with Hi-Res Audio and advanced noise cancellation technology.",
+    "price": 349.99,
+    "offerPrice": 299.99,
+    "image": [
+      "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/e3zjaupyumdkladmytke.webp"
+    ],
+    "category": "Earphone",
+    "bestseller": false
+  }
+]
