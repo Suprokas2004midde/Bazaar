@@ -12,10 +12,14 @@ const Navbar = () => {
     const [visible,setvisible] = useState(false);
 
   return (
-
     <div className="flex items-center justify-between py-5 font-medium">
-
-      <img src={logo} alt="Brand_logo" className="w-32 sm:w-40 md:w-45 " />
+      <Link to="/">
+        <img
+          src={logo}
+          alt="Brand_logo"
+          className="w-32 sm:w-40 md:w-45 cursor-pointer"
+        />
+      </Link>
 
       <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
         <NavLink to="/" className="flex flex-col gap-1 items-center">
@@ -36,7 +40,6 @@ const Navbar = () => {
         </NavLink>
       </ul>
 
-
       <div className="flex flex-row gap-3 sm:gap-6 items-center">
         <div>
           <IoSearch className="cursor-pointer" />
@@ -52,29 +55,62 @@ const Navbar = () => {
           </div>
         </div>
         <div className="relative">
-            <Link to='/'>
-                <BsCartCheck className="w-5 min-w-5"/>
-                <p className="absolute -right-1.25 -bottom-1.25 w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">9</p>
-            </Link>
+          <Link to="/">
+            <BsCartCheck className="w-5 min-w-5" />
+            <p className="absolute -right-1.25 -bottom-1.25 w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
+              9
+            </p>
+          </Link>
         </div>
-        <HiMenuAlt3 onClick={()=>setvisible(true)} className="cursor-pointer sm:hidden"/>
+        <HiMenuAlt3
+          onClick={() => setvisible(true)}
+          className="cursor-pointer sm:hidden"
+        />
       </div>
-      
+
       {/*This is for drop down menu */}
 
-      <div className={`absolute top-0 right-0 bottom-auto  overflow-hidden bg-black transition-all ${visible?'w-50': 'w-0'}`}>
-            <div className="flex flex-col text-gray-600">
-                <div onClick={()=> setvisible(false)} className="flex items-center gap-4 p-3 ">
-                    <IoArrowBack />
-                    <p>Back</p>
-                </div>
-                <NavLink onClick={()=>setvisible(false)} className='py-2 pl-6 border' to='/'>HOME</NavLink>
-                <NavLink onClick={()=>setvisible(false)} className='py-2 pl-6 border' to='/collection'>COLLECTION</NavLink>
-                <NavLink onClick={()=>setvisible(false)} className='py-2 pl-6 border' to='/about'>ABOUT</NavLink>
-                <NavLink onClick={()=>setvisible(false)} className='py-2 pl-6 border' to='/contact'>CONTACT</NavLink>
-            </div>
+      <div
+        className={`absolute top-0 right-0 bottom-auto  overflow-hidden bg-black transition-all ${visible ? "w-50" : "w-0"}`}
+      >
+        <div className="flex flex-col text-gray-600">
+          <div
+            onClick={() => setvisible(false)}
+            className="flex items-center gap-4 p-3 "
+          >
+            <IoArrowBack />
+            <p>Back</p>
+          </div>
+          <NavLink
+            onClick={() => setvisible(false)}
+            className="py-2 pl-6 border"
+            to="/"
+          >
+            HOME
+          </NavLink>
+          <NavLink
+            onClick={() => setvisible(false)}
+            className="py-2 pl-6 border"
+            to="/collection"
+          >
+            COLLECTION
+          </NavLink>
+          <NavLink
+            onClick={() => setvisible(false)}
+            className="py-2 pl-6 border"
+            to="/about"
+          >
+            ABOUT
+          </NavLink>
+          <NavLink
+            onClick={() => setvisible(false)}
+            className="py-2 pl-6 border"
+            to="/contact"
+          >
+            CONTACT
+          </NavLink>
+        </div>
       </div>
-
     </div>
   );
 };

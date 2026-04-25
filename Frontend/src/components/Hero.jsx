@@ -17,15 +17,16 @@ const Hero = () => {
         modules={[Pagination, Navigation, Scrollbar, Autoplay]}
         spaceBetween={50}
         slidesPerView={1}
-        navigation
+        // navigation={true}
+        loop={true}
         autoplay={{
             delay: 3000,
             disableOnInteraction: false,
         }}
         pagination={{ clickable: true }}
         scrollbar={{ draggable: true }}
-        onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log("slide changed")}
+        // onSwiper={(swiper) => console.log(swiper)}
+        // onSlideChange={() => console.log("slide changed")}
         className="!h-auto"
       >
         <SwiperSlide className="!h-auto bg-indigo-600 text-white min-h-[280px] sm:min-h-[320px] md:min-h-[380px] lg:min-h-[420px]">
