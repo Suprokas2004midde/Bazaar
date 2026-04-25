@@ -10,23 +10,25 @@ import Contacts from './pages/Contacts.jsx';
 import PlaceOrder from './pages/PlaceOrder.jsx';
 import About from './pages/About.jsx';
 import Navbar from './components/Navbar.jsx';
+import Footer from './components/Footer.jsx';
 
 function App() {
 
   return (
-    <div className='px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24'>
-      <Navbar/>
+    <div className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
+      <Navbar />
       <Routes>
-        <Route path='/' element={ <Home/> } />
-        <Route path='/cart' element={ <Cart/> } />
-        <Route path='/collection'  element={ <Collection/> } />
-        <Route path='/login' element={ <Login/> } />
-        <Route path='/product/:productID' element={ <ProductDetail/> } />
-        <Route path='orders' element={ <Orders/> } />
-        <Route path='contact' element={ <Contacts/> } />
-        <Route path='place-order' element={ <PlaceOrder/> } />
-        <Route path='about' element={<About/>} />
-      </Routes>      
+        <Route path="/" element={<Home />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/collection" element={<Collection />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/product/:productID" element={<ProductDetail />} />
+        <Route path="orders" element={<Orders />} />
+        <Route path="contact" element={<Contacts />} />
+        <Route path="place-order" element={<PlaceOrder />} />
+        <Route path="about" element={<About />} />
+      </Routes>
+      <Footer />
     </div>
   );
 }

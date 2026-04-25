@@ -4,7 +4,7 @@ import LatestCollection from '../components/LatestCollection.jsx'
 import BestSeller from '../components/BestSeller.jsx'
 import OurPolicy from '../components/OurPolicy.jsx'
 import NewsletterBox from '../components/NewsletterBox.jsx'
-
+import Footer from '../components/Footer.jsx'
 
 const Home = () => {
   return (
@@ -14,6 +14,7 @@ const Home = () => {
       <BestSeller /> 
       <OurPolicy />
       <NewsletterBox />
+      
     </div>
   )
 }
