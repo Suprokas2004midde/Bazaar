@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router";
 import { IoSearch } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
@@ -6,10 +6,12 @@ import { BsCartCheck } from "react-icons/bs";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { IoArrowBack } from "react-icons/io5";
 import logo from "../assets/logo.png";
+import { ShopContext } from "../context/ShopContext";
 
 const Navbar = () => {
 
     const [visible,setvisible] = useState(false);
+    const {showSearch, setShowSearch} = useContext(ShopContext); 
 
   return (
     <div className="flex items-center justify-between py-5 font-medium">
@@ -42,7 +44,7 @@ const Navbar = () => {
 
       <div className="flex flex-row gap-3 sm:gap-6 items-center">
         <div>
-          <IoSearch className="cursor-pointer" />
+          <IoSearch onClick={()=>{setShowSearch(!showSearch)}} className="cursor-pointer" />
         </div>
         <div className="group relative">
           <CgProfile className="cursor-pointer" />
