@@ -14,6 +14,7 @@ export const productsDummyData = [
       "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/k1oqaslw5tb3ebw01vvj.webp"
     ],
     "category": "Earphone",
+    "sizes": null,
     "date": 1738667236865,
     "__v": 0
   },
@@ -28,6 +29,7 @@ export const productsDummyData = [
       "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/m16coelz8ivkk9f0nwrz.webp"
     ],
     "category": "Headphone",
+    "sizes": null,
     "date": 1738667310300,
     "__v": 0
   },
@@ -42,6 +44,7 @@ export const productsDummyData = [
       "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/xjd4eprpwqs7odbera1w.webp"
     ],
     "category": "Smartphone",
+    "sizes": null,
     "date": 1738667366224,
     "__v": 0
   },
@@ -56,6 +59,7 @@ export const productsDummyData = [
       "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/hdfi4u3fmprazpnrnaga.webp"
     ],
     "category": "Earphone",
+    "sizes": null,
     "date": 1738667417511,
     "__v": 0
   },
@@ -70,6 +74,7 @@ export const productsDummyData = [
       "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/dd3l13vfoartrgbvkkh5.webp"
     ],
     "category": "Accessories",
+    "sizes": null,
     "date": 1738667503075,
     "__v": 0
   },
@@ -84,6 +89,7 @@ export const productsDummyData = [
       "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/r5h370zuujvrw461c6wy.webp"
     ],
     "category": "Camera",
+    "sizes": null,
     "date": 1738667788883,
     "__v": 0
   },
@@ -98,6 +104,7 @@ export const productsDummyData = [
       "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/rzri7kytphxalrm9rubd.webp"
     ],
     "category": "Laptop",
+    "sizes": null,
     "date": 1738667977644,
     "__v": 0
   },
@@ -112,6 +119,7 @@ export const productsDummyData = [
       "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/e3zjaupyumdkladmytke.webp"
     ],
     "category": "Earphone",
+    "sizes": null,
     "date": 1738668086331,
     "__v": 0
   },
@@ -126,6 +134,7 @@ export const productsDummyData = [
       "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/qqdcly8a8vkyciy9g0bw.webp"
     ],
     "category": "Accessories",
+    "sizes": null,
     "date": 1738668126660,
     "__v": 0
   },
@@ -140,9 +149,95 @@ export const productsDummyData = [
       "https://raw.githubusercontent.com/avinashdm/gs-images/main/quickcart/wig1urqgnkeyp4t2rtso.webp"
     ],
     "category": "Laptop",
+    "sizes": null,
     "date": 1738668619198,
     "__v": 0
-  }
+  },
+  {
+    "_id": "cloth001",
+    "name": "Puma Men's Round Neck Sports T-Shirt",
+    "description": "A lightweight, usually knitted, pullover shirt, close-fitting and with a round neckline and short sleeves, worn as an undershirt or outer garment. Made with breathable fabric for maximum comfort during workouts and daily wear.",
+    "price": 1200,
+    "image": [
+      "/src/assets/m-67460113-puma-1.jpg",
+      "/src/assets/m-67460113-puma-2.jpg",
+      "/src/assets/m-67460113-puma-3.jpg",
+      "/src/assets/m-67460113-puma-4.jpg"
+    ],
+    "category": "Men",
+    "subCategory": "Topwear",
+    "sizes": ["S", "M", "L", "XL"],
+    "date": 1716626645448,
+    "bestseller": true
+  },
+  {
+    "_id": "cloth002",
+    "name": "Puma Men's Polo Neck Sports T-Shirt",
+    "description": "A premium polo-neck T-shirt crafted with moisture-wicking fabric that keeps you cool and dry. Features a classic collar design with a buttoned placket, perfect for casual outings or athletic activities.",
+    "price": 1500,
+    "image": [
+      "/src/assets/m-67460113-puma-2.jpg",
+      "/src/assets/m-67460113-puma-1.jpg",
+      "/src/assets/m-67460113-puma-3.jpg",
+      "/src/assets/m-67460113-puma-4.jpg"
+    ],
+    "category": "Men",
+    "subCategory": "Topwear",
+    "sizes": ["S", "M", "L", "XL", "XXL"],
+    "date": 1716626645500,
+    "bestseller": false
+  },
+  {
+    "_id": "cloth005",
+    "name": "Women's Classic Pure Cotton Kurti",
+    "description": "An elegant pure cotton kurti with intricate embroidery work, perfect for both casual and festive occasions. The breathable cotton fabric ensures all-day comfort while the flattering silhouette enhances your style.",
+    "price": 2200,
+    "image": [
+      "/src/assets/pu102-1.jpg",
+      "/src/assets/pu102-2.jpg",
+      "/src/assets/pu102-3.jpg",
+      "/src/assets/pu102-4.jpg"
+    ],
+    "category": "Women",
+    "subCategory": "Topwear",
+    "sizes": ["S", "M", "L", "XL"],
+    "date": 1716626645800,
+    "bestseller": true
+  },
+  {
+    "_id": "cloth006",
+    "name": "Women's Printed Floral Dress",
+    "description": "A beautiful floral printed dress made from premium georgette fabric. Features a flattering A-line cut with a cinched waist, perfect for brunches, parties, and casual outings. Available in vibrant seasonal colors.",
+    "price": 2800,
+    "image": [
+      "/src/assets/pu102-2.jpg",
+      "/src/assets/pu102-1.jpg",
+      "/src/assets/pu102-3.jpg",
+      "/src/assets/pu102-5.jpg"
+    ],
+    "category": "Women",
+    "subCategory": "Topwear",
+    "sizes": ["S", "M", "L"],
+    "date": 1716626645900,
+    "bestseller": false
+  },
+  {
+    "_id": "cloth009",
+    "name": "Women's Casual Summer Blouse",
+    "description": "A light and airy summer blouse with a relaxed fit and elegant drape. Made from breathable linen-cotton blend, featuring delicate lace trim on the neckline and cuffs. Perfect for summer styling.",
+    "price": 1650,
+    "image": [
+      "/src/assets/pu102-5.jpg",
+      "/src/assets/pu102-1.jpg",
+      "/src/assets/pu102-3.jpg",
+      "/src/assets/pu102-4.jpg"
+    ],
+    "category": "Women",
+    "subCategory": "Topwear",
+    "sizes": ["S", "M", "L"],
+    "date": 1716626646200,
+    "bestseller": true
+  },
 ]
 
 export const userDummyData = {
@@ -294,6 +389,10 @@ export const addressDummyData = [
     "state": "State",
     "__v": 0
   }
+]
+
+export const clothingProducts = [
+  
 ]
 
 export const bestSeller = [

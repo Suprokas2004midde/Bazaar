@@ -10,7 +10,7 @@ const Collection = () => {
   const { productsDummyData, search, showSearch } = useContext(ShopContext);
   const [filterProduct, setFilterProduct] = useState([]);
   const [category, setCategory] = useState([]);
-  const [subcategory, setSubCategory] = useState([]);
+  const [subCategory, setSubCategory] = useState([]);
   const [sortType, setSortType] = useState('relevent');
 
   const applyFilter = () => {
@@ -25,9 +25,9 @@ const Collection = () => {
         (item) => category.includes(item.category), //if category filter Array includes any category then only that product will be show-cased...
       );
     }
-    if (subcategory.length > 0) {
+    if (subCategory.length > 0) {
       productCopy = productCopy.filter((item) =>
-        subcategory.includes(item.category),
+        subCategory.includes(item.subCategory),
       );
     }
     setFilterProduct(productCopy);
@@ -62,7 +62,7 @@ const Collection = () => {
   };
 
   const toggleSubCategory = (event) => {
-    if (subcategory.includes(event.target.value)) {
+    if (subCategory.includes(event.target.value)) {
       setSubCategory((prev) =>
         prev.filter((item) => item !== event.target.value),
       );
@@ -73,7 +73,7 @@ const Collection = () => {
 
   useEffect(() => {
     applyFilter();
-  }, [category, subcategory, search, showSearch]);
+  }, [category, subCategory, search, showSearch]);
 
   useEffect(()=>{
     sortFilter();
@@ -99,6 +99,24 @@ const Collection = () => {
         >
           <p className="mb-3 text-sm font-medium">CATEGORIES</p>
           <div className="flex flex-col gap-2 text-sm font-light text-gray-700">
+            <p className="flex gap-2">
+              <input
+                className="w-3"
+                type="checkbox"
+                value={"Men"}
+                onChange={toggleCategory}
+              />
+              Men
+            </p>
+            <p className="flex gap-2">
+              <input
+                className="w-3"
+                type="checkbox"
+                value={"Women"}
+                onChange={toggleCategory}
+              />
+              Women
+            </p>
             <p className="flex gap-2">
               <input
                 className="w-3"
