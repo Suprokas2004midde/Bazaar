@@ -391,13 +391,11 @@ export const addressDummyData = [
   }
 ]
 
-export const clothingProducts = [
-  
-]
+
 
 export const bestSeller = [
   {
-    "_id": "bs001",
+    "_id": "67a1f4e43f34a77b6dde9144",
     "name": "Apple AirPods Pro 2nd gen",
     "description": "Apple AirPods Pro (2nd Gen) with MagSafe Case (USB-C) provide excellent sound, active noise cancellation, and a comfortable fit. The USB-C case ensures quick charging, and they pair seamlessly with Apple devices for an effortless audio experience.",
     "price": 499.99,
@@ -412,7 +410,7 @@ export const bestSeller = [
     "bestseller": true
   },
   {
-    "_id": "bs002",
+    "_id": "67a1f5663f34a77b6dde914c",
     "name": "Samsung Galaxy S23",
     "description": "The Samsung Galaxy S23 offers an all-encompassing mobile experience with its advanced AMOLED display, offering vibrant visuals and smooth interactions.",
     "price": 899.99,
@@ -424,7 +422,7 @@ export const bestSeller = [
     "bestseller": true
   },
   {
-    "_id": "bs003",
+    "_id": "67a1f5ef3f34a77b6dde9150",
     "name": "PlayStation 5",
     "description": "The PlayStation 5 takes gaming to the next level with ultra-HD graphics, a powerful 825GB SSD, and ray tracing technology for realistic visuals.",
     "price": 599.99,
@@ -436,7 +434,7 @@ export const bestSeller = [
     "bestseller": true
   },
   {
-    "_id": "bs004",
+    "_id": "67a1f7c93f34a77b6dde915a",
     "name": "MacBook Pro 16",
     "description": "The MacBook Pro 16, powered by Apple's M2 Pro chip, offers outstanding performance with 16GB RAM and a 512GB SSD.",
     "price": 2799.99,
@@ -448,7 +446,7 @@ export const bestSeller = [
     "bestseller": true
   },
   {
-    "_id": "bs005",
+    "_id": "67a1f8363f34a77b6dde915c",
     "name": "Sony WF-1000XM5",
     "description": "Sony WF-1000XM5 true wireless earbuds deliver immersive sound with Hi-Res Audio and advanced noise cancellation technology.",
     "price": 349.99,

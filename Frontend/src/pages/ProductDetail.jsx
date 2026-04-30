@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { ShopContext } from "../context/ShopContext";
 import { FaStar } from "react-icons/fa";
+import RelatedProduct from "../components/RelatedProduct";
 
 const ProductDetail = () => {
   const { productID } = useParams(); //normal import returns object but instances returns string
-  const { productsDummyData, CurrencySym } = useContext(ShopContext);
+  const { productsDummyData, CurrencySym, addToCart } = useContext(ShopContext);
   const [productData, setProductData] = useState();
   const [mainImage, setMainImage] = useState();
   const [selectsize, setSelectSize] = useState("");
@@ -95,7 +96,7 @@ const ProductDetail = () => {
             </div>
 
           </div>
-          <button className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700">Add To Cart</button>
+          <button onClick={()=> addToCart(productData._id,selectsize)} className="bg-black text-white px-8 py-3 text-sm active:bg-gray-700 gap-4 mt-5">Add To Cart</button>
           <hr className="mt-8 sm:w-4/5"/>
           <div className="text-sm flex flex-col gap-1 text-gray-500 mt-5">
               <p>100% Original Product</p>
@@ -114,6 +115,12 @@ const ProductDetail = () => {
               <p>E-commerce platforms typically offer detailed product descriptions, customer reviews, and personalized recommendations to enhance the shopping experience. With support for multiple payment methods and reliable delivery options, these websites aim to provide a seamless and trustworthy transaction process for every customer.</p>
           </div>
       </div>
+
+      {/* ----------Related Produts----------- */}
+        <div>
+          <RelatedProduct category={productData.category} subCategory={productData.subCategory} id={productData._id}/>
+        </div>
+
     </div>
   ) : (
     <div className="opacity-0"></div>
