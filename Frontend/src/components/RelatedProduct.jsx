@@ -14,10 +14,10 @@ const RelatedProduct = ({category, subCategory, id}) => {
 
             cpyproducts=cpyproducts.filter((item)=> category===item.category);
             cpyproducts=cpyproducts.filter((item)=> subCategory===item.subCategory);
-            cpyproducts=cpyproducts.filter((item)=>item._id !== id);
-            setRelated(cpyproducts);
+            cpyproducts=cpyproducts.filter((item)=> item._id !== id);
+            setRelated( cpyproducts );
         }
-    },[])
+    },[id])
 
 
   return (

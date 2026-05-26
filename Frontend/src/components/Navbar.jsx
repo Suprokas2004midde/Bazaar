@@ -9,9 +9,8 @@ import logo from "../assets/logo.png";
 import { ShopContext } from "../context/ShopContext";
 
 const Navbar = () => {
-
-    const [visible,setvisible] = useState(false);
-    const {showSearch, setShowSearch} = useContext(ShopContext); 
+  const [visible, setvisible] = useState(false);
+  const { showSearch, setShowSearch, getCartCount } = useContext(ShopContext);
 
   return (
     <div className="flex items-center justify-between py-5 font-medium">
@@ -44,12 +43,17 @@ const Navbar = () => {
 
       <div className="flex flex-row gap-3 sm:gap-6 items-center">
         <div>
-          <IoSearch onClick={()=>{setShowSearch(!showSearch)}} className="cursor-pointer" />
+          <IoSearch
+            onClick={() => {
+              setShowSearch(!showSearch);
+            }}
+            className="w-6 h-6 cursor-pointer"
+          />
         </div>
         <div className="group relative">
-          <CgProfile className="cursor-pointer" />
-          <div className="group-hover:block hidden absolute dropdown-menu right-0 pt-4">
-            <div className="flex flex-col gap-2 w-36 px-5 py-3 bg-slate-100 text-gray-500">
+          <CgProfile className="w-6 h-6 cursor-pointer" />
+          <div className="z-11 group-hover:block hidden absolute dropdown-menu right-0 pt-4">
+            <div className="flex flex-col gap-2 w-36 px-5 py-3 bg-slate-100 text-gray-500 rounded-2xl">
               <p className="cursor-pointer hover:text-black">My Profile</p>
               <p className="cursor-pointer hover:text-black">Orders</p>
               <p className="cursor-pointer hover:text-black">Logout</p>
@@ -57,16 +61,16 @@ const Navbar = () => {
           </div>
         </div>
         <div className="relative">
-          <Link to="/">
-            <BsCartCheck className="w-5 min-w-5" />
-            <p className="absolute -right-1.25 -bottom-1.25 w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]">
-              9
+          <Link to="/cart">
+            <BsCartCheck className="w-6 h-6" />
+            <p className="absolute -right-1.25 -bottom-1.25 w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[11px]">
+              {getCartCount()}
             </p>
           </Link>
         </div>
         <HiMenuAlt3
           onClick={() => setvisible(true)}
-          className="cursor-pointer sm:hidden"
+          className="w-6 h-6 cursor-pointer sm:hidden"
         />
       </div>
 

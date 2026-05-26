@@ -39,11 +39,34 @@ export const ShopContextProvider = (props) => {
       cartData[itemId][sizeKey] = 1;
     }
     setCartItems(cartData);
+    console.log(cartData);
   }
 
-  useEffect(()=>{
-    console.log(cartItems);
-  },[cartItems])
+  const getCartCount = ()=>{
+    let totalCount = 0;
+    for(const items in cartItems){
+      for(const item in cartItems[items]){
+        totalCount += cartItems[items][item]
+      }
+    }
+    return totalCount;
+  }
+
+  const updateCart = async (itemId, size, quantity) => {
+    let cartData = structuredClone(cartItems);
+
+    if (quantity === 0) {
+      delete cartData[itemId][size];
+      if (Object.keys(cartData[itemId]).length === 0) {
+        delete cartData[itemId];
+      }
+    } else {
+      cartData[itemId][size] = quantity;
+    }
+    setCartItems(cartData);
+    console.log(cartData)
+  }
+
 
   const value = {
     productsDummyData,
@@ -56,6 +79,8 @@ export const ShopContextProvider = (props) => {
     setSearch,
     cartItems,
     addToCart,
+    getCartCount,
+    updateCart,
   };
 
   return (
