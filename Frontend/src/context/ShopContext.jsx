@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { productsDummyData, bestSeller } from "../assets/asset";
+import { productsDummyData, bestSeller, orderDummyData } from "../assets/asset";
+import { useNavigate } from "react-router";
 
 export const ShopContext = createContext();
 
@@ -10,6 +11,7 @@ export const ShopContextProvider = (props) => {
   const [showSearch, setShowSearch] = useState(false);
   const [search, setSearch] = useState("");
   const [cartItems, setCartItems] = useState({});
+  const navigate = useNavigate();
 
 
   const addToCart = async (itemId, size) => {
@@ -39,7 +41,6 @@ export const ShopContextProvider = (props) => {
       cartData[itemId][sizeKey] = 1;
     }
     setCartItems(cartData);
-    console.log(cartData);
   }
 
   const getCartCount = ()=>{
@@ -52,24 +53,41 @@ export const ShopContextProvider = (props) => {
     return totalCount;
   }
 
+  const getTotalAmount = ()=>{
+    let TotalAmount = 0;
+    for(const items in cartItems){
+      let itemInfo = productsDummyData.find((products)=> products._id === items);
+      for(const item in cartItems[items]){
+        if(cartItems[items][item] > 0){
+          TotalAmount += itemInfo.price * cartItems[items][item];
+        }
+      }
+    }
+    return TotalAmount;
+  }
+
   const updateCart = async (itemId, size, quantity) => {
     let cartData = structuredClone(cartItems);
 
     if (quantity === 0) {
       delete cartData[itemId][size];
-      if (Object.keys(cartData[itemId]).length === 0) {
+      if (Object.keys(cartData[itemId]).length === 0) {  //Object.kes returns an array here --> ['M','S'] etc 
         delete cartData[itemId];
       }
     } else {
       cartData[itemId][size] = quantity;
     }
     setCartItems(cartData);
-    console.log(cartData)
   }
 
+  // useEffect(()=>{
+  //   console.log(cartItems);
+  //   console.log(getTotalAmount());
+  // },[cartItems])
 
   const value = {
     productsDummyData,
+    orderDummyData,
     CurrencySym,
     DeliveryFees,
     bestSeller,
@@ -81,6 +99,8 @@ export const ShopContextProvider = (props) => {
     addToCart,
     getCartCount,
     updateCart,
+    getTotalAmount,
+    navigate
   };
 
   return (

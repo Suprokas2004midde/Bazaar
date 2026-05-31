@@ -3,7 +3,7 @@ import { ShopContext } from "../context/ShopContext";
 import Title from "./Title";
 import { CiCircleRemove } from "react-icons/ci";
 
-const ShowCartItems = ({ cartData, setCartData }) => {
+const ShowCartItems = ({ cartData }) => {
   const { cartItems, CurrencySym, productsDummyData, updateCart } =
     useContext(ShopContext);
   return (
@@ -51,7 +51,11 @@ const ShowCartItems = ({ cartData, setCartData }) => {
                 type="number"
                 min={1}
                 defaultValue={item.quantity}
-                onChange={(e)=> e.target.value==='' || e.target.value==='0' ? null : updateCart(item._id,item.size,Number(e.target.value))} //this is imp because without number (e.target.value) always returns a string value...
+                onChange={(e) =>
+                  e.target.value === "" || e.target.value === "0"
+                    ? null
+                    : updateCart(item._id, item.size, Number(e.target.value))
+                } //this is imp because without number (e.target.value) always returns a string value...
               />
               <CiCircleRemove
                 className="w-8 h-8 cursor-pointer"

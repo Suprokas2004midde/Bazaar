@@ -25,10 +25,10 @@ function App() {
         <Route path="/collection" element={<Collection />} />
         <Route path="/login" element={<Login />} />
         <Route path="/product/:productID" element={<ProductDetail />} />
-        <Route path="orders" element={<Orders />} />
-        <Route path="contact" element={<Contacts />} />
-        <Route path="place-order" element={<PlaceOrder />} />
-        <Route path="about" element={<About />} />
+        <Route path="/orders" element={<Orders />} />
+        <Route path="/contact" element={<Contacts />} />
+        <Route path="/place-order" element={<PlaceOrder />} />
+        <Route path="/about" element={<About />} />
       </Routes>
       <Footer />
     </div>

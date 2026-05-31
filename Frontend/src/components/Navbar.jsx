@@ -51,7 +51,9 @@ const Navbar = () => {
           />
         </div>
         <div className="group relative">
-          <CgProfile className="w-6 h-6 cursor-pointer" />
+          <Link to={'/login'}>
+            <CgProfile className="w-6 h-6 cursor-pointer" />
+          </Link>
           <div className="z-11 group-hover:block hidden absolute dropdown-menu right-0 pt-4">
             <div className="flex flex-col gap-2 w-36 px-5 py-3 bg-slate-100 text-gray-500 rounded-2xl">
               <p className="cursor-pointer hover:text-black">My Profile</p>
