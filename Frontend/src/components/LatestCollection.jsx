@@ -1,16 +1,15 @@
-import {useContext, useEffect, useState} from 'react'
-import { ShopContext } from '../context/ShopContext.jsx'
-import Title from './Title.jsx';
-import ProductItem from './ProductItem.jsx';
+import { useContext, useEffect, useState } from "react";
+import { ShopContext } from "../context/ShopContext.jsx";
+import Title from "./Title.jsx";
+import ProductItem from "./ProductItem.jsx";
 
 const LatestCollection = () => {
+  const { productsData } = useContext(ShopContext);
+  const [latestProd, SetlatestProd] = useState([]);
 
-    const { productsDummyData } = useContext(ShopContext);
-    const [latestProd, SetlatestProd] = useState([]);
-
-    useEffect(()=>{
-      SetlatestProd(productsDummyData.slice(0,10))
-    },[])
+  useEffect(() => {
+    SetlatestProd(productsData.slice(-10).reverse()); // it will show the latest product from the reverse view
+  }, [productsData]);
   return (
     <div className="my-10">
       <div className="text-center py-3 text-3xl">
@@ -28,6 +27,6 @@ const LatestCollection = () => {
       </div>
     </div>
   );
-}
+};
 
-export default LatestCollection
+export default LatestCollection;

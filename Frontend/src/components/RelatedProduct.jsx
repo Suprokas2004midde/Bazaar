@@ -4,20 +4,20 @@ import { ShopContext } from '../context/ShopContext';
 import ProductItem from './ProductItem';
 
 const RelatedProduct = ({category, subCategory, id}) => {
-    const { productsDummyData }= useContext(ShopContext);
+    const { productsData }= useContext(ShopContext);
     const [related, setRelated] = useState([]);
 
 
     useEffect(()=>{
-        if(productsDummyData.length > 0){
-            let cpyproducts = productsDummyData.slice();
+        if(productsData.length > 0){
+            let cpyproducts = productsData.slice();
 
-            cpyproducts=cpyproducts.filter((item)=> category===item.category);
-            cpyproducts=cpyproducts.filter((item)=> subCategory===item.subCategory);
+            cpyproducts=cpyproducts.filter((item)=> category === item.category );
+            cpyproducts=cpyproducts.filter((item)=> subCategory === item.subcategory);
             cpyproducts=cpyproducts.filter((item)=> item._id !== id);
             setRelated( cpyproducts );
         }
-    },[id])
+    },[id, productsData])
 
 
   return (

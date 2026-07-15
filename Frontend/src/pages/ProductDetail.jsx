@@ -6,23 +6,23 @@ import RelatedProduct from "../components/RelatedProduct";
 
 const ProductDetail = () => {
   const { productID } = useParams(); //normal import returns object but instances returns string
-  const { productsDummyData, CurrencySym, addToCart } = useContext(ShopContext);
+  const { productsData, CurrencySym, addToCart } = useContext(ShopContext);
   const [productData, setProductData] = useState();
   const [mainImage, setMainImage] = useState();
   const [selectsize, setSelectSize] = useState("");
 
   const fetchProductData = async () => {
-    productsDummyData.map((item) => {
+    productsData.map((item) => {
       if (item._id === productID) {
         setProductData(item);
-        setMainImage(item.image[0]);
+        setMainImage(item.images[0]);
       }
     });
   };
 
   useEffect(() => {
     fetchProductData();
-  }, [productID, productsDummyData]);
+  }, [productID, productsData]);
 
   return productData ? (
     <div className="border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100">
@@ -35,7 +35,7 @@ const ProductDetail = () => {
         <div className="flex-1 flex flex-col-reverse gap-3 sm:flex-row">
 
           <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full">
-            {productData.image.map((item, index) => {
+            {productData.images.map((item, index) => {
               return (
                 <img
                   onClick={() => {
@@ -118,7 +118,7 @@ const ProductDetail = () => {
 
       {/* ----------Related Produts----------- */}
         <div>
-          <RelatedProduct category={productData.category} subCategory={productData.subCategory} id={productData._id}/>
+          <RelatedProduct category={productData.category} subCategory={productData.subcategory} id={productData._id}/>
         </div>
 
     </div>

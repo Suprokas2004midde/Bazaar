@@ -4,20 +4,21 @@ import Title from "../components/Title";
 import { ShopContext } from "../context/ShopContext";
 import ProductItem from "../components/ProductItem";
 
-
 const Collection = () => {
   const [showFilter, setShowFilter] = useState(true);
-  const { productsDummyData, search, showSearch } = useContext(ShopContext);
+  const { productsData, loading, search, showSearch } = useContext(ShopContext);
   const [filterProduct, setFilterProduct] = useState([]);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
-  const [sortType, setSortType] = useState('relevent');
+  const [sortType, setSortType] = useState("relevent");
 
   const applyFilter = () => {
-    let productCopy = productsDummyData.slice(); //if we applly .slice() method like this we are coping the whole array...
+    let productCopy = productsData.slice(); //if we apply .slice() method like this we are copying the whole array...
 
-    if(showSearch && search){
-      productCopy = productCopy.filter(item=> item.name.toLowerCase().includes(search.toLowerCase()));
+    if (showSearch && search) {
+      productCopy = productCopy.filter((item) =>
+        item.name.toLowerCase().includes(search.toLowerCase()),
+      );
     }
 
     if (category.length > 0) {
@@ -27,31 +28,29 @@ const Collection = () => {
     }
     if (subCategory.length > 0) {
       productCopy = productCopy.filter((item) =>
-        subCategory.includes(item.subCategory),
+        subCategory.includes(item.subcategory),
       );
     }
     setFilterProduct(productCopy);
   };
 
-  const sortFilter = () =>{
+  const sortFilter = () => {
     let filterProductCopy = filterProduct.slice();
 
-    switch(sortType){
-      case 'low-high':
-        setFilterProduct(filterProductCopy.sort((a,b)=>(a.price-b.price)));
+    switch (sortType) {
+      case "low-high":
+        setFilterProduct(filterProductCopy.sort((a, b) => a.price - b.price));
         break;
-      
-      case 'high-low':
-        setFilterProduct(filterProductCopy.sort((a,b)=>(b.price-a.price)));
+
+      case "high-low":
+        setFilterProduct(filterProductCopy.sort((a, b) => b.price - a.price));
         break;
 
       default:
         applyFilter();
         break;
     }
-  }
-
-
+  };
 
   const toggleCategory = (event) => {
     if (category.includes(event.target.value)) {
@@ -73,11 +72,11 @@ const Collection = () => {
 
   useEffect(() => {
     applyFilter();
-  }, [category, subCategory, search, showSearch]);
+  }, [category, subCategory, search, showSearch, productsData]);
 
-  useEffect(()=>{
+  useEffect(() => {
     sortFilter();
-  },[sortType])
+  }, [sortType]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
@@ -121,10 +120,10 @@ const Collection = () => {
               <input
                 className="w-3"
                 type="checkbox"
-                value={"Earphone"}
+                value={"Kids"}
                 onChange={toggleCategory}
               />{" "}
-              Earphone
+              Kids
             </p>
             <p className="flex gap-2">
               <input
@@ -198,6 +197,15 @@ const Collection = () => {
               />{" "}
               Winterwear
             </p>
+            <p className="flex gap-2">
+              <input
+                className="w-3"
+                type="checkbox"
+                value={"Footwear"}
+                onChange={toggleSubCategory}
+              />{" "}
+              Footwear
+            </p>
           </div>
         </div>
       </div>
@@ -207,17 +215,36 @@ const Collection = () => {
         <div className="flex justify-between text-base sm:text-2xl mb-4">
           <Title text1={"All"} text2={"COLLECTION"} />
           {/* Sort Section */}
-          <select onChange={(e)=>{setSortType(e.target.value)}} className="border-2 border-gray-300 text-sm px-2">
+          <select
+            onChange={(e) => {
+              setSortType(e.target.value);
+            }}
+            className="border-2 border-gray-300 text-sm px-2"
+          >
             <option value="relevent">Sort by: relevent</option>
             <option value="low-high">price: low to high</option>
             <option value="high-low">price: high to low</option>
           </select>
         </div>
-        <div className="grid min-[300px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
-          {filterProduct.map((item, index) => {
-            return <ProductItem item={item} key={index} />;
-          })}
-        </div>
+        {loading ? (
+          <div className="flex justify-center items-center h-40 col-span-full">
+            <p className="text-gray-400 text-sm animate-pulse">
+              Loading products...
+            </p>
+          </div>
+        ) : (
+          <div className="grid min-[300px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
+            {filterProduct.length === 0 ? (
+              <p className="text-gray-400 text-sm col-span-full">
+                No products found.
+              </p>
+            ) : (
+              filterProduct.map((item, index) => (
+                <ProductItem item={item} key={index} />
+              ))
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

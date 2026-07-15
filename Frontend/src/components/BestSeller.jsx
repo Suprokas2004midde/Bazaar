@@ -5,13 +5,13 @@ import ProductItem from './ProductItem'
 
 const BestSeller = () => {
 
-    const {bestSeller} = useContext(ShopContext);
-    const[BestSeller, SetBestSeller]= useState([]);
+    const { productsData, loading } = useContext(ShopContext);
+    const [BestSeller, SetBestSeller] = useState([]);
 
-    useEffect(()=>{
-        const bestproducts = bestSeller.filter((item) => (item.bestseller)); 
-        SetBestSeller(bestproducts.slice(0,3));
-    },[])
+    useEffect(() => {
+        const bestproducts = productsData.filter((item) => item.bestseller);
+        SetBestSeller(bestproducts.slice(0, 5));
+    }, [productsData])
 
   return (
     <div className="my-10">
@@ -23,11 +23,17 @@ const BestSeller = () => {
           culpa eius.
         </p>
       </div>
-      <div className="grid min-[300px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
-        {BestSeller.map((item, index) => {
-          return <ProductItem item={item} key={index} />;
-        })}
-      </div>
+      {loading ? (
+        <div className="flex justify-center items-center h-40">
+          <p className="text-gray-400 text-sm animate-pulse">Loading best sellers...</p>
+        </div>
+      ) : (
+        <div className="grid min-[300px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
+          {BestSeller.map((item, index) => {
+            return <ProductItem item={item} key={index} />;
+          })}
+        </div>
+      )}
     </div>
   );
 }
