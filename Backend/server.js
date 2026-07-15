@@ -16,8 +16,8 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "https://bazaar-frontend.vercel.app",
-      "https://bazaar-admin.vercel.app",
+      "https://bazaar-235b.vercel.app/",
+      "https://bazaar-admin-alpha.vercel.app/",
       "http://localhost:5173", // local frontend dev
       "http://localhost:5174", // local admin dev
     ],
