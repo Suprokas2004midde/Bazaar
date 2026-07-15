@@ -1,0 +1,4 @@
+All Demo Email format
+Name - user${number}
+Email - `bazaardemo${number}@gmail.com`
+Pasword - Bazaarpass${number}#2026
