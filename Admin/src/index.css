@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+/* Active sidebar link */
+.active {
+  background-color: #fff7ed;
+  border-color: #f97316;
+  color: #ea580c;
+}
+
+/* Toast customization */
+:root {
+  --toastify-color-success: #22c55e;
+  --toastify-color-error: #ef4444;
+}
