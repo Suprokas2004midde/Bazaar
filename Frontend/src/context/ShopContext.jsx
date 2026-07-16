@@ -157,10 +157,8 @@ export const ShopContextProvider = (props) => {
   const value = {
     loading,
     productsData,
-    orderDummyData,
     CurrencySym,
     DeliveryFees,
-    bestSeller,
     showSearch,
     setShowSearch,
     search,

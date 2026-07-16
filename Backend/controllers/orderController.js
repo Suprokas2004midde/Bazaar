@@ -1,7 +1,7 @@
 import { success } from "zod";
-import { placeOrderService } from "../services/orderService.js";
+import { allOrderService, placeOrderService, statusUpdateService, userOrderService } from "../services/orderService.js";
 
-
+// /api/order/place
 export const placeOrder = async(req, res)=>{
     try {
         const {userId, items, address, amount} = req.body;
@@ -69,7 +69,12 @@ export const placeOrderRazorpay = async(req, res)=>{
 
 export const allOrder = async (req, res)=>{
     try {
-        
+      const response = await allOrderService();
+      res.status(200).json({
+        success: true,
+        messsage: "All Orderss fetched Successfully",
+        orders: response,
+      });
     } catch (error) {
         console.log(error);
         if (error.status) {
@@ -87,6 +92,13 @@ export const allOrder = async (req, res)=>{
 
 export const userOrder = async (req, res)=>{
     try {
+      const { userId } = req.body
+      const response = await userOrderService(userId);
+      res.status(200).json({
+        success: true,
+        messsage: "Fetched Order Data Successfully",
+        orders: response,
+      });
         
     } catch (error) {
         console.log(error);
@@ -105,7 +117,13 @@ export const userOrder = async (req, res)=>{
 
 export const updateOrderStatus = async (req, res)=>{
     try {
-        
+        const {orderId, status} = req.body;
+        const response = await statusUpdateService(orderId, status);
+        res.status(200).json({
+          success: true,
+          message: "Status Updated Successfully",
+          response: response,
+        })
     } catch (error) {
         console.log(error);
         if (error.status) {

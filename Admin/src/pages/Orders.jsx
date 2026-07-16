@@ -34,7 +34,7 @@ const Orders = ({ token }) => {
         { headers: { token } }
       )
       if (response.data.success) {
-        setOrders(response.data.data.reverse())
+        setOrders(response.data.orders.slice().reverse())
       } else {
         toast.error(response.data.message)
       }
@@ -82,12 +82,16 @@ const Orders = ({ token }) => {
       {orders.map((order) => (
         <div
           key={order._id}
-          className="grid grid-cols-1 md:grid-cols-[0.5fr_2fr_1fr_1fr_1fr] gap-4 items-start
+          className="grid grid-cols-1 md:grid-cols-[0.5fr_3fr_1fr_.5fr_1fr] gap-4 items-start
                      border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition-colors"
         >
           {/* Parcel Icon */}
           <div className="flex items-center justify-center">
-            <img src={assets.parcel_icon} alt="parcel" className="w-12 h-12 opacity-70" />
+            <img
+              src={assets.parcel_icon}
+              alt="parcel"
+              className="w-12 h-12 opacity-70"
+            />
           </div>
 
           {/* Order Details */}
@@ -95,7 +99,9 @@ const Orders = ({ token }) => {
             {order.items?.map((item, idx) => (
               <p key={idx} className="font-medium">
                 {item.name} &times; {item.quantity}
-                <span className="text-gray-400 ml-1 font-normal">({item.size})</span>
+                <span className="text-gray-400 ml-1 font-normal">
+                  ({item.size})
+                </span>
               </p>
             ))}
             <hr className="my-1 border-gray-200" />
@@ -103,7 +109,8 @@ const Orders = ({ token }) => {
               {order.address?.firstName} {order.address?.lastName}
             </p>
             <p className="text-gray-500 text-xs">
-              {order.address?.street}, {order.address?.city}, {order.address?.state} – {order.address?.zipcode}
+              {order.address?.street}, {order.address?.city},{" "}
+              {order.address?.state} – {order.address?.zipcode}
             </p>
             <p className="text-gray-500 text-xs">{order.address?.country}</p>
             <p className="text-gray-500 text-xs">📞 {order.address?.phone}</p>
@@ -111,38 +118,58 @@ const Orders = ({ token }) => {
 
           {/* Items & Payment */}
           <div className="flex flex-col gap-1 text-sm text-gray-600">
-            <p>Items: <span className="font-medium text-gray-800">{order.items?.length}</span></p>
-            <p>Method: <span className="font-medium text-gray-800">{order.paymentMethod}</span></p>
-            <p>Payment: <span className={`font-medium ${order.payment ? 'text-green-600' : 'text-red-500'}`}>
-              {order.payment ? 'Done' : 'Pending'}
-            </span></p>
-            <p>Date: <span className="font-medium text-gray-800">
-              {order.date ? new Date(order.date).toLocaleDateString() : '—'}
-            </span></p>
+            <p>
+              Items:{" "}
+              <span className="font-medium text-gray-800">
+                {order.items?.length}
+              </span>
+            </p>
+            <p>
+              Method:{" "}
+              <span className="font-medium text-gray-800">
+                {order.paymentMethod}
+              </span>
+            </p>
+            <p>
+              Payment:{" "}
+              <span
+                className={`font-medium ${order.payment ? "text-green-600" : "text-red-500"}`}
+              >
+                {order.payment ? "Done" : "Pending"}
+              </span>
+            </p>
+            <p>
+              Date:{" "}
+              <span className="font-medium text-gray-800">
+                {order.date ? new Date(order.date).toLocaleDateString() : "—"}
+              </span>
+            </p>
           </div>
 
           {/* Amount */}
           <div className="text-sm font-bold text-gray-900 flex items-center">
-            ${order.amount}
+            ₹{order.amount}
           </div>
 
           {/* Status Dropdown */}
           <div>
             <select
-              value={order.status || 'Order Placed'}
+              value={order.status || "Order Placed"}
               onChange={(e) => updateStatus(order._id, e.target.value)}
               className="border border-gray-300 rounded-md px-2 py-1.5 text-sm
                          focus:outline-none focus:ring-2 focus:ring-orange-400 cursor-pointer"
             >
-              {ORDER_STATUSES.map(s => (
-                <option key={s} value={s}>{s}</option>
+              {ORDER_STATUSES.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
               ))}
             </select>
           </div>
         </div>
       ))}
     </div>
-  )
+  );
 }
 
 export default Orders

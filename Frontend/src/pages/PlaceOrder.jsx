@@ -29,6 +29,7 @@ const PlaceOrder = () => {
     country: '',
     phone:'',
   })
+  // Using Name-Value method....
   const onChangeHandler = (event)=>{
     const name = event.target.name;
     const value = event.target.value;
@@ -47,7 +48,7 @@ const PlaceOrder = () => {
             if(iteminfo){
               iteminfo.size = item;
               iteminfo.quantity = cartItems[items][item];
-              orderItems.push(iteminfo);
+              orderItems.push(iteminfo); //Pushing iteminfo into the blank array
             }
           }
         }
