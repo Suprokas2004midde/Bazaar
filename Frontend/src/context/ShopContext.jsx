@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { bestSeller, orderDummyData } from "../assets/asset";
 import { useNavigate } from "react-router";
 
 export const ShopContext = createContext();
@@ -10,28 +9,42 @@ export const ShopContextProvider = (props) => {
   const CurrencySym = "₹";
   const DeliveryFees = 50;
   const backend = import.meta.env.VITE_BACKEND_SERVER;
+
+  const [loading, setLoading] = useState(true);
   const [showSearch, setShowSearch] = useState(false);
   const [search, setSearch] = useState("");
-  const [cartItems, setCartItems] = useState({});
-  const [productsData, setProductsData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState(localStorage.getItem("token") || "");
   const navigate = useNavigate();
 
-  const addToCart = async (itemId, size) => {
-    // Find the product to check if it requires a size
-    const product = productsData.find((p) => p._id === itemId);
+  const [cartItems, setCartItems] = useState({});
+  const [cartProductsData, setCartProductsData] = useState([]);
+  const [bestSeller, setBestSeller] = useState([]);
+  const [LatestCollection, setLatestCollection] = useState([]);
 
-    // If the product has sizes but no size was selected, alert the user
-    if (product && product.sizes && product.sizes.length > 0 && !size) {
-      toast.warning("Please select a size before adding to cart.");
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
+
+  const fetchCartProductsDetails = async (cart) => {
+    const ids = Object.keys(cart);
+    if (ids.length === 0) {
+      setCartProductsData([]);
       return;
     }
+    try {
+      const response = await axios.post(`${backend}/api/product/bulk`, { ids });
+      if (response.data.success) {
+        setCartProductsData(response.data.products);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-    // Use "ONE_SIZE" as the key for products that don't have size options
-    const sizeKey = product && product.sizes ? size : "ONE_SIZE";
-
+  const addToCart = async (itemId, size) => {
     let cartData = structuredClone(cartItems);
+    if(!size){
+      toast.error("Select At least One size");
+      return;
+    }
+    const sizeKey = size || "ONE_SIZE";
 
     if (cartData[itemId]) {
       if (cartData[itemId][sizeKey]) {
@@ -50,7 +63,7 @@ export const ShopContextProvider = (props) => {
       try {
         await axios.post(
           `${backend}/api/cart/add`,
-          { itemId, size },
+          { itemId, size: sizeKey },
           { headers: { token } },
         );
       } catch (error) {
@@ -73,10 +86,12 @@ export const ShopContextProvider = (props) => {
   const getTotalAmount = () => {
     let TotalAmount = 0;
     for (const items in cartItems) {
-      let itemInfo = productsData.find((products) => products._id === items);
-      for (const item in cartItems[items]) {
-        if (cartItems[items][item] > 0) {
-          TotalAmount += itemInfo.price * cartItems[items][item];
+      let itemInfo = cartProductsData.find((product) => product._id === items);
+      if (itemInfo) {
+        for (const item in cartItems[items]) {
+          if (cartItems[items][item] > 0) {
+            TotalAmount += itemInfo.price * cartItems[items][item];
+          }
         }
       }
     }
@@ -113,18 +128,32 @@ export const ShopContextProvider = (props) => {
     }
   };
 
-  const fetchProductData = async () => {
+  const fetchLatestCollection = async()=>{
     try {
-      const response = await axios.get(`${backend}/api/product/list`);
+      const response = await axios.get(`${backend}/api/product/latest`);
       if (response.data.success) {
-        setProductsData(response.data.data);
+        setLatestCollection(response.data.products);
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
       console.log(error);
       toast.error(error.message);
-    } finally {
+    }
+  }
+
+  const fetchbestSeller = async () => {
+    try {
+      const response = await axios.get(`${backend}/api/product/bestseller`);
+      if (response.data.success) {
+        setBestSeller(response.data.products);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }finally{
       setLoading(false);
     }
   };
@@ -145,7 +174,8 @@ export const ShopContextProvider = (props) => {
   };
 
   useEffect(() => {
-    fetchProductData();
+    fetchLatestCollection();
+    fetchbestSeller();
     //If token available in the local storage
     const savedToken = localStorage.getItem("token");
     if (savedToken) {
@@ -154,9 +184,15 @@ export const ShopContextProvider = (props) => {
     }
   }, []);
 
+  useEffect(() => {
+    fetchCartProductsDetails(cartItems);
+  }, [cartItems]);
+
   const value = {
+    bestSeller,
+    LatestCollection,
     loading,
-    productsData,
+    cartProductsData,
     CurrencySym,
     DeliveryFees,
     showSearch,

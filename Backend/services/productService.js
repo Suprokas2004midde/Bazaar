@@ -1,4 +1,4 @@
-import { addProductRepository,findProductIdRepository,listProductRepository, removeProductRepository } from "../repository/productRepository.js";
+import { addProductRepository,bestSellerRepository,findProductIdRepository,findProductsByIdsRepository,listProductRepository, removeProductRepository, totalProductCount, allProductRepository, relatedProductRepository } from "../repository/productRepository.js";
 
 export const addProductService = async ({
   name,
@@ -18,8 +18,8 @@ export const addProductService = async ({
     return product;
 };
 
-export const listproductService = async()=>{
-    const responselist = await listProductRepository();
+export const listproductService = async(page, limit, skip, filter = {})=>{
+    const responselist = await listProductRepository(page, limit, skip, filter);
     return responselist;
 }
 
@@ -39,5 +39,36 @@ export const singeProductService = async(id)=>{
     if (!response) {
         throw { status: 404, message: "Product not found" };
     }
+    return response;
+}
+
+export const bestSellerService = async()=>{
+    const response = await bestSellerRepository();
+    const bestseller = response.slice(0,5).reverse();
+    return bestseller;
+}
+
+export const latestCollectionService = async()=>{
+    const productList = await listProductRepository();
+    const latestProductList = productList.reverse().slice(0,10);
+    return latestProductList;
+}
+
+export const getBulkProductsService = async (ids) => {
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+        return [];
+    }
+    const products = await findProductsByIdsRepository(ids);
+    return products;
+}
+
+export const relatedProductService = async(category, subcategory) =>{
+    const response = await relatedProductRepository(category, subcategory);
+    return response;
+}
+
+//till not used
+export const allProductService = async()=>{
+    const response= await allProductRepository();
     return response;
 }

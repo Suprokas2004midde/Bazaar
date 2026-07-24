@@ -1,115 +1,125 @@
-import React, { useEffect, useState } from 'react'
-import { useContext } from 'react'
-import { ShopContext } from '../context/ShopContext'
-import axios from 'axios'
-import { toast } from 'react-toastify'
+import React, { useEffect, useState, useContext } from 'react';
+import { ShopContext } from '../context/ShopContext';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
+import { Input } from '../components/ui/input';
+import { Button } from '../components/ui/button';
+import { LogIn, UserPlus } from 'lucide-react';
 
 const Login = () => {
-  const [currentState, setCurrentState] = useState('Login')
-  const {token, setToken, navigate, backend} = useContext(ShopContext);
-  const [name,setName] = useState('');
+  const [currentState, setCurrentState] = useState('Login');
+  const { token, setToken, navigate, backend } = useContext(ShopContext);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const onSubmitHandler = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
-
-      //Sign Up Logic
       if (currentState === "Sign Up") {
-        const response = await axios.post(`${backend}/api/user/register`, {name,email,password});
-        if(response.data.success){
-          toast.success("Sign Up Successfully");
+        const response = await axios.post(`${backend}/api/user/register`, { name, email, password });
+        if (response.data.success) {
+          toast.success("Account created successfully!");
           setToken(response.data.token);
-          localStorage.setItem('token',response.data.token);
+          localStorage.setItem('token', response.data.token);
+        } else {
+          toast.error(response.data.message);
         }
-        else{
-          toast.error(response.data.message)
-        }
-      }
-      //Login Logic 
-      else {
-        const response = await axios.post(`${backend}/api/user/login`, {email,password});
-        if(response.data.success){
-          toast.success("Sign Up Successfully");
+      } else {
+        const response = await axios.post(`${backend}/api/user/login`, { email, password });
+        if (response.data.success) {
+          toast.success("Logged in successfully!");
           setToken(response.data.token);
-          localStorage.setItem('token',response.data.token)
+          localStorage.setItem('token', response.data.token);
+        } else {
+          toast.error(response.data.message);
         }
-        else{
-          toast.error(response.data.message)
-        }
-
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || error.message);
     }
-  }
+  };
 
-  useEffect(()=>{
-    if(token){
+  useEffect(() => {
+    if (token) {
       navigate('/');
     }
-  },[token])
+  }, [token]);
 
   return (
-    <form
-      onSubmit={onSubmitHandler}
-      className='flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800'
-    >
-      {/* Title */}
-      <div className='inline-flex items-center gap-2 mb-2 mt-10'>
-        <p className='prata-regular text-3xl'>{currentState}</p>
-        <hr className='border-none h-[1.5px] w-8 bg-gray-800' />
-      </div>
+    <div className="flex justify-center items-center min-h-[70vh] py-12">
+      <Card className="w-full max-w-md border-[var(--border-color)] shadow-xl">
+        <CardHeader className="text-center space-y-2 pb-6">
+          <div className="w-12 h-12 rounded-full bg-[var(--secondary-accent)]/20 text-[var(--primary-accent)] flex items-center justify-center mx-auto mb-2">
+            {currentState === 'Login' ? <LogIn className="w-6 h-6" /> : <UserPlus className="w-6 h-6" />}
+          </div>
+          <CardTitle className="text-2xl font-extrabold text-[var(--text-main)]">
+            {currentState === 'Login' ? 'Welcome Back' : 'Create an Account'}
+          </CardTitle>
+          <CardDescription>
+            {currentState === 'Login'
+              ? 'Enter your credentials to access your account'
+              : 'Fill in your details below to get started'}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={onSubmitHandler} className="space-y-4">
+            {currentState === 'Sign Up' && (
+              <Input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Full Name"
+                required
+              />
+            )}
 
-      {/* Name – only shown on Sign Up */}
-      {currentState === 'Login' ? '' : (
-        <input
-          type='text'
-          value={name}
-          onChange={(e)=> setName(e.target.value)}
-          className='w-full px-3 py-2 border border-gray-800'
-          placeholder='Name'
-          required
-        />
-      )}
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email Address"
+              required
+            />
 
-      {/* Email */}
-      <input
-        type='email'
-        value={email}
-        onChange={(e)=> setEmail(e.currentTarget.value)}
-        className='w-full px-3 py-2 border border-gray-800'
-        placeholder='Email'
-        required
-      />
+            <Input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
 
-      {/* Password */}
-      <input
-        type='password'
-        className='w-full px-3 py-2 border border-gray-800'
-        placeholder='Password'
-        value={password}
-        onChange={(e)=> setPassword(e.target.value)}
-        required
-      />
+            <div className="flex justify-between items-center text-xs text-[var(--text-muted)] font-medium pt-1">
+              <span className="cursor-pointer hover:underline hover:text-[var(--primary-accent)]">
+                Forgot password?
+              </span>
+              {currentState === 'Login' ? (
+                <span
+                  onClick={() => setCurrentState('Sign Up')}
+                  className="cursor-pointer font-bold text-[var(--primary-accent)] hover:underline"
+                >
+                  Create account
+                </span>
+              ) : (
+                <span
+                  onClick={() => setCurrentState('Login')}
+                  className="cursor-pointer font-bold text-[var(--primary-accent)] hover:underline"
+                >
+                  Already have an account? Log In
+                </span>
+              )}
+            </div>
 
-      {/* Forgot password & toggle link */}
-      <div className='w-full flex justify-between text-sm mt-[-8px]'>
-        <p className='cursor-pointer underline hover:text-blue-700'>Forgot password?</p>
-        {currentState === 'Login'
-          ? <p onClick={() => setCurrentState('Sign Up')} className='cursor-pointer hover:text-blue-700'>Create account</p>
-          : <p onClick={() => setCurrentState('Login')} className='cursor-pointer hover:text-blue-700'>Login Here</p>
-        }
-      </div>
+            <Button type="submit" size="lg" className="w-full font-bold uppercase tracking-wider mt-4">
+              {currentState === 'Login' ? 'Sign In' : 'Sign Up'}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
 
-      {/* Submit button */}
-      <button className='bg-black text-white font-light px-8 py-2 mt-4'>
-        {currentState === 'Login' ? 'Sign In' : 'Sign Up'}
-      </button>
-
-    </form>
-  )
-}
-
-export default Login
+export default Login;

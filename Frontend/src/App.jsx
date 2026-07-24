@@ -12,6 +12,7 @@ import About from './pages/About.jsx';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import SearchBar from "./components/SearchBar.jsx";
+import OrderDetails from './pages/OrderDetails.jsx';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/product/:productID" element={<ProductDetail />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path='/track/:orderID' element={<OrderDetails/>}/>
         <Route path="/contact" element={<Contacts />} />
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/about" element={<About />} />

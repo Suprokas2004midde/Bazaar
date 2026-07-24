@@ -1,12 +1,14 @@
-import React from 'react'
+import React from 'react';
 
-const Title = ({text1,text2}) => {
+const Title = ({ text1, text2 }) => {
   return (
-    <div className='inline-flex flex-col sm:flex-row gap-2 items-center mb-3'>
-      <p className='text-gray-500'>{text1} <span className='text-black font-medium'>{text2}</span> </p>
-      <p className='w-2/3 sm:w-12 h-[1px] sm:h-[2px] bg-gray-500'></p>
+    <div className='inline-flex items-center gap-3 mb-4 group'>
+      <h2 className='text-lg sm:text-2xl font-bold tracking-tight text-[var(--text-muted)] uppercase'>
+        {text1} <span className='text-[var(--text-main)] font-extrabold text-[var(--primary-accent)]'>{text2}</span>
+      </h2>
+      <div className='w-10 sm:w-16 h-[2px] rounded-full bg-gradient-to-r from-[var(--primary-accent)] to-[var(--secondary-accent)]/50 transition-all duration-300 group-hover:w-24'></div>
     </div>
-  )
-}
+  );
+};
 
-export default Title
+export default Title;

@@ -1,33 +1,64 @@
-import React, { useContext } from 'react'
-import { ShopContext } from '../context/ShopContext'
-import Title from './Title';
+import React, { useContext } from 'react';
+import { ShopContext } from '../context/ShopContext';
+import { Button } from './ui/button';
+import { ArrowRight } from 'lucide-react';
 
-const CartTotal = () => {
-    const { CurrencySym, DeliveryFees, getTotalAmount } = useContext(ShopContext);
+const CartTotal = ({ cartDataLength = 1 }) => {
+  const { CurrencySym, DeliveryFees, getTotalAmount, navigate } = useContext(ShopContext);
+
+  const subtotal = getTotalAmount();
+  const shipping = subtotal === 0 ? 0 : DeliveryFees;
+  const discount = 0;
+  const total = subtotal === 0 ? 0 : subtotal + shipping - discount;
+
   return (
-    <div className='w-full'>
-      <div className='text-2xl'>
-        <Title text1={'CART'} text2={'TOTALS'}/>
-      </div>
-      
-      <div className='flex flex-col gap-2 mt-2 text-sm'>
-        <div className='flex justify-between'>
-          <p>Subtotal</p>
-          <p>{CurrencySym} {getTotalAmount()}</p>
-        </div>
-        <hr />
-        <div className='flex justify-between'>
-          <p>Shipping Fee</p>
-          <p>{CurrencySym}{DeliveryFees}</p>
-        </div>
-        <hr />
-        <div className='flex justify-between'>
-          <p>Total</p>
-          <p>{CurrencySym}{getTotalAmount()===0?0:getTotalAmount()+DeliveryFees}</p>
-        </div>
-      </div>
-    </div>
-  )
-}
+    <div className="rounded-2xl border border-[var(--border-color)] bg-[var(--bg-card)] p-6 shadow-sm sticky top-24 space-y-6">
+      <h2 className="text-xl font-bold text-[var(--text-main)] tracking-tight">
+        Order Summary
+      </h2>
 
-export default CartTotal
+      <div className="space-y-4 text-sm">
+        <div className="flex justify-between items-center font-medium">
+          <span className="text-[var(--text-muted)]">Subtotal</span>
+          <span className="font-semibold text-[var(--text-main)]">
+            {CurrencySym}{subtotal}
+          </span>
+        </div>
+
+        <div className="flex justify-between items-center font-medium">
+          <span className="text-[var(--text-muted)]">Discount</span>
+          <span className="font-semibold text-[var(--text-main)]">
+            {CurrencySym}{discount}
+          </span>
+        </div>
+
+        <div className="flex justify-between items-center font-medium">
+          <span className="text-[var(--text-muted)]">Shipping</span>
+          <span className="font-semibold text-[var(--text-main)]">
+            {CurrencySym}{shipping}
+          </span>
+        </div>
+
+        <div className="border-t border-[var(--border-color)]/60 pt-4"></div>
+
+        <div className="flex justify-between items-center text-base sm:text-lg font-bold text-[var(--text-main)]">
+          <span>Total</span>
+          <span>
+            {CurrencySym}{total}
+          </span>
+        </div>
+      </div>
+
+      <Button
+        size="lg"
+        className="w-full py-6 rounded-xl font-bold bg-[var(--primary-accent)] text-[var(--bg-main)] hover:bg-[var(--primary-hover)] active:scale-[0.99] transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 text-sm uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+        onClick={() => navigate('/place-order')}
+        disabled={cartDataLength === 0}
+      >
+        Checkout <ArrowRight className="w-4 h-4" />
+      </Button>
+    </div>
+  );
+};
+
+export default CartTotal;

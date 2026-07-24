@@ -156,8 +156,10 @@ const Orders = ({ token }) => {
             <select
               value={order.status || "Order Placed"}
               onChange={(e) => updateStatus(order._id, e.target.value)}
-              className="border border-gray-300 rounded-md px-2 py-1.5 text-sm
-                         focus:outline-none focus:ring-2 focus:ring-orange-400 cursor-pointer"
+              className={`border rounded-md px-2 py-1.5 text-sm font-medium
+                         focus:outline-none focus:ring-2 focus:ring-black cursor-pointer
+                         ${statusColor[order.status] || 'bg-gray-100 text-gray-600'}
+                         border-transparent`}
             >
               {ORDER_STATUSES.map((s) => (
                 <option key={s} value={s}>

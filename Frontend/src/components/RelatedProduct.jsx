@@ -1,37 +1,57 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react';
 import Title from './Title';
 import { ShopContext } from '../context/ShopContext';
 import ProductItem from './ProductItem';
+import axios from 'axios';
 
-const RelatedProduct = ({category, subCategory, id}) => {
-    const { productsData }= useContext(ShopContext);
-    const [related, setRelated] = useState([]);
+const RelatedProduct = ({ category, subCategory, id }) => {
+  const { backend } = useContext(ShopContext);
+  const [related, setRelated] = useState([]);
 
-
-    useEffect(()=>{
-        if(productsData.length > 0){
-            let cpyproducts = productsData.slice();
-
-            cpyproducts=cpyproducts.filter((item)=> category === item.category );
-            cpyproducts=cpyproducts.filter((item)=> subCategory === item.subcategory);
-            cpyproducts=cpyproducts.filter((item)=> item._id !== id);
-            setRelated( cpyproducts );
+  
+  const fetchRelated = async () => {
+    if (category && backend) {
+      try {
+        const params = new URLSearchParams();
+        if (category) {
+          params.append("category", category);
         }
-    },[id, productsData])
+        if (subCategory) {
+          params.append("subcategory", subCategory);
+        }
+        const response = await axios.get(
+          `${backend}/api/product/list-page?${params.toString()}`,
+        );
+        if (response.data.success && Array.isArray(response.data.products)) {
+          let fetched = response.data.products.filter(
+            (item) => item._id !== id,
+          );
+          setRelated(fetched.slice(0, 5));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
+  useEffect(() => {
+    fetchRelated();
+  }, [id, category, subCategory]);
+
+  if (!related || related.length === 0) return null;
 
   return (
-    <div className="my-24">
-      <div className="text-center text-3xl py-2">
+    <section className="my-16">
+      <div className="text-center py-2">
         <Title text1={"RELATED"} text2={"PRODUCTS"} />
       </div>
-      <div className="grid min-[300px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
-        {related.map((item,index)=>{
-          return <ProductItem item={item} key={index} />;
-        })}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 mt-6">
+        {related.map((item, index) => (
+          <ProductItem item={item} key={item._id || index} />
+        ))}
       </div>
-    </div>
+    </section>
   );
-}
+};
 
-export default RelatedProduct
+export default RelatedProduct;

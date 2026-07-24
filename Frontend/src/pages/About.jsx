@@ -1,88 +1,92 @@
-import React from 'react'
-import Title from '../components/Title'
-import NewsletterBox from '../components/NewsletterBox'
+import React from 'react';
+import Title from '../components/Title';
+import NewsletterBox from '../components/NewsletterBox';
+import { Card, CardContent } from '../components/ui/card';
+import { ShieldCheck, Sparkles, Headphones } from 'lucide-react';
 
 const About = () => {
   return (
-    <div>
-
-      {/* ---------- Page Title ---------- */}
-      <div className='text-2xl text-center pt-8 border-t'>
+    <div className="space-y-12">
+      {/* Page Title */}
+      <div className="text-2xl text-center pt-8 border-t border-[var(--border-color)]/40">
         <Title text1={'ABOUT'} text2={'US'} />
       </div>
 
-      {/* ---------- Story Section ---------- */}
-      <div className='my-10 flex flex-col md:flex-row gap-16'>
+      {/* Story Section */}
+      <div className="my-8 flex flex-col md:flex-row items-center gap-12">
+        <div className="w-full md:w-1/2 overflow-hidden rounded-2xl border border-[var(--border-color)] shadow-lg">
+          <img
+            className="w-full h-80 sm:h-96 object-cover hover:scale-105 transition-transform duration-500"
+            src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&auto=format&fit=crop"
+            alt="About Bazaar fashion"
+          />
+        </div>
 
-        <img
-          className='w-full md:max-w-[450px] object-cover'
-          src='https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=800&auto=format&fit=crop'
-          alt='About Forever fashion'
-        />
-
-        <div className='flex flex-col justify-center gap-6 md:w-2/4 text-gray-600'>
-          <p>
-            Forever was born out of a passion for innovation and a desire to
-            revolutionize the way people shop online. Our journey began with a
-            simple idea: to provide a platform where customers can easily
-            discover, explore, and purchase a wide range of products from the
-            comfort of their homes.
+        <div className="flex flex-col justify-center space-y-4 md:w-1/2 text-[var(--text-muted)] leading-relaxed">
+          <p className="text-base sm:text-lg font-medium text-[var(--text-main)]">
+            Bazaar was born out of a passion for innovation and a desire to revolutionize the modern shopping experience.
           </p>
-          <p>
-            Since our inception, we've worked tirelessly to curate a diverse
-            selection of high-quality products that cater to every taste and
-            preference. From fashion and beauty to electronics and home
-            essentials, we offer an extensive collection sourced from trusted
-            brands and suppliers.
+          <p className="text-sm">
+            Since our inception, we've worked tirelessly to curate a diverse selection of high-quality products catering to every taste and preference — from fashion and daily updates to premium electronics.
           </p>
-          <b className='text-gray-800'>Our Mission</b>
-          <p>
-            Our mission at Forever is to empower customers with choice,
-            convenience, and confidence. We're dedicated to providing a seamless
-            shopping experience that exceeds expectations, from browsing and
-            ordering to delivery and beyond.
-          </p>
+          <div className="p-4 rounded-xl bg-[var(--bg-subtle)] border border-[var(--border-color)]/40 space-y-2">
+            <h3 className="font-extrabold text-[var(--text-main)] uppercase tracking-wider text-sm flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[var(--primary-accent)]" /> Our Mission
+            </h3>
+            <p className="text-xs sm:text-sm text-[var(--text-muted)]">
+              To empower customers with choice, convenience, and confidence through an exceptional, seamless shopping journey.
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* ---------- Why Choose Us ---------- */}
-      <div className='text-xl py-4'>
+      {/* Why Choose Us */}
+      <div className="text-center pt-6">
         <Title text1={'WHY'} text2={'CHOOSE US'} />
       </div>
 
-      <div className='flex flex-col md:flex-row text-sm mb-20'>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="hover:border-[var(--primary-accent)] transition-all">
+          <CardContent className="p-6 space-y-3">
+            <div className="w-10 h-10 rounded-full bg-[var(--secondary-accent)]/20 text-[var(--primary-accent)] flex items-center justify-center">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <h4 className="font-bold text-base text-[var(--text-main)]">Quality Assurance</h4>
+            <p className="text-xs sm:text-sm text-[var(--text-muted)]">
+              We meticulously select and vet each product to ensure it meets our stringent quality standards.
+            </p>
+          </CardContent>
+        </Card>
 
-        <div className='border px-10 md:px-16 py-8 sm:py-20 flex flex-col gap-3'>
-          <b>Quality Assurance:</b>
-          <p className='text-gray-600'>
-            We meticulously select and vet each product to ensure it meets our
-            stringent quality standards.
-          </p>
-        </div>
+        <Card className="hover:border-[var(--primary-accent)] transition-all">
+          <CardContent className="p-6 space-y-3">
+            <div className="w-10 h-10 rounded-full bg-[var(--secondary-accent)]/20 text-[var(--primary-accent)] flex items-center justify-center">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <h4 className="font-bold text-base text-[var(--text-main)]">Convenience</h4>
+            <p className="text-xs sm:text-sm text-[var(--text-muted)]">
+              With our user-friendly interface and hassle-free ordering process, shopping has never been smoother.
+            </p>
+          </CardContent>
+        </Card>
 
-        <div className='border px-10 md:px-16 py-8 sm:py-20 flex flex-col gap-3'>
-          <b>Convenience:</b>
-          <p className='text-gray-600'>
-            With our user-friendly interface and hassle-free ordering process,
-            shopping has never been easier.
-          </p>
-        </div>
-
-        <div className='border px-10 md:px-16 py-8 sm:py-20 flex flex-col gap-3'>
-          <b>Exceptional Customer Service:</b>
-          <p className='text-gray-600'>
-            Our team of dedicated professionals is here to assist you the way,
-            ensuring your satisfaction is our top priority.
-          </p>
-        </div>
-
+        <Card className="hover:border-[var(--primary-accent)] transition-all">
+          <CardContent className="p-6 space-y-3">
+            <div className="w-10 h-10 rounded-full bg-[var(--secondary-accent)]/20 text-[var(--primary-accent)] flex items-center justify-center">
+              <Headphones className="w-5 h-5" />
+            </div>
+            <h4 className="font-bold text-base text-[var(--text-main)]">Exceptional Support</h4>
+            <p className="text-xs sm:text-sm text-[var(--text-muted)]">
+              Our team of dedicated professionals is here to assist you around the clock with utmost care.
+            </p>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* ---------- Newsletter ---------- */}
+      {/* Newsletter */}
       <NewsletterBox />
-
     </div>
-  )
-}
+  );
+};
 
-export default About
+export default About;

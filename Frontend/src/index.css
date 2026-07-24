@@ -1,17 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+:root {
+  font-family: 'Outfit', sans-serif;
+  color-scheme: light dark;
 
-a.active hr{
-    display: block;
+  /* Deep Sea Bright (Light) Theme Variables */
+  --bg-main: #FAF9F6;
+  --bg-card: #FFFFFF;
+  --bg-subtle: #F3F2EE;
+  --text-main: #0D1B2A;
+  --text-muted: #415A77;
+  --border-color: #E2E8F0;
+  --primary-accent: #1B263B;
+  --primary-hover: #0D1B2A;
+  --secondary-accent: #778DA9;
+  --badge-bg: #415A77;
+  --badge-text: #FFFFFF;
+  --shadow-sm: 0 1px 3px rgba(13, 27, 42, 0.05);
+  --shadow-md: 0 4px 14px rgba(13, 27, 42, 0.08);
 }
 
-::-webkit-scrollbar{
-    display: none;
+.dark {
+  /* Deep Sea Dark Theme Variables */
+  --bg-main: #0D1B2A;
+  --bg-card: #1B263B;
+  --bg-subtle: #142132;
+  --text-main: #E0E1DD;
+  --text-muted: #778DA9;
+  --border-color: #415A77;
+  --primary-accent: #778DA9;
+  --primary-hover: #E0E1DD;
+  --secondary-accent: #415A77;
+  --badge-bg: #778DA9;
+  --badge-text: #0D1B2A;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
-@media(max-width:640px){
-    a.active{
-        background-color: black;
-        color: white;
-    }
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 9999px;
+}
+
+a.active hr {
+  display: block;
+}
+
+@media (max-width: 640px) {
+  a.active {
+    background-color: var(--primary-accent);
+    color: var(--bg-main);
+  }
 }

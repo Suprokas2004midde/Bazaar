@@ -1,41 +1,34 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { ShopContext } from '../context/ShopContext'
-import Title from './Title'
-import ProductItem from './ProductItem'
+import React, { useContext } from 'react';
+import { ShopContext } from '../context/ShopContext';
+import Title from './Title';
+import ProductItem from './ProductItem';
+import { Loader2 } from 'lucide-react';
 
 const BestSeller = () => {
-
-    const { productsData, loading } = useContext(ShopContext);
-    const [BestSeller, SetBestSeller] = useState([]);
-
-    useEffect(() => {
-        const bestproducts = productsData.filter((item) => item.bestseller);
-        SetBestSeller(bestproducts.slice(0, 5));
-    }, [productsData])
+  const { bestSeller, loading } = useContext(ShopContext);
 
   return (
-    <div className="my-10">
-      <div className="text-center py-3 text-3xl">
-        <Title text1={"BEST"} text2={"SELLER"}></Title>
-        <p className="w-3/4 m-auto text-sm md:text-xl text-gray-600">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem eos
-          qui, labore eligendi ipsum reiciendis ad recusandae id cupiditate
-          culpa eius.
+    <section className="my-12">
+      <div className="text-center py-4 space-y-2">
+        <Title text1={"BEST"} text2={"SELLERS"} />
+        <p className="w-full max-w-xl mx-auto text-xs sm:text-sm text-[var(--text-muted)] font-medium leading-relaxed">
+          Explore top-rated fan favorites loved by thousands of happy shoppers around the globe.
         </p>
       </div>
       {loading ? (
-        <div className="flex justify-center items-center h-40">
-          <p className="text-gray-400 text-sm animate-pulse">Loading best sellers...</p>
+        <div className="flex flex-col justify-center items-center h-48 space-y-2">
+          <Loader2 className="w-8 h-8 animate-spin text-[var(--primary-accent)]" />
+          <p className="text-[var(--text-muted)] text-sm animate-pulse">Loading best sellers...</p>
         </div>
       ) : (
-        <div className="grid min-[300px]:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
-          {BestSeller.map((item, index) => {
-            return <ProductItem item={item} key={index} />;
-          })}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6 mt-6">
+          {bestSeller.map((item, index) => (
+            <ProductItem item={item} key={index} />
+          ))}
         </div>
       )}
-    </div>
+    </section>
   );
-}
+};
 
-export default BestSeller
+export default BestSeller;

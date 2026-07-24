@@ -1,32 +1,30 @@
 import React from "react";
 import Title from "./Title";
 import PolicyItem from "./PolicyItem";
-import { RiExchangeFundsFill } from "react-icons/ri";
-import { TbTruckReturn } from "react-icons/tb";
-import { RiCustomerService2Fill } from "react-icons/ri";
+import { RefreshCw, ShieldCheck, Headphones } from "lucide-react";
 
 const OurPolicy = () => {
   return (
-    <div className="text-center text-3xl">
+    <section className="my-16 text-center">
       <Title text1={"OUR"} text2={"POLICY"} />
-      <div className="flex flex-col sm:flex-row justify-around gap-12 sm:gap-2 text-center py-20 text-xs sm:text-sm md::text-base text-gray-600">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
         <PolicyItem
-          icon={RiExchangeFundsFill}
+          icon={RefreshCw}
           title={"Easy Exchange Policy"}
-          para={"We offer hassel free exchange policy"}
+          para={"We offer hassle-free exchange policy on all products"}
         />
         <PolicyItem
-          icon={TbTruckReturn}
+          icon={ShieldCheck}
           title={"7 Days Return Policy"}
-          para={"We provide 7 days free return policy"}
+          para={"We provide 7 days free return guarantee"}
         />
         <PolicyItem
-          icon={RiCustomerService2Fill}
-          title={"Best customer support"}
-          para={"We provide 24/7 customer support"}
+          icon={Headphones}
+          title={"Best Customer Support"}
+          para={"We provide 24/7 dedicated customer support"}
         />
       </div>
-    </div>
+    </section>
   );
 };
 

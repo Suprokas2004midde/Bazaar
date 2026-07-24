@@ -1,22 +1,37 @@
-import React, { useContext } from 'react'
-import {Link} from "react-router"
+import React, { useContext } from 'react';
+import { Link } from "react-router";
 import { ShopContext } from '../context/ShopContext';
+import { Card, CardContent } from './ui/card';
+import { Badge } from './ui/badge';
 
+const ProductItem = ({ item }) => {
+  const { CurrencySym } = useContext(ShopContext);
+  const currency = CurrencySym;
 
-const ProductItem = ({item}) => {
-    const {CurrencySym} = useContext(ShopContext);
-    const currency = CurrencySym;
   return (
-    <div className='border p-2 rounded-2xl'>
-      <Link to={`/product/${item._id}`} className='text-gray-700 cursor-pointer' >
-        <div className='overflow-hidden'>
-            <img src={item.images[0]} alt="" className='hover:scale-110 transition ease-in-out'/>
+    <Card className="overflow-hidden group hover:border-[var(--primary-accent)]/80 transition-all duration-300">
+      <Link to={`/product/${item._id}`} className="block">
+        <div className="relative aspect-square overflow-hidden bg-[var(--bg-subtle)] flex items-center justify-center p-3">
+          <img
+            src={item.images[0]}
+            alt={item.name}
+            className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-108"
+          />
+          <Badge variant="accent" className="absolute top-2 right-2 opacity-95 shadow-sm">
+            {currency}{item.price}
+          </Badge>
         </div>
-        <p className='pt-3 pb-1 text-sm'>{item.name}</p>
-        <p className='text-sm font-medium'>{currency}{item.price}</p>
+        <CardContent className="p-4 pt-3">
+          <p className="font-semibold text-sm line-clamp-1 text-[var(--text-main)] group-hover:text-[var(--primary-accent)] transition-colors">
+            {item.name}
+          </p>
+          <p className="text-xs text-[var(--text-muted)] mt-1 font-medium">
+            {currency}{item.price}
+          </p>
+        </CardContent>
       </Link>
-    </div>
-  )
-}
+    </Card>
+  );
+};
 
-export default ProductItem
+export default ProductItem;
