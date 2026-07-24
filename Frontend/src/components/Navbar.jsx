@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { Link, NavLink } from "react-router";
-import { Search, User, ShoppingBag, Menu, ArrowLeft } from "lucide-react";
+import { Search, User, ShoppingBag, Menu, ArrowLeft, LogOut, PackageCheck } from "lucide-react";
 import logo from "../assets/logo.png";
 import { ShopContext } from "../context/ShopContext";
 import { ThemeToggle } from "./ui/theme-toggle";
@@ -8,7 +8,35 @@ import { Badge } from "./ui/badge";
 
 const Navbar = () => {
   const [visible, setvisible] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const { showSearch, setShowSearch, getCartCount, setCartItems, navigate, setToken, token } = useContext(ShopContext);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsProfileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, []);
+
+  const handleMouseEnter = () => {
+    if (window.matchMedia('(hover: hover)').matches) {
+      setIsProfileOpen(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (window.matchMedia('(hover: hover)').matches) {
+      setIsProfileOpen(false);
+    }
+  };
 
   const logout = () => {
     navigate('/login');
@@ -61,36 +89,65 @@ const Navbar = () => {
         </button>
 
         {/* Profile Dropdown */}
-        <div className="group relative">
+        <div
+          ref={dropdownRef}
+          className="group relative"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           <button
-            onClick={() => (token ? null : navigate("/login"))}
+            onClick={() => setIsProfileOpen((prev) => !prev)}
             type="button"
             aria-label="User Account"
             className="p-2 rounded-full hover:bg-[var(--secondary-accent)]/20 text-[var(--text-main)] transition-colors cursor-pointer block"
           >
             <User className="w-5 h-5" />
           </button>
-          {token && (
-            <div className="z-50 group-hover:block hidden absolute dropdown-menu right-0 pt-2 w-44">
-              <div className="flex flex-col gap-2 p-3 bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-main)] shadow-[var(--shadow-md)] rounded-xl backdrop-blur-md">
-                <p className="px-3 py-1.5 rounded-md hover:bg-[var(--secondary-accent)]/20 cursor-pointer text-sm font-medium transition-colors">
-                  My Profile
-                </p>
+          <div className={`z-50 ${isProfileOpen ? "block" : "hidden"} sm:group-hover:block absolute dropdown-menu right-0 pt-2 w-44`}>
+            <div className="flex flex-col gap-2 p-3 bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-main)] shadow-[var(--shadow-md)] rounded-xl backdrop-blur-md">
+              {token ? (
+                <>
+                  <p
+                    onClick={() => {
+                      setIsProfileOpen(false);
+                      navigate('/orders');
+                    }}
+                    className="px-3 py-1.5 rounded-md hover:bg-[var(--secondary-accent)]/20 cursor-pointer text-sm font-medium transition-colors"
+                  >
+                    My Profile
+                  </p>
+                  <p
+                    onClick={() => {
+                      setIsProfileOpen(false);
+                      navigate('/orders');
+                    }}
+                    className="px-3 py-1.5 rounded-md hover:bg-[var(--secondary-accent)]/20 cursor-pointer text-sm font-medium transition-colors"
+                  >
+                    Orders
+                  </p>
+                  <p
+                    onClick={() => {
+                      setIsProfileOpen(false);
+                      logout();
+                    }}
+                    className="px-3 py-1.5 rounded-md hover:bg-rose-500/20 text-rose-500 cursor-pointer text-sm font-medium transition-colors"
+                  >
+                    Logout
+                  </p>
+                </>
+              ) : (
                 <p
-                  onClick={() => navigate('/orders')}
+                  onClick={() => {
+                    setIsProfileOpen(false);
+                    navigate('/login');
+                  }}
                   className="px-3 py-1.5 rounded-md hover:bg-[var(--secondary-accent)]/20 cursor-pointer text-sm font-medium transition-colors"
                 >
-                  Orders
+                  Login / Register
                 </p>
-                <p
-                  onClick={logout}
-                  className="px-3 py-1.5 rounded-md hover:bg-rose-500/20 text-rose-500 cursor-pointer text-sm font-medium transition-colors"
-                >
-                  Logout
-                </p>
-              </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
 
         {/* Cart Icon & Badge */}
@@ -159,6 +216,45 @@ const Navbar = () => {
           >
             CONTACT
           </NavLink>
+
+          {/* Account section in Mobile Drawer */}
+          <div className="mt-auto border-t border-[var(--border-color)]/50 p-4 flex flex-col gap-2">
+            {token ? (
+              <>
+                <div
+                  onClick={() => {
+                    setvisible(false);
+                    navigate('/orders');
+                  }}
+                  className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-[var(--secondary-accent)]/20 cursor-pointer font-medium"
+                >
+                  <PackageCheck className="w-4 h-4 text-[var(--primary-accent)]" />
+                  <span>My Orders</span>
+                </div>
+                <button
+                  onClick={() => {
+                    setvisible(false);
+                    logout();
+                  }}
+                  className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-rose-500/20 text-rose-500 cursor-pointer font-medium w-full text-left"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Logout</span>
+                </button>
+              </>
+            ) : (
+              <div
+                onClick={() => {
+                  setvisible(false);
+                  navigate('/login');
+                }}
+                className="flex items-center gap-3 py-2.5 px-3 rounded-lg bg-[var(--primary-accent)] text-white cursor-pointer font-medium justify-center"
+              >
+                <User className="w-4 h-4" />
+                <span>Login / Register</span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
