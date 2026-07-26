@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, trim: true, unique: true },
     password: { type: String, required: true, trim: true },
     cartData: { type: Object, default: {} }, //If the field is empty then mongoose will definetely trim the cardData part
+    address: { type: Array, default: [] },
   },
   { minimize: false,timestamps: true },
 ); //That is why we use minimize so that it can't be trimed..

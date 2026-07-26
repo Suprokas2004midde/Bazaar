@@ -1,5 +1,3 @@
-
-
 import { createUser, findUser } from "../repository/userRepository.js";
 import { ADMIN_EMAIL, ADMIN_PASSWORD, JWT_SECRET } from "../config/serverConfig.js";
 import bcrypt from "bcrypt";
@@ -58,4 +56,17 @@ export const adminLoginService = async ({ email, password }) => {
     status: 401,
     message: "Invalid Admin Credentials",
   };
+};
+
+export const getUserProfileService = async (userId) => {
+  const user = await findUser({ _id: userId });
+  if (!user) {
+    throw {
+      status: 404,
+      message: "User not found",
+    };
+  }
+  // Exclude password and cartData for security/size
+  const { password, cartData, ...profile } = user.toObject ? user.toObject() : user;
+  return profile;
 };

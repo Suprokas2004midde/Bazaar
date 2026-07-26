@@ -1,4 +1,4 @@
-import { regesterUserService, loginUserService, adminLoginService } from "../services/userService.js";
+import { regesterUserService, loginUserService, adminLoginService, getUserProfileService } from "../services/userService.js";
 
 // Only controller layer has the access to the req, res. Service layer don't have access to that.
 
@@ -53,4 +53,28 @@ export const adminLogin = async(req,res)=>{
          message: error.message,
        });
      }
+}
+
+// GET /api/user/profile
+export const getUserProfile = async (req, res) => {
+    try {
+        const { userId } = req.body; // Injected by userAuth middleware
+        const profile = await getUserProfileService(userId);
+        return res.status(200).json({
+            success: true,
+            profile
+        });
+    } catch (error) {
+        console.log(error);
+        if (error.status) {
+            return res.status(error.status).json({
+                message: error.message,
+                success: false,
+            });
+        }
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false,
+        });
+    }
 }

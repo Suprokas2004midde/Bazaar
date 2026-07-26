@@ -4,12 +4,13 @@ import { allOrderService, placeOrderService, singleOrderService, statusUpdateSer
 // /api/order/place
 export const placeOrder = async(req, res)=>{
     try {
-        const {userId, items, address, amount} = req.body;
+        const {userId, items, address, amount, saveAddress} = req.body;
         const response = await placeOrderService(
           userId,
           items,
           address,
           amount,
+          saveAddress
         );
         res.status(200).json({
             success: true,

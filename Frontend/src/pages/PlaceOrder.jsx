@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Title from '../components/Title';
 import CartTotal from '../components/CartTotal';
 import { ShopContext } from '../context/ShopContext';
@@ -10,7 +10,13 @@ import { Button } from '../components/ui/button';
 import { CheckCircle2 } from 'lucide-react';
 
 const PlaceOrder = () => {
+
   const [method, setMethod] = useState('cod');
+  const [saveAddress, setSaveAddress] = useState(false); // Helps to save a new address
+  const [userAddresses, setUserAddresses] = useState([]); //Stores all Addresses
+  const [selectedAddressIndex, setSelectedAddressIndex] = useState(null); //Stores the index
+  const [addingNewAddress, setAddingNewAddress] = useState(true);
+
   const {
     navigate,
     backend,
@@ -41,12 +47,37 @@ const PlaceOrder = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (token) {
+        try {
+          const response = await axios.get(`${backend}/api/user/profile`, {
+            headers: { token }
+          });
+          if (response.data.success && response.data.profile.address) {
+            const fetchedAddresses = response.data.profile.address;
+            setUserAddresses(fetchedAddresses);
+            if (fetchedAddresses.length > 0) {
+              setSelectedAddressIndex(fetchedAddresses.length - 1); //by default select the latest address
+              setAddingNewAddress(false); //if there is anyy address then set false
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+        }
+      }
+    };
+    fetchProfile();
+  }, [token, backend]);
+
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    //if not login forward to login page
     if (!token) {
       navigate('/login');
       return;
     }
+    //Creating OrderItem array
     try {
       const orderItems = [];
       for (const items in cartItems) {
@@ -62,10 +93,15 @@ const PlaceOrder = () => {
         }
       }
 
+      const addressToUse = (!addingNewAddress && selectedAddressIndex !== null) 
+          ? userAddresses[selectedAddressIndex] 
+          : formData;
+
       const finalOrder = {
         items: orderItems,
-        address: formData,
+        address: addressToUse,
         amount: getTotalAmount(),
+        saveAddress: addingNewAddress ? saveAddress : false,
       };
 
       switch (method) {
@@ -104,19 +140,42 @@ const PlaceOrder = () => {
         <CardContent className="p-6 space-y-4">
           <Title text1={"DELIVERY"} text2={"INFORMATION"} />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
+          {!addingNewAddress && userAddresses.length > 0 ? (
+            <div className="space-y-4">
+              {userAddresses.map((addr, idx) => (
+                <div 
+                  key={idx} 
+                  onClick={() => setSelectedAddressIndex(idx)}
+                  className={`p-4 rounded-lg border cursor-pointer transition-all ${selectedAddressIndex === idx ? 'border-[var(--primary-accent)] bg-[var(--primary-accent)]/10 ring-1 ring-[var(--primary-accent)]' : 'border-[var(--border-color)] bg-[var(--bg-subtle)] hover:border-[var(--text-muted)]'}`}
+                >
+                   <p className="font-semibold text-[var(--text-main)]">{addr.firstName} {addr.lastName}</p>
+                   <p className="text-sm mt-1 text-[var(--text-muted)]">{addr.street}, {addr.city}, {addr.state} {addr.zipcode}</p>
+                   <p className="text-sm mt-1 text-[var(--text-muted)]">Phone: {addr.phone}</p>
+                </div>
+              ))}
+              <Button type="button" variant="outline" onClick={() => { setAddingNewAddress(true); setFormData({ firstName: '', lastName: '', email: '', street: '', city: '', state: '', zipcode: '', country: '', phone: '' }) }} className="w-full font-semibold border-dashed">
+                + ADD NEW ADDRESS
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-4 mt-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <Input
+                  id="firstName"
               onChange={onChangeHandler}
               name="firstName"
               value={formData.firstName}
               placeholder="First name"
+              autoComplete="firstName"
               required
             />
             <Input
+              id="lastName"
               onChange={onChangeHandler}
               name="lastName"
               value={formData.lastName}
               placeholder="Last name"
+              autoComplete="lastName"
               required
             />
           </div>
@@ -127,6 +186,7 @@ const PlaceOrder = () => {
             value={formData.email}
             type="email"
             placeholder="Email address"
+            autoComplete="email"
             required
           />
 
@@ -135,6 +195,7 @@ const PlaceOrder = () => {
             name="street"
             value={formData.street}
             placeholder="Street address"
+            autoComplete="street"
             required
           />
 
@@ -144,6 +205,7 @@ const PlaceOrder = () => {
               name="city"
               value={formData.city}
               placeholder="City"
+              autoComplete="city"
               required
             />
             <Input
@@ -151,6 +213,7 @@ const PlaceOrder = () => {
               name="state"
               value={formData.state}
               placeholder="State"
+              autoComplete="state"
               required
             />
           </div>
@@ -162,6 +225,7 @@ const PlaceOrder = () => {
               value={formData.zipcode}
               type="number"
               placeholder="Zipcode"
+              autoComplete="zipcode"
               required
             />
             <Input
@@ -169,6 +233,7 @@ const PlaceOrder = () => {
               name="country"
               value={formData.country}
               placeholder="Country"
+              autoComplete="country"
               required
             />
           </div>
@@ -179,8 +244,30 @@ const PlaceOrder = () => {
             value={formData.phone}
             type="number"
             placeholder="Phone number"
+            autoComplete="phone"
             required
           />
+
+          <div className="flex items-center gap-2 mt-4 pt-2">
+            <input 
+              type="checkbox" 
+              id="saveAddress" 
+              checked={saveAddress} 
+              onChange={(e) => setSaveAddress(e.target.checked)} 
+              className="w-4 h-4 accent-[var(--primary-accent)] cursor-pointer"
+            />
+            <label htmlFor="saveAddress" className="text-sm cursor-pointer select-none text-[var(--text-main)] font-medium">
+              Save this address for future use
+            </label>
+          </div>
+          
+          {userAddresses.length > 0 && (
+             <Button type="button" variant="ghost" onClick={() => setAddingNewAddress(false)} className="w-full mt-4">
+               Cancel
+             </Button>
+          )}
+          </div>
+          )}
         </CardContent>
       </Card>
 

@@ -4,7 +4,7 @@ import { updateCartRepository } from "./cartRepository.js";
 import userModel from "../schema/userModel.js";
 
 
-export const placeOrderRepository = async (userId, items, address, amount) => {
+export const placeOrderRepository = async (userId, items, address, amount, saveAddress) => {
     const orderData = {
       userId,
       items,
@@ -19,6 +19,21 @@ export const placeOrderRepository = async (userId, items, address, amount) => {
     const response = await newOrder.save();
     //After placing the Order the Cart Items get Removed...
     await updateCartRepository(userId, {cartData:{}});
+    
+    if (saveAddress) {
+      const user = await userModel.findById(userId);
+      if (user) {
+        // Check uniqueness by matching some key fields
+        const isDuplicate = user.address.some(
+          (a) => a.street === address.street
+        );
+        if (!isDuplicate) {
+          user.address.push(address);
+          await user.save();
+        }
+      }
+    }
+    
     return response;
 };
 

@@ -1,7 +1,7 @@
 import { AllOrderRepository, orderUpdateRepository, placeOrderRepository, singleOrderRepository, userOrderRepository } from "../repository/orderRepository.js";
 
-export const placeOrderService = async (userId, items, address, amount) => {
-  const response = await placeOrderRepository(userId, items, address, amount);
+export const placeOrderService = async (userId, items, address, amount, saveAddress) => {
+  const response = await placeOrderRepository(userId, items, address, amount, saveAddress);
   return response;
 };
 

@@ -17,6 +17,7 @@ import {
   Clock,
   Check,
   Building2,
+  Copy,
 } from "lucide-react";
 
 export function OrderSummary1({
@@ -26,6 +27,7 @@ export function OrderSummary1({
   onContinueShopping,
 }) {
   const [showTimelineModal, setShowTimelineModal] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   if (!order) return null;
 
@@ -114,6 +116,14 @@ export function OrderSummary1({
     window.print();
   };
 
+  const handleCopyOrderNumber = (e) => {
+    e.stopPropagation();
+    const orderNum = `ORD-${order._id ? order._id.toUpperCase() : "Not Found"}`;
+    navigator.clipboard.writeText(orderNum);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 3000); //set to false after 3 Sec...
+  };
+
   return (
     <div className="w-full max-w-5xl mx-auto space-y-8 py-6 px-2 sm:px-4 text-[var(--text-main)] print:py-0 print:px-0">
       {/* Top Banner / Header */}
@@ -141,12 +151,21 @@ export function OrderSummary1({
           <div className="grid grid-cols-2 gap-6 sm:gap-12">
             <div>
               <span className="text-xs text-[var(--text-muted)] font-medium uppercase tracking-wider block mb-1">
-                Order Number
+                Order Number 
               </span>
-              <span className="text-sm sm:text-base font-bold font-mono text-[var(--text-main)]">
-                ORD-
-                {order._id ? order._id.toUpperCase() : "Not Found"}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-sm sm:text-base font-bold font-mono text-[var(--text-main)] break-all">
+                  ORD-
+                  {order._id ? order._id.slice(-8).toUpperCase() : "Not Found"}
+                </span>
+                <button
+                  onClick={handleCopyOrderNumber}
+                  className="p-1 rounded-md text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--bg-subtle)] transition-colors focus:outline-none"
+                  title="Copy Order Number"
+                >
+                  {isCopied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
             <div>
               <span className="text-xs text-[var(--text-muted)] font-medium uppercase tracking-wider block mb-1">
@@ -431,9 +450,9 @@ export function OrderSummary1({
             <div className="space-y-6 relative before:absolute before:left-3.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-[var(--border-color)]">
               {statuses.map((stepName, stepIdx) => {
                 //Track how many have completed till current status.
-                const isPassed = (stepIdx <= currentStatusIndex); 
+                const isPassed = stepIdx <= currentStatusIndex;
                 //Track the current status/index
-                const isCurrent = (stepIdx === currentStatusIndex); 
+                const isCurrent = stepIdx === currentStatusIndex;
 
                 return (
                   <div
@@ -441,16 +460,16 @@ export function OrderSummary1({
                     className="flex items-start gap-4 relative z-10"
                   >
                     <div
-                      className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                      className={`w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                         isPassed
                           ? "bg-emerald-500 text-black shadow-md shadow-emerald-500/20"
                           : "bg-[var(--bg-subtle)] text-[var(--text-muted)] border border-[var(--border-color)]"
                       } ${isCurrent ? "ring-4 ring-emerald-500/40 scale-110" : ""}`}
                     >
-                      {isPassed ? ( 
-                        <Check className="w-4 h-4 stroke-[3]" />    // Shows the Right Mark
+                      {isPassed ? (
+                        <Check className="w-4 h-4 stroke-[3]" /> // Shows the Right Mark
                       ) : (
-                        stepIdx + 1                                 // Shows the number how many left
+                        stepIdx + 1 // Shows the number how many left
                       )}
                     </div>
 
@@ -466,7 +485,7 @@ export function OrderSummary1({
                       </h4>
                       <p className="text-xs text-[var(--text-muted)] mt-0.5">
                         {isCurrent
-                          ? (deliveryDate.getTime() > Date.now()) //both fetching date as an object...
+                          ? deliveryDate.getTime() > Date.now() //both fetching date as an object...
                             ? "Current status - Package is moving as scheduled."
                             : "Your shipment is taking longer than expected. We apologize for the delay."
                           : isPassed
