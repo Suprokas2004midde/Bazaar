@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Routes,Route } from 'react-router';
+import { Routes, Route } from 'react-router';
 import Home from './pages/Home.jsx';
 import Cart from './pages/Cart.jsx';
 import Collection from './pages/Collection.jsx';
@@ -27,7 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/product/:productID" element={<ProductDetail />} />
         <Route path="/orders" element={<Orders />} />
-        <Route path='/track/:orderID' element={<OrderDetails/>}/>
+        <Route path="/track/:orderID" element={<OrderDetails />} />
         <Route path="/contact" element={<Contacts />} />
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/about" element={<About />} />
@@ -37,4 +37,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

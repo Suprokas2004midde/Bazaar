@@ -31,6 +31,10 @@ export const AllOrderRepository = async ()=>{
     const orders = await orderModel.find({});
     return orders;
 }
+export const singleOrderRepository = async (orderId)=>{
+    const order = await orderModel.findById(orderId);
+    return order;
+}
 
 export const orderUpdateRepository = async(orderId, status)=>{
     const update = await orderModel.findByIdAndUpdate(orderId, { status });

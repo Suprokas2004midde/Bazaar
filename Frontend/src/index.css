@@ -29,7 +29,7 @@
   --text-main: #E0E1DD;
   --text-muted: #778DA9;
   --border-color: #415A77;
-  --primary-accent: #778DA9;
+  --primary-accent: rgb(119, 141, 169);
   --primary-hover: #E0E1DD;
   --secondary-accent: #415A77;
   --badge-bg: #778DA9;

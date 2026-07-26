@@ -1,5 +1,5 @@
 import { success } from "zod";
-import { allOrderService, placeOrderService, statusUpdateService, userOrderService } from "../services/orderService.js";
+import { allOrderService, placeOrderService, singleOrderService, statusUpdateService, userOrderService } from "../services/orderService.js";
 
 // /api/order/place
 export const placeOrder = async(req, res)=>{
@@ -113,6 +113,30 @@ export const userOrder = async (req, res)=>{
           success: false,
         });
     }
+}
+
+export const singleOrder = async (req, res) =>{
+  try {
+    const {orderId, userId} = req.body;
+    const response = await singleOrderService(orderId, userId);
+    res.status(200).json({
+      success: true,
+      message: `OrderID-${orderId} details feched successfully`,
+      order: response,
+    })
+  } catch (error) {
+    console.log(error);
+    if (error.status) {
+      return res.status(error.status).json({
+        message: error.message,
+        success: false,
+      });
+    }
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+    });
+  }
 }
 
 export const updateOrderStatus = async (req, res)=>{
