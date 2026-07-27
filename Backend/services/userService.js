@@ -1,4 +1,4 @@
-import { createUser, findUser } from "../repository/userRepository.js";
+import { createUser, findUser, updateUser } from "../repository/userRepository.js";
 import { ADMIN_EMAIL, ADMIN_PASSWORD, JWT_SECRET } from "../config/serverConfig.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -69,4 +69,20 @@ export const getUserProfileService = async (userId) => {
   // Exclude password and cartData for security/size
   const { password, cartData, ...profile } = user.toObject ? user.toObject() : user;
   return profile;
+};
+
+export const updateUserProfileService = async (userId, updateData) => {
+  // Prevent updating password or email via profile update service directly
+  delete updateData.password;
+  delete updateData.email;
+  delete updateData.userId;
+
+  const updatedUser = await updateUser(userId, updateData);
+  if (!updatedUser) {
+    throw {
+      status: 404,
+      message: "User not found",
+    };
+  }
+  return updatedUser;
 };

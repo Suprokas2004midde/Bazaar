@@ -13,6 +13,9 @@ import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import SearchBar from "./components/SearchBar.jsx";
 import OrderDetails from './pages/OrderDetails.jsx';
+import Profile from './pages/Profile.jsx';
+import Address from './pages/Address.jsx';
+import Wishlist from './pages/Wishlist.jsx';
 
 function App() {
 
@@ -31,6 +34,9 @@ function App() {
         <Route path="/contact" element={<Contacts />} />
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/about" element={<About />} />
+        <Route path='/profile' element={ <Profile/> }/>
+        <Route path='/address' element={<Address/>} />
+        <Route path='/wishlist' element={<Wishlist/>}/>
       </Routes>
       <Footer />
     </div>

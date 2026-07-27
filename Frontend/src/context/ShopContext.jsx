@@ -21,6 +21,48 @@ export const ShopContextProvider = (props) => {
   const [LatestCollection, setLatestCollection] = useState([]);
 
   const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [userData, setUserData] = useState(null);
+
+  const getUserProfile = async (authToken) => {
+    const activeToken = authToken || token;
+    if (!activeToken) return;
+    try {
+      const response = await axios.get(`${backend}/api/user/profile`, {
+        headers: { token: activeToken },
+      });
+      if (response.data.success) {
+        setUserData(response.data.profile);
+      }
+    } catch (error) {
+      console.error("Failed to fetch user profile:", error);
+    }
+  };
+
+  const updateUserProfile = async (updateFields) => {
+    if (!token) {
+      toast.error("Please login to update profile");
+      return false;
+    }
+    try {
+      const response = await axios.put(
+        `${backend}/api/user/profile`,
+        updateFields,
+        { headers: { token } }
+      );
+      if (response.data.success) {
+        toast.success(response.data.message || "Profile updated!");
+        setUserData(response.data.profile);
+        return true;
+      } else {
+        toast.error(response.data.message || "Failed to update profile");
+        return false;
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      toast.error(error.response?.data?.message || error.message);
+      return false;
+    }
+  };
 
   const fetchCartProductsDetails = async (cart) => {
     const ids = Object.keys(cart);
@@ -193,8 +235,15 @@ export const ShopContextProvider = (props) => {
     if (savedToken) {
       setToken(savedToken);
       getUserCart(savedToken);
+      getUserProfile(savedToken);
     }
   }, []);
+
+  useEffect(() => {
+    if (token) {
+      getUserProfile(token);
+    }
+  }, [token]);
 
   useEffect(() => {
     fetchCartProductsDetails(cartItems);
@@ -221,6 +270,10 @@ export const ShopContextProvider = (props) => {
     backend,
     token,
     setToken,
+    userData,
+    setUserData,
+    getUserProfile,
+    updateUserProfile,
   };
 
   return (

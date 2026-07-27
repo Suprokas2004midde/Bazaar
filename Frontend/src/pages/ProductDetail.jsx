@@ -126,7 +126,6 @@ const ProductDetail = () => {
             <h1 className="font-extrabold text-2xl sm:text-3xl text-[var(--text-main)] tracking-tight">
               {productData.name}
             </h1>
-
             <div className="flex items-center gap-1.5 mt-3 text-amber-400 text-sm">
               <Star className="w-4 h-4 fill-amber-400" />
               <Star className="w-4 h-4 fill-amber-400" />

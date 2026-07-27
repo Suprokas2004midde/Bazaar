@@ -110,20 +110,11 @@ const Navbar = () => {
                   <p
                     onClick={() => {
                       setIsProfileOpen(false);
-                      navigate('/orders');
+                      navigate('/profile');
                     }}
                     className="px-3 py-1.5 rounded-md hover:bg-[var(--secondary-accent)]/20 cursor-pointer text-sm font-medium transition-colors"
                   >
                     My Profile
-                  </p>
-                  <p
-                    onClick={() => {
-                      setIsProfileOpen(false);
-                      navigate('/orders');
-                    }}
-                    className="px-3 py-1.5 rounded-md hover:bg-[var(--secondary-accent)]/20 cursor-pointer text-sm font-medium transition-colors"
-                  >
-                    Orders
                   </p>
                   <p
                     onClick={() => {
