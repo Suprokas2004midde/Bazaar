@@ -1,9 +1,10 @@
 import express from 'express'
 import validator from '../validators/zodValidator.js';
 import { addSchema } from '../validators/productValidator.js';
-import { addProduct, bestSeller, getBulkProducts, latestCollection, listPageProduct, relatedProduct, removeProduct,singleProduct } from '../controllers/productController.js'
+import { addProduct, bestSeller, getBulkProducts, latestCollection, listPageProduct, relatedProduct, removeProduct,reviewProduct,singleProduct } from '../controllers/productController.js'
 import handelImageUpload from '../util/handelImageUpload.js';
 import adminAuth from '../middleware/adminAuth.js';
+import userAuth from '../middleware/userAuth.js';
 
 
 const productRouter = express.Router();
@@ -16,5 +17,6 @@ productRouter.get('/list-page', listPageProduct);
 productRouter.get('/related', relatedProduct);
 productRouter.get(`/bestseller`, bestSeller);
 productRouter.get(`/latest`, latestCollection);
+productRouter.post('/review', userAuth, reviewProduct);
 
 export default productRouter;

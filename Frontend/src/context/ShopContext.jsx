@@ -38,7 +38,7 @@ export const ShopContextProvider = (props) => {
     }
   };
 
-  const addToCart = async (itemId, size) => {
+  const addToCart = async (itemId, size, mainImage) => {
     let cartData = structuredClone(cartItems);
     if(!size){
       toast.error("Select At least One size");
@@ -65,6 +65,18 @@ export const ShopContextProvider = (props) => {
           `${backend}/api/cart/add`,
           { itemId, size: sizeKey },
           { headers: { token } },
+        );
+        toast.success(
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <img
+              src={mainImage}
+              alt="Item_Image"
+              style={{ width: "60px", height: "60px", borderRadius: "100%" }}
+            />
+            <div>
+              <p>Added to cart successfull</p>
+            </div>
+          </div>,
         );
       } catch (error) {
         console.log(error.message);

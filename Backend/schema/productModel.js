@@ -12,6 +12,7 @@ const productSchema = new mongoose.Schema({
   quantity: { type: Number, required: true },
   bestseller: { type: Boolean },
   date: { type: Number, trim: true },
+  reviews: {type: Array, default: [], required: false},
 },{ timestamps:true, minimize: false });
 
 const productModel = mongoose.models.products || mongoose.model("products",productSchema);

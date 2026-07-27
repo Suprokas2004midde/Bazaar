@@ -11,29 +11,84 @@ import { Badge } from "../components/ui/badge";
 
 const ProductDetail = () => {
   const { productID } = useParams();
-  const { CurrencySym, addToCart, backend } = useContext(ShopContext);
+  const { CurrencySym, addToCart, backend, token } = useContext(ShopContext);
   const [productData, setProductData] = useState();
   const [mainImage, setMainImage] = useState();
   const [selectsize, setSelectSize] = useState("");
   const [activeTab, setActiveTab] = useState("description");
+  const [reviewStar, setReviewStar] = useState(5);
+  const [reviewText, setReviewText] = useState("");
+  const [canReview, setCanReview] = useState(false);
+  const getUserIdFromToken = () => {
+    if (!token) return null;
+    try {
+      return JSON.parse(atob(token.split('.')[1])).id;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  const currentUserId = getUserIdFromToken();
+  let myReview = undefined; //track when the user get the edit or post review option
+  //Fetching the active review of the user...(for future edit)
+  useEffect(() => {
+    if (productData?.reviews && currentUserId) {
+        myReview = productData.reviews.find(r => r.userId === currentUserId);
+        if(myReview){
+            setReviewStar(myReview.star);
+            setReviewText(myReview.reviewText);
+        }
+    }
+  }, [productData, currentUserId]);
+
 
   const fetchProductData = async () => {
     try {
       const response = await axios.post(`${backend}/api/product/single`, {
         _id: productID,
+        userId: currentUserId,
       });
       if (response.data.success) {
         setProductData(response.data.product);
         setMainImage(response.data.product.images[0]);
+        if (response.data.canReview !== undefined) {
+           setCanReview(response.data.canReview);
+        }
       }
     } catch (error) {
       toast.error(error.message);
     }
   };
 
+  const placeProductReview = async (action) =>{
+    if(!token){
+       toast.error("Please login to post a review");
+       return;
+    }
+    try {
+      const response = await axios.post(`${backend}/api/product/review`,
+        {productId: productID, star: reviewStar, reviewText, action},
+        {headers: {token}}
+      )
+      if(response.data.success){
+        toast.success(response.data.message);
+        setCanReview(response.canReview);
+        fetchProductData(); //refetching the order if someone posted the review
+        if(action === 'delete') {
+            setReviewStar(5);
+            setReviewText("");
+        }
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+    }
+  }
+
   useEffect(() => {
     fetchProductData();
-  }, [productID]);
+  }, [productID, currentUserId]);
 
   return productData ? (
     <div className="pt-8 border-t border-[var(--border-color)]/40 transition-all duration-300">
@@ -78,7 +133,7 @@ const ProductDetail = () => {
               <Star className="w-4 h-4 fill-amber-400" />
               <Star className="w-4 h-4 fill-amber-400" />
               <Star className="w-4 h-4 fill-amber-400 opacity-40" />
-              <span className="text-xs font-semibold text-[var(--text-muted)] ml-2">(122 Reviews)</span>
+              <span className="text-xs font-semibold text-[var(--text-muted)] ml-2">({productData?.reviews?.length || 0} Reviews)</span>
             </div>
           </div>
 
@@ -118,7 +173,7 @@ const ProductDetail = () => {
           <div className="pt-4">
             <Button
               size="lg"
-              onClick={() => addToCart(productData._id, selectsize)}
+              onClick={() => addToCart(productData._id, selectsize, mainImage)}
               className="w-full sm:w-auto font-bold uppercase gap-2 px-10"
             >
               <ShoppingCart className="w-5 h-5" /> Add To Cart
@@ -155,6 +210,7 @@ const ProductDetail = () => {
           >
             Description
           </button>
+
           <button
             onClick={() => setActiveTab("reviews")}
             className={`px-6 py-3 text-sm font-bold border-b-2 transition-all cursor-pointer ${
@@ -163,7 +219,7 @@ const ProductDetail = () => {
                 : "border-transparent text-[var(--text-muted)] hover:text-[var(--text-main)]"
             }`}
           >
-            Reviews (122)
+            Reviews ({productData?.reviews?.length || 0})
           </button>
         </div>
         <CardContent className="p-6 text-sm text-[var(--text-muted)] leading-relaxed space-y-4">
@@ -177,7 +233,75 @@ const ProductDetail = () => {
               </p>
             </>
           ) : (
-            <p>Customer reviews section showing verified buyer ratings, feedback, and product satisfaction.</p>
+            <div className="space-y-8">
+              {/* Review Form */}
+              {token ? (
+                canReview ? (
+                  <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl p-6">
+                    <h3 className="font-bold text-lg mb-4 text-[var(--text-main)]">
+                      {productData?.reviews?.find(r => r.userId === currentUserId) ? "Update your review" : "Write a review"}
+                    </h3>
+                    <div className="flex gap-2 mb-4">
+                      {[1,2,3,4,5].map(s => (
+                        <Star key={s} 
+                          className={`w-6 h-6 cursor-pointer transition-colors ${s <= reviewStar ? 'fill-amber-400 text-amber-400' : 'text-gray-300'}`} 
+                          onClick={() => setReviewStar(s)} 
+                        />
+                      ))}
+                    </div>
+                    <textarea 
+                      value={reviewText}
+                      onChange={(e) => setReviewText(e.target.value)}
+                      className="w-full bg-[var(--bg-subtle)] border border-[var(--border-color)] rounded-lg p-3 min-h-[100px] mb-4 text-[var(--text-main)] focus:ring-2 focus:ring-[var(--primary-accent)] outline-none"
+                      placeholder="Share your thoughts about this product..."
+                    />
+                    <div className="flex gap-3">
+                      <Button onClick={() => placeProductReview(productData?.reviews?.find(r => r.userId === currentUserId) ? 'update' : 'create')} className="font-bold">
+                          {productData?.reviews?.find(r => r.userId === currentUserId) ? "Update Review" : "Post Review"}
+                      </Button>
+                      {productData?.reviews?.find(r => r.userId === currentUserId) && (
+                          <Button variant="destructive" onClick={() => placeProductReview('delete')} className="font-bold">
+                              Delete
+                          </Button>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="p-4 bg-[var(--bg-subtle)] rounded-lg text-center border border-[var(--border-color)]">
+                    <p className="text-[var(--text-main)] font-semibold">You can only review a product after it has been delivered.</p>
+                  </div>
+                )
+              ) : (
+                <div className="p-4 bg-[var(--bg-subtle)] rounded-lg text-center border border-[var(--border-color)]">
+                  <p className="text-[var(--text-main)] font-semibold">Please log in to write a review.</p>
+                </div>
+              )}
+
+              {/* Reviews List */}
+              <div className="space-y-4">
+                <h3 className="font-bold text-lg text-[var(--text-main)]">Customer Reviews</h3>
+                {productData?.reviews?.length > 0 ? (
+                  productData.reviews.map((review, idx) => (
+                    <div key={idx} className="border-b border-[var(--border-color)] pb-4 last:border-0">
+                      <div className="flex justify-between items-start mb-1">
+                        <div>
+                          <div className="text-xl font-semibold text-[var(--text-main)]">{review.name}</div>
+                          <div className="text-xs text-[var(--text-muted)]">{new Date(review.time).toLocaleDateString()}</div>
+                        </div>
+                        <div className="flex">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} className={`w-4 h-4 ${i < review.star ? 'fill-amber-400 text-amber-400' : 'text-gray-300'}`} />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-[var(--text-muted)] text-sm">{review.reviewText}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-[var(--text-muted)]">No reviews yet. Be the first to review this product!</p>
+                )}
+              </div>
+            </div>
           )}
         </CardContent>
       </Card>
