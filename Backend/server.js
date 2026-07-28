@@ -6,6 +6,7 @@ import userRouter from './routes/userRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import cartRouter from './routes/cartRoutes.js'
 import orderRouter from './routes/orderRoutes.js';
+import wishlistRouter from './routes/wishlistRoutes.js';
 
 
 const app = express();
@@ -18,6 +19,7 @@ app.use('/api/user', userRouter);
 app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/order', orderRouter);
+app.use('/api/wishlist', wishlistRouter);
 
 app.get('/',(req,res)=>{
     res.send("Api server is Working");

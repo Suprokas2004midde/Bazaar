@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { ShopContext } from "../context/ShopContext";
-import { Star, Shield, Truck, RefreshCw, ShoppingCart, Loader2 } from "lucide-react";
+import { Star, Shield, Truck, RefreshCw, ShoppingCart, Loader2, Heart } from "lucide-react";
 import RelatedProduct from "../components/RelatedProduct";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -11,7 +11,7 @@ import { Badge } from "../components/ui/badge";
 
 const ProductDetail = () => {
   const { productID } = useParams();
-  const { CurrencySym, addToCart, backend, token } = useContext(ShopContext);
+  const { CurrencySym, addToCart, backend, token, toggleWishlist, isInWishlist } = useContext(ShopContext);
   const [productData, setProductData] = useState();
   const [mainImage, setMainImage] = useState();
   const [selectsize, setSelectSize] = useState("");
@@ -168,14 +168,27 @@ const ProductDetail = () => {
             </div>
           )}
 
-          {/* Add to Cart CTA */}
-          <div className="pt-4">
+          {/* Add to Cart + Wishlist CTAs */}
+          <div className="pt-4 flex flex-col sm:flex-row gap-3">
             <Button
               size="lg"
               onClick={() => addToCart(productData._id, selectsize, mainImage)}
-              className="w-full sm:w-auto font-bold uppercase gap-2 px-10"
+              className="flex-1 sm:flex-none font-bold uppercase gap-2 px-10"
             >
               <ShoppingCart className="w-5 h-5" /> Add To Cart
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => toggleWishlist(productData._id, mainImage)}
+              className={`flex-1 sm:flex-none font-bold uppercase gap-2 px-8 border-2 transition-all ${
+                isInWishlist(productData._id)
+                  ? "border-rose-500 text-rose-500 bg-rose-500/10 hover:bg-rose-500/20"
+                  : "border-[var(--border-color)] text-[var(--text-muted)] hover:border-rose-400 hover:text-rose-400"
+              }`}
+            >
+              <Heart className={`w-5 h-5 ${isInWishlist(productData._id) ? "fill-rose-500" : ""}`} />
+              {isInWishlist(productData._id) ? "Wishlisted" : "Wishlist"}
             </Button>
           </div>
 

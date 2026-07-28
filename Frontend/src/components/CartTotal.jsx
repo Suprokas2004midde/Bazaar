@@ -4,11 +4,16 @@ import { Button } from './ui/button';
 import { ArrowRight } from 'lucide-react';
 
 const CartTotal = ({ cartDataLength = 1 }) => {
-  const { CurrencySym, DeliveryFees, getTotalAmount, navigate } = useContext(ShopContext);
+  const {
+    CurrencySym,
+    getTotalAmount,
+    navigate,
+    DeliveryFees,
+  } = useContext(ShopContext);
 
   const subtotal = getTotalAmount();
-  const shipping = subtotal === 0 ? 0 : DeliveryFees;
-  const discount = 0;
+  const shipping = subtotal > 0 ? DeliveryFees : 0;
+  const discount = subtotal >= 500 ? DeliveryFees : 0;
   const total = subtotal === 0 ? 0 : subtotal + shipping - discount;
 
   return (

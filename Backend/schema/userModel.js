@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, trim: true, unique: true },
     password: { type: String, required: true, trim: true },
     cartData: { type: Object, default: {} }, //If the field is empty then mongoose will definetely trim the cardData part
+    wishlist: { type: Array, default: [] },
     address: { type: Array, default: [] },
     phone: { type: String, default: "" },
     dob: { type: String, default: "" },

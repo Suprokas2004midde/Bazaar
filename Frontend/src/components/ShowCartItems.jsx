@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
-import { Trash2, Minus, Plus } from "lucide-react";
+import { Trash2, Minus, Plus, Heart } from "lucide-react";
 
 const ShowCartItems = ({ cartData }) => {
-  const { CurrencySym, cartProductsData, updateCart, navigate } =
+  const { CurrencySym, cartProductsData, updateCart, navigate, toggleWishlist, isInWishlist } =
     useContext(ShopContext);
 
   return (
@@ -39,7 +39,7 @@ const ShowCartItems = ({ cartData }) => {
               <div>
                 <h3
                   onClick={() => navigate(`/product/${item._id}`)}
-                  className="text-base sm:text-lg font-bold cursor-pointer text-[var(--text-main)] hover:text-[var(--primary-accent)] transition-colors line-clamp-1"
+                  className="text-base sm:text-lg font-bold cursor-pointer text-[var(--text-main)] hover:text-[var(--primary-accent)] transition-colors line-clamp-1 hover:text-blue-500"
                 >
                   {productData.name}
                 </h3>
@@ -78,8 +78,27 @@ const ShowCartItems = ({ cartData }) => {
                   </span>
                 </div>
 
-                {/* Action Controls Pill: [ Trash | - | Qty | + ] */}
-                <div className="flex items-center bg-[var(--bg-subtle)] border border-[var(--border-color)] rounded-xl overflow-hidden shadow-xs">
+                {/* Action Controls Pill: [ Trash | Move to Wishlist | - | Qty | + ] */}
+                <div className="flex items-center gap-2 flex-wrap">
+                  {/* Move to Wishlist */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      toggleWishlist(item._id, productData.images?.[0]);
+                      updateCart(item._id, item.size, 0);
+                    }}
+                    title={isInWishlist(item._id) ? "Already in Wishlist" : "Move to Wishlist"}
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all ${
+                      isInWishlist(item._id)
+                        ? "border-rose-400 text-rose-400 bg-rose-400/10"
+                        : "border-[var(--border-color)] text-[var(--text-muted)] hover:border-rose-400 hover:text-rose-400 hover:bg-rose-400/10"
+                    }`}
+                  >
+                    <Heart className={`w-3.5 h-3.5 ${isInWishlist(item._id) ? "fill-rose-400" : ""}`} />
+                    {isInWishlist(item._id) ? "In Wishlist" : "Wishlist"}
+                  </button>
+
+                  <div className="flex items-center bg-[var(--bg-subtle)] border border-[var(--border-color)] rounded-xl overflow-hidden shadow-xs">
                   <button
                     type="button"
                     onClick={() => updateCart(item._id, item.size, 0)}
@@ -107,6 +126,7 @@ const ShowCartItems = ({ cartData }) => {
                   >
                     <Plus className="w-3.5 h-3.5" />
                   </button>
+                  </div>
                 </div>
               </div>
             </div>

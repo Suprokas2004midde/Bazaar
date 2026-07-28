@@ -1,15 +1,18 @@
 import { date } from "zod";
+import mongoose from "mongoose";
 import orderModel from "../schema/orderModel.js";
 import { updateCartRepository } from "./cartRepository.js";
 import userModel from "../schema/userModel.js";
 
 
-export const placeOrderRepository = async (userId, items, address, amount, saveAddress) => {
+export const placeOrderRepository = async (userId, items, address, amount, deliveryFee, discount, saveAddress) => {
     const orderData = {
       userId,
       items,
       address,
       amount,
+      deliveryFee: deliveryFee ?? 0,
+      discount: discount ?? 0,
       paymentMethod: 'COD',
       payment: false,
       date: Date.now()
@@ -46,12 +49,15 @@ export const AllOrderRepository = async ()=>{
     const orders = await orderModel.find({});
     return orders;
 }
-export const singleOrderRepository = async (orderId)=>{
-    const order = await orderModel.findById(orderId);
-    return order;
+export const singleOrderRepository = async (orderId) => {
+    if (mongoose.Types.ObjectId.isValid(orderId)) {
+        const order = await orderModel.findById(orderId);
+        if (order) return order;
+    }
 }
 
-export const orderUpdateRepository = async(orderId, status)=>{
-    const update = await orderModel.findByIdAndUpdate(orderId, { status });
+export const orderUpdateRepository = async (orderId, status) => {
+    let targetId = orderId;
+    const update = await orderModel.findByIdAndUpdate(targetId, { status }, { new: true });
     return update;
 }

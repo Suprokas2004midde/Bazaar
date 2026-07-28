@@ -124,7 +124,7 @@ const Profile = () => {
       {/* Header Bar */}
       <div className="flex justify-between items-center pb-6 border-b border-[var(--border-color)]/40 mb-6">
         <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-main)] tracking-tight">
-          Nespola Account
+          Your Account
         </h1>
         <Button
           onClick={handleLogout}

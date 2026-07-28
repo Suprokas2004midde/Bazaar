@@ -23,8 +23,11 @@ const PlaceOrder = () => {
     token,
     setCartItems,
     cartItems,
-    getTotalAmount,
     DeliveryFees,
+    getTotalAmount,
+    getDeliveryFee,
+    getDiscount,
+    getFinalTotal,
     cartProductsData,
   } = useContext(ShopContext);
 
@@ -97,10 +100,17 @@ const PlaceOrder = () => {
           ? userAddresses[selectedAddressIndex] 
           : formData;
 
+      const subtotal = getTotalAmount();
+      const currentDeliveryFee = subtotal > 0 ? DeliveryFees : 0;
+      const currentDiscount = subtotal >= 500 ? DeliveryFees : 0;
+      const finalAmount = (subtotal === 0 ? 0 : subtotal + currentDeliveryFee - currentDiscount);
+
       const finalOrder = {
         items: orderItems,
         address: addressToUse,
-        amount: getTotalAmount(),
+        amount: finalAmount,
+        deliveryFee: currentDeliveryFee, 
+        discount: currentDiscount,
         saveAddress: addingNewAddress ? saveAddress : false,
       };
 

@@ -7,7 +7,7 @@ export const ShopContext = createContext();
 
 export const ShopContextProvider = (props) => {
   const CurrencySym = "₹";
-  const DeliveryFees = 50;
+  const DeliveryFees = 100;
   const backend = import.meta.env.VITE_BACKEND_SERVER;
 
   const [loading, setLoading] = useState(true);
@@ -16,7 +16,8 @@ export const ShopContextProvider = (props) => {
   const navigate = useNavigate();
 
   const [cartItems, setCartItems] = useState({});
-  const [cartProductsData, setCartProductsData] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
+  const [cartProductsData, setCartProductsData] = useState([]); // for bulk upload
   const [bestSeller, setBestSeller] = useState([]);
   const [LatestCollection, setLatestCollection] = useState([]);
 
@@ -219,23 +220,100 @@ export const ShopContextProvider = (props) => {
         `${backend}/api/cart/get`,
         {},
         { headers: { token } },
-      ); 
+      );
       setCartItems(response.data.data);
     } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  // ─── Wishlist ───────────────────────────────────────────────
+  const getUserWishlist = async (authToken) => {
+    const activeToken = authToken || token;
+    if (!activeToken) return;
+    try {
+      const response = await axios.post(
+        `${backend}/api/wishlist/get`,
+        {},
+        { headers: { token: activeToken } },
+      );
+      if (response.data.success) {
+        setWishlist(response.data.wishlist || []);
+      }
+    } catch (error) {
+      console.log("Failed to fetch wishlist:", error.message);
+    }
+  };
+
+  const toggleWishlist = async (productId, productImage) => {
+    if (!token) {
+      toast.error("Please login to save to wishlist");
+      return;
+    }
+    // Optimistic update
+    const alreadyIn = wishlist.includes(String(productId));
+    setWishlist((prev) =>
+      alreadyIn ? prev.filter((id) => id !== String(productId)) : [...prev, String(productId)]
+    );
+    try {
+      const response = await axios.post(
+        `${backend}/api/wishlist/toggle`,
+        { productId },
+        { headers: { token } },
+      );
+      if (response.data.success) {
+        setWishlist(response.data.wishlist || []);
+        if (response.data.added) {
+          toast.success(
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              {productImage && (
+                <img src={productImage} alt="" style={{ width: "50px", height: "50px", borderRadius: "8px", objectFit: "contain" }} />
+              )}
+              <div><p style={{ fontWeight: 600 }}>Added to Wishlist ♥</p></div>
+            </div>,
+          );
+        } else {
+          toast.info("Removed from wishlist");
+        }
+      } else {
+        // Rollback optimistic update
+        setWishlist((prev) =>
+          alreadyIn ? [...prev, String(productId)] : prev.filter((id) => id !== String(productId))
+        );
+        toast.error(response.data.message || "Something went wrong");
+      }
+    } catch (error) {
+      // Rollback optimistic update
+      setWishlist((prev) =>
+        alreadyIn ? [...prev, String(productId)] : prev.filter((id) => id !== String(productId))
+      );
       console.log(error.message);
       toast.error(error.message);
     }
   };
 
+  const isInWishlist = (productId) => wishlist.includes(String(productId));
+
+  const clearWishlist = async () => {
+    if (!token) return;
+    try {
+      await axios.post(`${backend}/api/wishlist/clear`, {}, { headers: { token } });
+      setWishlist([]);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  // ─────────────────────────────────────────────────────────────
+
   useEffect(() => {
     fetchLatestCollection();
     fetchbestSeller();
-    //If token available in the local storage
     const savedToken = localStorage.getItem("token");
     if (savedToken) {
       setToken(savedToken);
       getUserCart(savedToken);
       getUserProfile(savedToken);
+      getUserWishlist(savedToken);
     }
   }, []);
 
@@ -274,6 +352,12 @@ export const ShopContextProvider = (props) => {
     setUserData,
     getUserProfile,
     updateUserProfile,
+    // Wishlist
+    wishlist,
+    toggleWishlist,
+    isInWishlist,
+    clearWishlist,
+    getUserWishlist,
   };
 
   return (

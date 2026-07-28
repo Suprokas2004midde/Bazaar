@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router";
 import { Card, CardContent } from "./ui/card";
 import { Badge } from "./ui/badge";
@@ -19,6 +19,8 @@ import {
   Building2,
   Copy,
 } from "lucide-react";
+import { ShopContext } from "../context/ShopContext";
+
 
 export function OrderSummary1({
   order,
@@ -28,6 +30,7 @@ export function OrderSummary1({
 }) {
   const [showTimelineModal, setShowTimelineModal] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const {navigate} = useContext(ShopContext);
 
   if (!order) return null;
 
@@ -74,11 +77,10 @@ export function OrderSummary1({
       acc + (Number(item.price) || 0) * (Number(item.quantity) || 1),
     0,
   );
-  const deliveryFee =
-    order.amount && order.amount > subtotal ? order.amount - subtotal : 50;
+  const deliveryFee = order.deliveryFee;
   const tax = order.tax !== undefined ? order.tax : 0;
-  const discount = order.discount || 0;
-  const totalPaid = order.amount || subtotal + deliveryFee + tax - discount;
+  const discount = order.discount;
+  const totalPaid = (subtotal + deliveryFee + tax - discount);
 
   // Order status stages for timeline
   const statuses = [
@@ -242,7 +244,10 @@ export function OrderSummary1({
                           )}
 
                           <div className="min-w-0">
-                            <h3 className="font-semibold text-sm sm:text-base text-[var(--text-main)] truncate">
+                            <h3
+                              className="font-semibold text-sm sm:text-base text-[var(--text-main)] truncate hover:text-blue-500 cursor-pointer transition duration-200"
+                              onClick={() => navigate(`/product/${item._id}`)}
+                            >
                               {item.name || "Product Item"}
                             </h3>
                             <p className="text-xs text-[var(--text-muted)] mt-0.5">

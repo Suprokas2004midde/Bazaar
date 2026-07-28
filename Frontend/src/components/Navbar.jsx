@@ -1,6 +1,6 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { Link, NavLink } from "react-router";
-import { Search, User, ShoppingBag, Menu, ArrowLeft, LogOut, PackageCheck } from "lucide-react";
+import { Search, User, ShoppingBag, Menu, ArrowLeft, LogOut, PackageCheck, Heart } from "lucide-react";
 import logo from "../assets/logo.png";
 import { ShopContext } from "../context/ShopContext";
 import { ThemeToggle } from "./ui/theme-toggle";
@@ -10,7 +10,7 @@ const Navbar = () => {
   const [visible, setvisible] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const { showSearch, setShowSearch, getCartCount, setCartItems, navigate, setToken, token } = useContext(ShopContext);
+  const { showSearch, setShowSearch, getCartCount, setCartItems, navigate, setToken, token, wishlist, clearWishlist } = useContext(ShopContext);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -43,6 +43,7 @@ const Navbar = () => {
     setToken('');
     localStorage.removeItem('token');
     setCartItems({});
+    if (clearWishlist) clearWishlist();
   };
 
   return (
@@ -56,19 +57,31 @@ const Navbar = () => {
       </Link>
 
       <ul className="hidden sm:flex gap-6 text-sm tracking-wider font-semibold text-[var(--text-muted)]">
-        <NavLink to="/" className="flex flex-col gap-1 items-center hover:text-[var(--primary-accent)] transition-colors">
+        <NavLink
+          to="/"
+          className="flex flex-col gap-1 items-center hover:text-[var(--primary-accent)] transition-colors"
+        >
           <p>HOME</p>
           <hr className="w-2/4 border-none bg-[var(--primary-accent)] h-[2px] hidden" />
         </NavLink>
-        <NavLink to="/collection" className="flex flex-col gap-1 items-center hover:text-[var(--primary-accent)] transition-colors">
+        <NavLink
+          to="/collection"
+          className="flex flex-col gap-1 items-center hover:text-[var(--primary-accent)] transition-colors"
+        >
           <p>COLLECTION</p>
           <hr className="w-2/4 border-none bg-[var(--primary-accent)] h-[2px] hidden" />
         </NavLink>
-        <NavLink to="/about" className="flex flex-col gap-1 items-center hover:text-[var(--primary-accent)] transition-colors">
+        <NavLink
+          to="/about"
+          className="flex flex-col gap-1 items-center hover:text-[var(--primary-accent)] transition-colors"
+        >
           <p>ABOUT</p>
           <hr className="w-2/4 border-none bg-[var(--primary-accent)] h-[2px] hidden" />
         </NavLink>
-        <NavLink to="/contact" className="flex flex-col gap-1 items-center hover:text-[var(--primary-accent)] transition-colors">
+        <NavLink
+          to="/contact"
+          className="flex flex-col gap-1 items-center hover:text-[var(--primary-accent)] transition-colors"
+        >
           <p>CONTACT</p>
           <hr className="w-2/4 border-none bg-[var(--primary-accent)] h-[2px] hidden" />
         </NavLink>
@@ -103,18 +116,29 @@ const Navbar = () => {
           >
             <User className="w-5 h-5" />
           </button>
-          <div className={`z-50 ${isProfileOpen ? "block" : "hidden"} sm:group-hover:block absolute dropdown-menu right-0 pt-2 w-44`}>
+          <div
+            className={`z-50 ${isProfileOpen ? "block" : "hidden"} sm:group-hover:block absolute dropdown-menu right-0 pt-2 w-44`}
+          >
             <div className="flex flex-col gap-2 p-3 bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-main)] shadow-[var(--shadow-md)] rounded-xl backdrop-blur-md">
               {token ? (
                 <>
                   <p
                     onClick={() => {
                       setIsProfileOpen(false);
-                      navigate('/profile');
+                      navigate("/profile");
                     }}
                     className="px-3 py-1.5 rounded-md hover:bg-[var(--secondary-accent)]/20 cursor-pointer text-sm font-medium transition-colors"
                   >
                     My Profile
+                  </p>
+                  <p
+                    onClick={() => {
+                      setIsProfileOpen(false);
+                      navigate("/orders");
+                    }}
+                    className="px-3 py-1.5 rounded-md hover:bg-[var(--secondary-accent)]/20 cursor-pointer text-sm font-medium transition-colors"
+                  >
+                    Orders
                   </p>
                   <p
                     onClick={() => {
@@ -130,7 +154,7 @@ const Navbar = () => {
                 <p
                   onClick={() => {
                     setIsProfileOpen(false);
-                    navigate('/login');
+                    navigate("/login");
                   }}
                   className="px-3 py-1.5 rounded-md hover:bg-[var(--secondary-accent)]/20 cursor-pointer text-sm font-medium transition-colors"
                 >
@@ -142,7 +166,10 @@ const Navbar = () => {
         </div>
 
         {/* Cart Icon & Badge */}
-        <Link to="/cart" className="relative p-2 rounded-full hover:bg-[var(--secondary-accent)]/20 text-[var(--text-main)] transition-colors">
+        <Link
+          to="/cart"
+          className="relative p-2 rounded-full hover:bg-[var(--secondary-accent)]/20 text-[var(--text-main)] transition-colors"
+        >
           <ShoppingBag className="w-5 h-5" />
           {getCartCount() > 0 && (
             <Badge
@@ -215,7 +242,7 @@ const Navbar = () => {
                 <div
                   onClick={() => {
                     setvisible(false);
-                    navigate('/orders');
+                    navigate("/orders");
                   }}
                   className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-[var(--secondary-accent)]/20 cursor-pointer font-medium"
                 >
@@ -237,7 +264,7 @@ const Navbar = () => {
               <div
                 onClick={() => {
                   setvisible(false);
-                  navigate('/login');
+                  navigate("/login");
                 }}
                 className="flex items-center gap-3 py-2.5 px-3 rounded-lg bg-[var(--primary-accent)] text-white cursor-pointer font-medium justify-center"
               >
