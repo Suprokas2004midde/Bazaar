@@ -47,7 +47,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex items-center justify-between py-1 backdrop-blur-3xl font-medium transition-colors">
+    <>
+      <div className="flex items-center justify-between py-1 backdrop-blur-3xl font-medium transition-colors">
       <Link to="/" className="flex items-center gap-2">
         <img
           src={logo}
@@ -191,10 +192,11 @@ const Navbar = () => {
           <Menu className="w-6 h-6" />
         </button>
       </div>
+    </div>
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed top-0 right-0 bottom-0 z-50 overflow-hidden bg-[var(--bg-card)] text-[var(--text-main)] transition-all duration-300 border-l border-[var(--border-color)] ${
+        className={`fixed top-0 right-0 bottom-0 z-[9999] overflow-hidden bg-[var(--bg-card)] text-[var(--text-main)] transition-all duration-300 border-l border-[var(--border-color)] ${
           visible ? "w-64 shadow-2xl" : "w-0"
         }`}
       >
@@ -275,7 +277,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

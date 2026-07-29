@@ -21,7 +21,7 @@ function App() {
 
   return (
     <div className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
-      <div className="sticky top-0 z-50 flex flex-col">
+      <div className="sticky top-0 z-[999] flex flex-col">
         <Navbar />
         <SearchBar />
       </div>
