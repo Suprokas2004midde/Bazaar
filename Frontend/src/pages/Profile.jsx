@@ -93,8 +93,9 @@ const Profile = () => {
     "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
     "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
     "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&auto=format&fit=crop&q=80",
-    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&auto=format&fit=crop&q=80",
+    "https://plus.unsplash.com/premium_photo-1739786996040-32bde1db0610?w=300&auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1740252117044-2af197eea287?w=300&auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1740252117013-4fb21771e7ca?w=300&auto=format&fit=crop&q=80",
   ];
 
   if (!token) {
@@ -129,7 +130,7 @@ const Profile = () => {
         <Button
           onClick={handleLogout}
           variant="outline"
-          className="rounded-full px-5 py-2 text-xs font-semibold text-rose-600 bg-rose-200/30 border-rose-200 hover:bg-rose-500/30 dark:hover:transition-colors"
+          className="rounded-full px-5 py-2 text-xs font-semibold text-[#FF0800] bg-[#FF0800]/10 border-[#FF0800]/20 hover:bg-[#FF0800]/20 dark:hover:transition-colors"
         >
           Sign out
         </Button>
@@ -140,7 +141,7 @@ const Profile = () => {
          ========================================== */}
       <div className="block lg:hidden space-y-6">
         {/* Top Dark/Accent Profile Banner */}
-        <div className="relative rounded-3xl bg-emerald-900 dark:bg-emerald-950 text-white p-6 text-center shadow-lg overflow-hidden">
+        <div className="relative rounded-3xl bg-[#0980FF] dark:bg-[#0980FF]/90 text-white p-6 text-center shadow-lg overflow-hidden">
           {/* Subtle Background Geometric Pattern Overlay */}
           <div className="absolute inset-0 opacity-10 pointer-events-none flex justify-between items-center">
             <div className="w-32 h-32 rounded-full bg-white -ml-10 -mt-10" />
@@ -160,7 +161,7 @@ const Profile = () => {
 
             {/* Centered Profile Avatar */}
             <div className="relative my-3 group">
-              <div className="w-24 h-24 rounded-full border-4 border-emerald-500/60 overflow-hidden bg-slate-200 flex items-center justify-center shadow-md">
+              <div className="w-24 h-24 rounded-full border-4 border-[#0980FF]/60 overflow-hidden bg-slate-200 flex items-center justify-center shadow-md">
                 {avatarUrl ? (
                   <img
                     src={avatarUrl}
@@ -173,7 +174,7 @@ const Profile = () => {
               </div>
               <button
                 onClick={() => handleOpenEdit("avatar")}
-                className="absolute bottom-0 right-0 p-2 bg-orange-500 hover:bg-orange-600 text-white rounded-full shadow-md transition transform hover:scale-105 cursor-pointer"
+                className="absolute bottom-0 right-0 p-2 bg-[#0980FF] hover:bg-[#0980FF]/90 text-white rounded-full shadow-md transition transform hover:scale-105 cursor-pointer"
                 title="Change Avatar"
               >
                 <Edit3 className="w-3.5 h-3.5" />
@@ -183,10 +184,10 @@ const Profile = () => {
             <h2 className="text-xl font-extrabold text-white tracking-wide">
               {userName}
             </h2>
-            <p className="text-xs text-emerald-200 font-medium mt-0.5">
+            <p className="text-xs text-white/80 font-medium mt-0.5">
               {userPhone}
             </p>
-            <p className="text-[11px] text-emerald-300/80">{userEmail}</p>
+            <p className="text-[11px] text-white/60">{userEmail}</p>
           </div>
         </div>
 
@@ -202,7 +203,7 @@ const Profile = () => {
               onClick={() => setActiveTab("personal-info")}
               className={`p-3.5 rounded-2xl flex items-center justify-between cursor-pointer transition-all ${
                 activeTab === "personal-info"
-                  ? "bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800/60"
+                  ? "bg-[#0980FF]/10 dark:bg-[#0980FF]/90/40 border border-[#0980FF]/30 dark:border-[#0980FF]/30"
                   : "bg-[var(--bg-subtle)]/60 hover:bg-[var(--bg-subtle)]"
               }`}
             >
@@ -227,12 +228,12 @@ const Profile = () => {
               onClick={() => setActiveTab("orders")}
               className={`p-3.5 rounded-2xl flex items-center justify-between cursor-pointer transition-all ${
                 activeTab === "orders"
-                  ? "bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800/60"
+                  ? "bg-[#0980FF]/10 dark:bg-[#0980FF]/90/40 border border-[#0980FF]/30 dark:border-[#0980FF]/30"
                   : "bg-[var(--bg-subtle)]/60 hover:bg-[var(--bg-subtle)]"
               }`}
             >
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-300 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-[#0980FF]/10 dark:bg-[#0980FF]/90/60 text-[#0980FF] dark:text-[#0980FF] flex items-center justify-center">
                   <Package className="w-5 h-5" />
                 </div>
                 <div>
@@ -252,7 +253,7 @@ const Profile = () => {
               onClick={() => setActiveTab("address")}
               className={`p-3.5 rounded-2xl flex items-center justify-between cursor-pointer transition-all ${
                 activeTab === "address"
-                  ? "bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800/60"
+                  ? "bg-[#0980FF]/10 dark:bg-[#0980FF]/90/40 border border-[#0980FF]/30 dark:border-[#0980FF]/30"
                   : "bg-[var(--bg-subtle)]/60 hover:bg-[var(--bg-subtle)]"
               }`}
             >
@@ -277,7 +278,7 @@ const Profile = () => {
               onClick={() => setActiveTab("wishlist")}
               className={`p-3.5 rounded-2xl flex items-center justify-between cursor-pointer transition-all ${
                 activeTab === "wishlist"
-                  ? "bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800/60"
+                  ? "bg-[#0980FF]/10 dark:bg-[#0980FF]/90/40 border border-[#0980FF]/30 dark:border-[#0980FF]/30"
                   : "bg-[var(--bg-subtle)]/60 hover:bg-[var(--bg-subtle)]"
               }`}
             >
@@ -327,7 +328,7 @@ const Profile = () => {
                         {formData.name || "N/A"}
                       </p>
                     </div>
-                    <User className="w-5 h-5 text-orange-500" />
+                    <User className="w-5 h-5 text-[#0980FF]" />
                   </CardContent>
                 </Card>
 
@@ -341,7 +342,7 @@ const Profile = () => {
                         {formData.dob || "N/A"}
                       </p>
                     </div>
-                    <Calendar className="w-5 h-5 text-orange-500" />
+                    <Calendar className="w-5 h-5 text-[#0980FF]" />
                   </CardContent>
                 </Card>
 
@@ -355,7 +356,7 @@ const Profile = () => {
                         {formData.country || "N/A"}
                       </p>
                     </div>
-                    <Globe className="w-5 h-5 text-orange-500" />
+                    <Globe className="w-5 h-5 text-[#0980FF]" />
                   </CardContent>
                 </Card>
 
@@ -369,7 +370,7 @@ const Profile = () => {
                         {formData.language}
                       </p>
                     </div>
-                    <Languages className="w-5 h-5 text-orange-500" />
+                    <Languages className="w-5 h-5 text-[#0980FF]" />
                   </CardContent>
                 </Card>
 
@@ -386,7 +387,7 @@ const Profile = () => {
                         {userPhone}
                       </p>
                     </div>
-                    <MessageSquare className="w-5 h-5 text-orange-500" />
+                    <MessageSquare className="w-5 h-5 text-[#0980FF]" />
                   </CardContent>
                 </Card>
               </div>
@@ -421,7 +422,7 @@ const Profile = () => {
               </div>
               <button
                 onClick={() => handleOpenEdit("avatar")}
-                className="absolute bottom-0 right-0 p-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full shadow-lg transition transform hover:scale-110 cursor-pointer"
+                className="absolute bottom-0 right-0 p-2.5 bg-[#0980FF] text-white rounded-full shadow-lg transition transform hover:scale-110 cursor-pointer"
                 title="Update Profile Picture"
               >
                 <Camera className="w-4 h-4" />
@@ -444,7 +445,7 @@ const Profile = () => {
                 onClick={() => setActiveTab("personal-info")}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all cursor-pointer ${
                   activeTab === "personal-info"
-                    ? "bg-orange-500/10 text-black dark:text-orange-400 border border-orange-500/20"
+                    ? "bg-[#0980FF]/10 text-black dark:text-[#0980FF] border border-[#0980FF]/20"
                     : "text-[var(--text-muted)] hover:bg-[var(--bg-subtle)] hover:text-[var(--text-main)]"
                 }`}
               >
@@ -456,7 +457,7 @@ const Profile = () => {
                 onClick={() => setActiveTab("orders")}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all cursor-pointer ${
                   activeTab === "orders"
-                    ? "bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20"
+                    ? "bg-[#0980FF]/10 text-[#0980FF] dark:text-[#0980FF] border border-[#0980FF]/20"
                     : "text-[var(--text-muted)] hover:bg-[var(--bg-subtle)] hover:text-[var(--text-main)]"
                 }`}
               >
@@ -468,7 +469,7 @@ const Profile = () => {
                 onClick={() => setActiveTab("address")}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all cursor-pointer ${
                   activeTab === "address"
-                    ? "bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20"
+                    ? "bg-[#0980FF]/10 text-[#0980FF] dark:text-[#0980FF] border border-[#0980FF]/20"
                     : "text-[var(--text-muted)] hover:bg-[var(--bg-subtle)] hover:text-[var(--text-main)]"
                 }`}
               >
@@ -480,7 +481,7 @@ const Profile = () => {
                 onClick={() => setActiveTab("wishlist")}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all cursor-pointer ${
                   activeTab === "wishlist"
-                    ? "bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20"
+                    ? "bg-[#0980FF]/10 text-[#0980FF] dark:text-[#0980FF] border border-[#0980FF]/20"
                     : "text-[var(--text-muted)] hover:bg-[var(--bg-subtle)] hover:text-[var(--text-main)]"
                 }`}
               >
@@ -490,7 +491,7 @@ const Profile = () => {
 
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold text-rose-500 bg-rose-200/30 hover:bg-rose-500/30 transition-all cursor-pointer mt-4"
+                className="flex items-center gap-3 px-4 py-3 rounded-3xl text-sm font-semibold text-[#FF0800] bg-[#FF0800]/10 hover:bg-[#FF0800]/20 transition-all cursor-pointer mt-4 mx-auto justify-center"
               >
                 <LogOut className="w-4 h-4" />
                 <span>Logout</span>
@@ -519,7 +520,7 @@ const Profile = () => {
                 {/* Card 1: Name */}
                 <div
                   onClick={() => handleOpenEdit("name")}
-                  className="p-5 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-orange-500/50 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group"
+                  className="p-5 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-[#0980FF]/50 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group"
                 >
                   <div className="space-y-1">
                     <p className="text-sm font-bold text-[var(--text-muted)]">
@@ -529,7 +530,7 @@ const Profile = () => {
                       {formData.name || "Set Name"}
                     </p>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-orange-500 dark:bg-orange-950/20 text-orange-500 group-hover:scale-110 transition-transform">
+                  <div className="p-2.5 rounded-xl bg-[#0980FF] dark:bg-[#0980FF]/10 text-[#0980FF] group-hover:scale-110 transition-transform">
                     <User className="w-5 h-5" />
                   </div>
                 </div>
@@ -537,7 +538,7 @@ const Profile = () => {
                 {/* Card 2: Date of Birth */}
                 <div
                   onClick={() => handleOpenEdit("dob")}
-                  className="p-5 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-orange-500/50 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group"
+                  className="p-5 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-[#0980FF]/50 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group"
                 >
                   <div className="space-y-1">
                     <p className="text-sm font-bold text-[var(--text-muted)]">
@@ -547,7 +548,7 @@ const Profile = () => {
                       {formData.dob || "Set DOB"}
                     </p>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-orange-50 dark:bg-orange-950/20 text-orange-500 group-hover:scale-110 transition-transform">
+                  <div className="p-2.5 rounded-xl bg-[#0980FF]/5 dark:bg-[#0980FF]/10 text-[#0980FF] group-hover:scale-110 transition-transform">
                     <Calendar className="w-5 h-5" />
                   </div>
                 </div>
@@ -555,7 +556,7 @@ const Profile = () => {
                 {/* Card 3: Country Region */}
                 <div
                   onClick={() => handleOpenEdit("country")}
-                  className="p-5 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-orange-500/50 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group"
+                  className="p-5 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-[#0980FF]/50 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group"
                 >
                   <div className="space-y-1">
                     <p className="text-sm font-bold text-[var(--text-muted)]">
@@ -565,7 +566,7 @@ const Profile = () => {
                       {formData.country || "Set Country"}
                     </p>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-orange-50 dark:bg-orange-950/20 text-orange-500 group-hover:scale-110 transition-transform">
+                  <div className="p-2.5 rounded-xl bg-[#0980FF]/5 dark:bg-[#0980FF]/10 text-[#0980FF] group-hover:scale-110 transition-transform">
                     <Globe className="w-5 h-5" />
                   </div>
                 </div>
@@ -573,7 +574,7 @@ const Profile = () => {
                 {/* Card 4: Language */}
                 <div
                   onClick={() => handleOpenEdit("language")}
-                  className="p-5 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-orange-500/50 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group"
+                  className="p-5 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-[#0980FF]/50 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group"
                 >
                   <div className="space-y-1">
                     <p className="text-sm font-bold text-[var(--text-muted)]">
@@ -583,7 +584,7 @@ const Profile = () => {
                       {formData.language}
                     </p>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-orange-50 dark:bg-orange-950/20 text-orange-500 group-hover:scale-110 transition-transform">
+                  <div className="p-2.5 rounded-xl bg-[#0980FF]/5 dark:bg-[#0980FF]/10 text-[#0980FF] group-hover:scale-110 transition-transform">
                     <Languages className="w-5 h-5" />
                   </div>
                 </div>
@@ -591,7 +592,7 @@ const Profile = () => {
                 {/* Card 5: Contactable at */}
                 <div
                   onClick={() => handleOpenEdit("phone")}
-                  className="p-5 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-orange-500/50 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group sm:col-span-1"
+                  className="p-5 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-[#0980FF]/50 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group sm:col-span-1"
                 >
                   <div className="space-y-1">
                     <p className="text-sm font-bold text-[var(--text-muted)]">
@@ -604,7 +605,7 @@ const Profile = () => {
                       {formData.phone}
                     </p>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-orange-50 dark:bg-orange-950/20 text-orange-500 group-hover:scale-110 transition-transform">
+                  <div className="p-2.5 rounded-xl bg-[#0980FF]/5 dark:bg-[#0980FF]/10 text-[#0980FF] group-hover:scale-110 transition-transform">
                     <MessageSquare className="w-5 h-5" />
                   </div>
                 </div>
@@ -612,7 +613,7 @@ const Profile = () => {
                 {/* Card 6: Gender */}
                 <div
                   onClick={() => handleOpenEdit("gender")}
-                  className="p-5 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-orange-500/50 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group sm:col-span-1"
+                  className="p-5 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-[#0980FF]/50 rounded-2xl shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between group sm:col-span-1"
                 >
                   <div className="space-y-1">
                     <p className="text-sm font-bold text-[var(--text-muted)]">
@@ -622,7 +623,7 @@ const Profile = () => {
                       {formData.gender || "Not Specified"}
                     </p>
                   </div>
-                  <div className="p-2.5 rounded-xl bg-orange-50 dark:bg-orange-950/20 text-orange-500 group-hover:scale-110 transition-transform">
+                  <div className="p-2.5 rounded-xl bg-[#0980FF]/5 dark:bg-[#0980FF]/10 text-[#0980FF] group-hover:scale-110 transition-transform">
                     <Sparkles className="w-5 h-5" />
                   </div>
                 </div>
@@ -688,7 +689,7 @@ const Profile = () => {
                         }
                         className={`w-10 h-10 rounded-full object-cover cursor-pointer border-2 transition ${
                           formData.avatar === preset
-                            ? "border-orange-500 scale-110"
+                            ? "border-[#0980FF] scale-110"
                             : "border-transparent opacity-70 hover:opacity-100"
                         }`}
                       />
@@ -777,7 +778,7 @@ const Profile = () => {
                   name="gender"
                   value={formData.gender}
                   onChange={handleFormChange}
-                  className="w-full h-10 px-3 rounded-lg border border-[var(--border-color)] bg-[var(--bg-main)] text-[var(--text-main)] text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="w-full h-10 px-3 rounded-lg border border-[var(--border-color)] bg-[var(--bg-main)] text-[var(--text-main)] text-sm focus:outline-none focus:ring-2 focus:ring-[#0980FF]"
                 >
                   <option value="Not Specified">Not Specified</option>
                   <option value="Male">Male</option>
@@ -796,7 +797,7 @@ const Profile = () => {
                 </Button>
                 <Button
                   type="submit"
-                  className="bg-orange-500 hover:bg-orange-600 text-white font-bold"
+                  className="bg-[#0980FF] hover:bg-[#0980FF]/90 text-white font-bold"
                 >
                   Save Changes
                 </Button>

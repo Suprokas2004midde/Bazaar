@@ -1,39 +1,39 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Inter', sans-serif;
   color-scheme: light dark;
 
-  /* Deep Sea Bright (Light) Theme Variables */
-  --bg-main: #FAF9F6;
-  --bg-card: #FFFFFF;
-  --bg-subtle: #F3F2EE;
-  --text-main: #0D1B2A;
-  --text-muted: #415A77;
-  --border-color: #E2E8F0;
-  --primary-accent: #1B263B;
-  --primary-hover: #0D1B2A;
-  --secondary-accent: #778DA9;
-  --badge-bg: #415A77;
+  /* Gunmetal (Light) Theme Variables */
+  --bg-main: #f1f2f4;
+  --bg-card: #f1f2f4;
+  --bg-subtle: #e3e6e8;
+  --text-main: #17191c;
+  --text-muted: #5c6670;
+  --border-color: #c7ccd1;
+  --primary-accent: #454c54;
+  --primary-hover: #2e3338;
+  --secondary-accent: #8f99a3;
+  --badge-bg: #5c6670;
   --badge-text: #FFFFFF;
-  --shadow-sm: 0 1px 3px rgba(13, 27, 42, 0.05);
-  --shadow-md: 0 4px 14px rgba(13, 27, 42, 0.08);
+  --shadow-sm: 0 1px 3px rgba(16, 18, 20, 0.05);
+  --shadow-md: 0 4px 14px rgba(16, 18, 20, 0.08);
 }
 
 .dark {
-  /* Deep Sea Dark Theme Variables */
-  --bg-main: #0D1B2A;
-  --bg-card: #1B263B;
-  --bg-subtle: #142132;
-  --text-main: #E0E1DD;
-  --text-muted: #778DA9;
-  --border-color: #415A77;
-  --primary-accent: rgb(119, 141, 169);
-  --primary-hover: #E0E1DD;
-  --secondary-accent: #415A77;
-  --badge-bg: #778DA9;
-  --badge-text: #0D1B2A;
+  /* Gunmetal Dark Theme Variables */
+  --bg-main: #101214;
+  --bg-card: #17191c;
+  --bg-subtle: #2e3338;
+  --text-main: #e3e6e8;
+  --text-muted: #8f99a3;
+  --border-color: #454c54;
+  --primary-accent: #8f99a3;
+  --primary-hover: #e3e6e8;
+  --secondary-accent: #5c6670;
+  --badge-bg: #8f99a3;
+  --badge-text: #17191c;
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
 }

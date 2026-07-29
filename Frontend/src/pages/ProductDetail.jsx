@@ -19,6 +19,8 @@ const ProductDetail = () => {
   const [reviewStar, setReviewStar] = useState(5);
   const [reviewText, setReviewText] = useState("");
   const [canReview, setCanReview] = useState(false);
+   
+
   const getUserIdFromToken = () => {
     if (!token) return null;
     try {
@@ -90,6 +92,7 @@ const ProductDetail = () => {
     fetchProductData();
   }, [productID, currentUserId]);
 
+
   return productData ? (
     <div className="pt-8 border-t border-[var(--border-color)]/40 transition-all duration-300">
       {/* Product Display */}
@@ -107,13 +110,21 @@ const ProductDetail = () => {
                     : "border-[var(--border-color)]/50 opacity-70 hover:opacity-100"
                 }`}
               >
-                <img src={item} alt="" className="w-full h-full object-contain" />
+                <img
+                  src={item}
+                  alt=""
+                  className="w-full h-full object-contain"
+                />
               </div>
             ))}
           </div>
 
           <div className="flex-1 bg-[var(--bg-subtle)] border border-[var(--border-color)]/40 rounded-xl p-4 flex items-center justify-center min-h-[320px]">
-            <img src={mainImage} alt={productData.name} className="max-h-[420px] object-contain transition-all" />
+            <img
+              src={mainImage}
+              alt={productData.name}
+              className="max-h-[420px] object-contain transition-all"
+            />
           </div>
         </div>
 
@@ -132,12 +143,15 @@ const ProductDetail = () => {
               <Star className="w-4 h-4 fill-amber-400" />
               <Star className="w-4 h-4 fill-amber-400" />
               <Star className="w-4 h-4 fill-amber-400 opacity-40" />
-              <span className="text-xs font-semibold text-[var(--text-muted)] ml-2">({productData?.reviews?.length || 0} Reviews)</span>
+              <span className="text-xs font-semibold text-[var(--text-muted)] ml-2">
+                ({productData?.reviews?.length || 0} Reviews)
+              </span>
             </div>
           </div>
 
           <div className="text-3xl font-extrabold text-[var(--primary-accent)]">
-            {CurrencySym}{productData.price}
+            {CurrencySym}
+            {productData.price}
           </div>
 
           <p className="text-sm text-[var(--text-muted)] leading-relaxed">
@@ -158,7 +172,7 @@ const ProductDetail = () => {
                     className={`py-2 px-4 rounded-md text-sm font-semibold border transition-all cursor-pointer ${
                       size === selectsize
                         ? "bg-[var(--primary-accent)] text-[var(--bg-main)] border-[var(--primary-accent)] shadow-md"
-                        : "bg-[var(--bg-card)] text-[var(--text-main)] border-[var(--border-color)] hover:border-[var(--primary-accent)]"
+                        : "bg-[var(--bg-card)] text-[var(--text-main)] border-[var(--border-color)] hover:border-[var(--border)]"
                     }`}
                   >
                     {size}
@@ -173,7 +187,7 @@ const ProductDetail = () => {
             <Button
               size="lg"
               onClick={() => addToCart(productData._id, selectsize, mainImage)}
-              className="flex-1 sm:flex-none font-bold uppercase gap-2 px-10"
+              className="w-full py-3 sm:w-auto flex-1 sm:flex-none font-bold uppercase gap-2 px-10 hover:bg-[#0980FF]"
             >
               <ShoppingCart className="w-5 h-5" /> Add To Cart
             </Button>
@@ -181,13 +195,15 @@ const ProductDetail = () => {
               size="lg"
               variant="outline"
               onClick={() => toggleWishlist(productData._id, mainImage)}
-              className={`flex-1 sm:flex-none font-bold uppercase gap-2 px-8 border-2 transition-all ${
+              className={`w-full py-3 sm:w-auto flex-1 sm:flex-none font-bold uppercase gap-2 px-8 border-2 transition-all ${
                 isInWishlist(productData._id)
-                  ? "border-rose-500 text-rose-500 bg-rose-500/10 hover:bg-rose-500/20"
-                  : "border-[var(--border-color)] text-[var(--text-muted)] hover:border-rose-400 hover:text-rose-400"
+                  ? "border-red-500/20 text-[#FF0800] bg-red-400/20 hover:bg-red-500/20 hover:border-red-600/20 duration-200"
+                  : "border-[var(--border-color)] text-[var(--text-muted)] hover:border-[var(--border)] hover:text-[var(--text-main)]"
               }`}
             >
-              <Heart className={`w-5 h-5 ${isInWishlist(productData._id) ? "fill-rose-500" : ""}`} />
+              <Heart
+                className={`w-5 h-5 ${isInWishlist(productData._id) ? "fill-[#FF0800]" : ""}`}
+              />
               {isInWishlist(productData._id) ? "Wishlisted" : "Wishlist"}
             </Button>
           </div>
@@ -197,13 +213,16 @@ const ProductDetail = () => {
           {/* Features */}
           <div className="space-y-2 text-xs sm:text-sm text-[var(--text-muted)] font-medium">
             <div className="flex items-center gap-2">
-              <Shield className="w-4 h-4 text-[var(--primary-accent)]" /> 100% Genuine Authentic Product
+              <Shield className="w-4 h-4 text-[var(--primary-accent)]" /> 100%
+              Genuine Authentic Product
             </div>
             <div className="flex items-center gap-2">
-              <Truck className="w-4 h-4 text-[var(--primary-accent)]" /> Cash on delivery is available
+              <Truck className="w-4 h-4 text-[var(--primary-accent)]" /> Cash on
+              delivery is available
             </div>
             <div className="flex items-center gap-2">
-              <RefreshCw className="w-4 h-4 text-[var(--primary-accent)]" /> Easy Return & Exchange within 10 Days
+              <RefreshCw className="w-4 h-4 text-[var(--primary-accent)]" />{" "}
+              Easy Return & Exchange within 10 Days
             </div>
           </div>
         </div>
@@ -238,10 +257,18 @@ const ProductDetail = () => {
           {activeTab === "description" ? (
             <>
               <p>
-                An e-commerce website is an online platform that allows businesses and individuals to buy and sell products or services over the internet. It provides a convenient shopping experience with features like product catalogs, secure payment gateways, and order tracking.
+                An e-commerce website is an online platform that allows
+                businesses and individuals to buy and sell products or services
+                over the internet. It provides a convenient shopping experience
+                with features like product catalogs, secure payment gateways,
+                and order tracking.
               </p>
               <p>
-                E-commerce platforms offer detailed product descriptions, customer reviews, and personalized recommendations to enhance the shopping experience. With support for multiple payment methods and reliable delivery options, these websites provide a seamless transaction process.
+                E-commerce platforms offer detailed product descriptions,
+                customer reviews, and personalized recommendations to enhance
+                the shopping experience. With support for multiple payment
+                methods and reliable delivery options, these websites provide a
+                seamless transaction process.
               </p>
             </>
           ) : (
@@ -251,66 +278,112 @@ const ProductDetail = () => {
                 canReview ? (
                   <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl p-6">
                     <h3 className="font-bold text-lg mb-4 text-[var(--text-main)]">
-                      {productData?.reviews?.find(r => r.userId === currentUserId) ? "Update your review" : "Write a review"}
+                      {productData?.reviews?.find(
+                        (r) => r.userId === currentUserId,
+                      )
+                        ? "Update your review"
+                        : "Write a review"}
                     </h3>
                     <div className="flex gap-2 mb-4">
-                      {[1,2,3,4,5].map(s => (
-                        <Star key={s} 
-                          className={`w-6 h-6 cursor-pointer transition-colors ${s <= reviewStar ? 'fill-amber-400 text-amber-400' : 'text-gray-300'}`} 
-                          onClick={() => setReviewStar(s)} 
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <Star
+                          key={s}
+                          className={`w-6 h-6 cursor-pointer transition-colors ${s <= reviewStar ? "fill-amber-400 text-amber-400" : "text-gray-300"}`}
+                          onClick={() => setReviewStar(s)}
                         />
                       ))}
                     </div>
-                    <textarea 
+                    <textarea
                       value={reviewText}
                       onChange={(e) => setReviewText(e.target.value)}
                       className="w-full bg-[var(--bg-subtle)] border border-[var(--border-color)] rounded-lg p-3 min-h-[100px] mb-4 text-[var(--text-main)] focus:ring-2 focus:ring-[var(--primary-accent)] outline-none"
                       placeholder="Share your thoughts about this product..."
                     />
                     <div className="flex gap-3">
-                      <Button onClick={() => placeProductReview(productData?.reviews?.find(r => r.userId === currentUserId) ? 'update' : 'create')} className="font-bold">
-                          {productData?.reviews?.find(r => r.userId === currentUserId) ? "Update Review" : "Post Review"}
+                      <Button
+                        onClick={() =>
+                          placeProductReview(
+                            productData?.reviews?.find(
+                              (r) => r.userId === currentUserId,
+                            )
+                              ? "update"
+                              : "create",
+                          )
+                        }
+                        className="font-bold"
+                      >
+                        {productData?.reviews?.find(
+                          (r) => r.userId === currentUserId,
+                        )
+                          ? "Update Review"
+                          : "Post Review"}
                       </Button>
-                      {productData?.reviews?.find(r => r.userId === currentUserId) && (
-                          <Button variant="destructive" onClick={() => placeProductReview('delete')} className="font-bold">
-                              Delete
-                          </Button>
+                      {productData?.reviews?.find(
+                        (r) => r.userId === currentUserId,
+                      ) && (
+                        <Button
+                          variant="destructive"
+                          onClick={() => placeProductReview("delete")}
+                          className="font-bold"
+                        >
+                          Delete
+                        </Button>
                       )}
                     </div>
                   </div>
                 ) : (
                   <div className="p-4 bg-[var(--bg-subtle)] rounded-lg text-center border border-[var(--border-color)]">
-                    <p className="text-[var(--text-main)] font-semibold">You can only review a product after it has been delivered.</p>
+                    <p className="text-[var(--text-main)] font-semibold">
+                      You can only review a product after it has been delivered.
+                    </p>
                   </div>
                 )
               ) : (
                 <div className="p-4 bg-[var(--bg-subtle)] rounded-lg text-center border border-[var(--border-color)]">
-                  <p className="text-[var(--text-main)] font-semibold">Please log in to write a review.</p>
+                  <p className="text-[var(--text-main)] font-semibold">
+                    Please log in to write a review.
+                  </p>
                 </div>
               )}
 
               {/* Reviews List */}
               <div className="space-y-4">
-                <h3 className="font-bold text-lg text-[var(--text-main)]">Customer Reviews</h3>
+                <h3 className="font-bold text-lg text-[var(--text-main)]">
+                  Customer Reviews
+                </h3>
                 {productData?.reviews?.length > 0 ? (
                   productData.reviews.map((review, idx) => (
-                    <div key={idx} className="border-b border-[var(--border-color)] pb-4 last:border-0">
+                    <div
+                      key={idx}
+                      className="border-b border-[var(--border-color)] pb-4 last:border-0"
+                    >
                       <div className="flex justify-between items-start mb-1">
                         <div>
-                          <div className="text-xl font-semibold text-[var(--text-main)]">{review.name}</div>
-                          <div className="text-xs text-[var(--text-muted)]">{new Date(review.time).toLocaleDateString()}</div>
+                          <div className="text-xl font-semibold text-[var(--text-main)]">
+                            {review.name}
+                          </div>
+                          <div className="text-xs text-[var(--text-muted)]">
+                            {new Date(review.time).toLocaleDateString()}
+                          </div>
                         </div>
                         <div className="flex">
                           {[...Array(5)].map((_, i) => (
-                            <Star key={i} className={`w-4 h-4 ${i < review.star ? 'fill-amber-400 text-amber-400' : 'text-gray-300'}`} />
+                            <Star
+                              key={i}
+                              className={`w-4 h-4 ${i < review.star ? "fill-amber-400 text-amber-400" : "text-gray-300"}`}
+                            />
                           ))}
                         </div>
                       </div>
-                      <p className="text-[var(--text-muted)] text-sm">{review.reviewText}</p>
+                      <p className="text-[var(--text-muted)] text-sm">
+                        {review.reviewText}
+                      </p>
                     </div>
                   ))
                 ) : (
-                  <p className="text-[var(--text-muted)]">No reviews yet. Be the first to review this product!</p>
+                  <p className="text-[var(--text-muted)]">
+                    No reviews yet. Be the first to review this product!
+                  </p>
                 )}
               </div>
             </div>
@@ -320,7 +393,11 @@ const ProductDetail = () => {
 
       {/* Related Products */}
       <div className="mt-12">
-        <RelatedProduct category={productData.category} subCategory={productData.subcategory} id={productData._id} />
+        <RelatedProduct
+          category={productData.category}
+          subCategory={productData.subcategory}
+          id={productData._id}
+        />
       </div>
     </div>
   ) : (

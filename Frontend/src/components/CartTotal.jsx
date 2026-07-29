@@ -26,21 +26,24 @@ const CartTotal = ({ cartDataLength = 1 }) => {
         <div className="flex justify-between items-center font-medium">
           <span className="text-[var(--text-muted)]">Subtotal</span>
           <span className="font-semibold text-[var(--text-main)]">
-            {CurrencySym}{subtotal}
+            {CurrencySym}
+            {subtotal}
           </span>
         </div>
 
         <div className="flex justify-between items-center font-medium">
           <span className="text-[var(--text-muted)]">Discount</span>
           <span className="font-semibold text-[var(--text-main)]">
-            {CurrencySym}{discount}
+            {CurrencySym}
+            {discount}
           </span>
         </div>
 
         <div className="flex justify-between items-center font-medium">
           <span className="text-[var(--text-muted)]">Shipping</span>
           <span className="font-semibold text-[var(--text-main)]">
-            {CurrencySym}{shipping}
+            {CurrencySym}
+            {shipping}
           </span>
         </div>
 
@@ -49,15 +52,16 @@ const CartTotal = ({ cartDataLength = 1 }) => {
         <div className="flex justify-between items-center text-base sm:text-lg font-bold text-[var(--text-main)]">
           <span>Total</span>
           <span>
-            {CurrencySym}{total}
+            {CurrencySym}
+            {total}
           </span>
         </div>
       </div>
 
       <Button
         size="lg"
-        className="w-full py-6 rounded-xl font-bold bg-[var(--primary-accent)] text-[var(--bg-main)] hover:bg-[var(--primary-hover)] active:scale-[0.99] transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 text-sm uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed mt-6"
-        onClick={() => navigate('/place-order')}
+        className="w-full py-6 rounded-xl font-bold bg-[var(--primary-accent)] text-[var(--bg-main)] hover:bg-[#0980FF] active:scale-[0.99] transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 text-sm uppercase tracking-wide disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+        onClick={() => navigate("/place-order")}
         disabled={cartDataLength === 0}
       >
         Checkout <ArrowRight className="w-4 h-4" />

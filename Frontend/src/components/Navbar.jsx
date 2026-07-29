@@ -47,43 +47,43 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex items-center justify-between py-4 border-b border-[var(--border-color)]/40 font-medium transition-colors">
+    <div className="flex items-center justify-between py-1 backdrop-blur-3xl font-medium transition-colors">
       <Link to="/" className="flex items-center gap-2">
         <img
           src={logo}
           alt="Brand_logo"
-          className="w-32 sm:w-40 md:w-44 cursor-pointer brightness-105 dark:brightness-120 drop-shadow-sm"
+          className="w-28 sm:w-36 md:w-40 cursor-pointer brightness-105 dark:brightness-120 drop-shadow-sm"
         />
       </Link>
 
       <ul className="hidden sm:flex gap-6 text-sm tracking-wider font-semibold text-[var(--text-muted)]">
         <NavLink
           to="/"
-          className="flex flex-col gap-1 items-center hover:text-[var(--primary-accent)] transition-colors"
+          className="flex flex-col gap-1 items-center hover:text-[#0980FF] [&.active]:text-[#0980FF] transition-colors"
         >
           <p>HOME</p>
-          <hr className="w-2/4 border-none bg-[var(--primary-accent)] h-[2px] hidden" />
+          <hr className="w-2/4 border-none bg-[#0980FF] h-[2px] hidden" />
         </NavLink>
         <NavLink
           to="/collection"
-          className="flex flex-col gap-1 items-center hover:text-[var(--primary-accent)] transition-colors"
+          className="flex flex-col gap-1 items-center hover:text-[#0980FF] [&.active]:text-[#0980FF] transition-colors"
         >
           <p>COLLECTION</p>
-          <hr className="w-2/4 border-none bg-[var(--primary-accent)] h-[2px] hidden" />
+          <hr className="w-2/4 border-none bg-[#0980FF] h-[2px] hidden" />
         </NavLink>
         <NavLink
           to="/about"
-          className="flex flex-col gap-1 items-center hover:text-[var(--primary-accent)] transition-colors"
+          className="flex flex-col gap-1 items-center hover:text-[#0980FF] [&.active]:text-[#0980FF] transition-colors"
         >
           <p>ABOUT</p>
-          <hr className="w-2/4 border-none bg-[var(--primary-accent)] h-[2px] hidden" />
+          <hr className="w-2/4 border-none bg-[#0980FF] h-[2px] hidden" />
         </NavLink>
         <NavLink
           to="/contact"
-          className="flex flex-col gap-1 items-center hover:text-[var(--primary-accent)] transition-colors"
+          className="flex flex-col gap-1 items-center hover:text-[#0980FF] [&.active]:text-[#0980FF] transition-colors"
         >
           <p>CONTACT</p>
-          <hr className="w-2/4 border-none bg-[var(--primary-accent)] h-[2px] hidden" />
+          <hr className="w-2/4 border-none bg-[#0980FF] h-[2px] hidden" />
         </NavLink>
       </ul>
 
@@ -96,7 +96,7 @@ const Navbar = () => {
           onClick={() => setShowSearch(!showSearch)}
           type="button"
           aria-label="Toggle Search"
-          className="p-2 rounded-full hover:bg-[var(--secondary-accent)]/20 text-[var(--text-main)] transition-colors cursor-pointer"
+          className="p-2 rounded-full hover:bg-[#0980FF]/10 hover:text-[#0980FF] text-[var(--text-main)] transition-colors cursor-pointer"
         >
           <Search className="w-5 h-5" />
         </button>
@@ -112,7 +112,7 @@ const Navbar = () => {
             onClick={() => setIsProfileOpen((prev) => !prev)}
             type="button"
             aria-label="User Account"
-            className="p-2 rounded-full hover:bg-[var(--secondary-accent)]/20 text-[var(--text-main)] transition-colors cursor-pointer block"
+            className="p-2 rounded-full hover:bg-[#0980FF]/10 hover:text-[#0980FF] text-[var(--text-main)] transition-colors cursor-pointer block"
           >
             <User className="w-5 h-5" />
           </button>
@@ -127,7 +127,7 @@ const Navbar = () => {
                       setIsProfileOpen(false);
                       navigate("/profile");
                     }}
-                    className="px-3 py-1.5 rounded-md hover:bg-[var(--secondary-accent)]/20 cursor-pointer text-sm font-medium transition-colors"
+                    className="px-3 py-1.5 rounded-md hover:bg-[#0980FF]/10 hover:text-[#0980FF] cursor-pointer text-sm font-medium transition-colors"
                   >
                     My Profile
                   </p>
@@ -136,7 +136,7 @@ const Navbar = () => {
                       setIsProfileOpen(false);
                       navigate("/orders");
                     }}
-                    className="px-3 py-1.5 rounded-md hover:bg-[var(--secondary-accent)]/20 cursor-pointer text-sm font-medium transition-colors"
+                    className="px-3 py-1.5 rounded-md hover:bg-[#0980FF]/10 hover:text-[#0980FF] cursor-pointer text-sm font-medium transition-colors"
                   >
                     Orders
                   </p>
@@ -156,7 +156,7 @@ const Navbar = () => {
                     setIsProfileOpen(false);
                     navigate("/login");
                   }}
-                  className="px-3 py-1.5 rounded-md hover:bg-[var(--secondary-accent)]/20 cursor-pointer text-sm font-medium transition-colors"
+                  className="px-3 py-1.5 rounded-md hover:bg-[#0980FF]/10 hover:text-[#0980FF] cursor-pointer text-sm font-medium transition-colors"
                 >
                   Login / Register
                 </p>
@@ -168,7 +168,7 @@ const Navbar = () => {
         {/* Cart Icon & Badge */}
         <Link
           to="/cart"
-          className="relative p-2 rounded-full hover:bg-[var(--secondary-accent)]/20 text-[var(--text-main)] transition-colors"
+          className="relative p-2 rounded-full hover:bg-[#0980FF]/10 hover:text-[#0980FF] text-[var(--text-main)] transition-colors"
         >
           <ShoppingBag className="w-5 h-5" />
           {getCartCount() > 0 && (
@@ -186,7 +186,7 @@ const Navbar = () => {
           onClick={() => setvisible(true)}
           type="button"
           aria-label="Open Menu"
-          className="p-2 rounded-md sm:hidden text-[var(--text-main)] hover:bg-[var(--secondary-accent)]/20 transition-colors"
+          className="p-2 rounded-md sm:hidden text-[var(--text-main)] hover:bg-[#0980FF]/10 hover:text-[#0980FF] transition-colors"
         >
           <Menu className="w-6 h-6" />
         </button>
@@ -201,35 +201,35 @@ const Navbar = () => {
         <div className="flex flex-col text-sm h-full">
           <div
             onClick={() => setvisible(false)}
-            className="flex items-center gap-3 p-4 border-b border-[var(--border-color)]/50 cursor-pointer hover:bg-[var(--secondary-accent)]/20 font-semibold"
+            className="flex items-center gap-3 p-4 border-b border-[var(--border-color)]/50 cursor-pointer hover:bg-[#0980FF]/10 hover:text-[#0980FF] font-semibold"
           >
             <ArrowLeft className="w-5 h-5" />
             <p>Back</p>
           </div>
           <NavLink
             onClick={() => setvisible(false)}
-            className="py-3 px-6 border-b border-[var(--border-color)]/30 hover:bg-[var(--secondary-accent)]/20 font-medium"
+            className="py-3 px-6 border-b border-[var(--border-color)]/30 hover:bg-[#0980FF]/10 hover:text-[#0980FF] font-medium"
             to="/"
           >
             HOME
           </NavLink>
           <NavLink
             onClick={() => setvisible(false)}
-            className="py-3 px-6 border-b border-[var(--border-color)]/30 hover:bg-[var(--secondary-accent)]/20 font-medium"
+            className="py-3 px-6 border-b border-[var(--border-color)]/30 hover:bg-[#0980FF]/10 hover:text-[#0980FF] font-medium"
             to="/collection"
           >
             COLLECTION
           </NavLink>
           <NavLink
             onClick={() => setvisible(false)}
-            className="py-3 px-6 border-b border-[var(--border-color)]/30 hover:bg-[var(--secondary-accent)]/20 font-medium"
+            className="py-3 px-6 border-b border-[var(--border-color)]/30 hover:bg-[#0980FF]/10 hover:text-[#0980FF] font-medium"
             to="/about"
           >
             ABOUT
           </NavLink>
           <NavLink
             onClick={() => setvisible(false)}
-            className="py-3 px-6 border-b border-[var(--border-color)]/30 hover:bg-[var(--secondary-accent)]/20 font-medium"
+            className="py-3 px-6 border-b border-[var(--border-color)]/30 hover:bg-[#0980FF]/10 hover:text-[#0980FF] font-medium"
             to="/contact"
           >
             CONTACT
@@ -244,9 +244,9 @@ const Navbar = () => {
                     setvisible(false);
                     navigate("/orders");
                   }}
-                  className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-[var(--secondary-accent)]/20 cursor-pointer font-medium"
+                  className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-[#0980FF]/10 hover:text-[#0980FF] cursor-pointer font-medium"
                 >
-                  <PackageCheck className="w-4 h-4 text-[var(--primary-accent)]" />
+                  <PackageCheck className="w-4 h-4 text-[#0980FF]" />
                   <span>My Orders</span>
                 </div>
                 <button
@@ -266,7 +266,7 @@ const Navbar = () => {
                   setvisible(false);
                   navigate("/login");
                 }}
-                className="flex items-center gap-3 py-2.5 px-3 rounded-lg bg-[var(--primary-accent)] text-white cursor-pointer font-medium justify-center"
+                className="flex items-center gap-3 py-2.5 px-3 rounded-lg bg-[#0980FF] text-white cursor-pointer font-medium justify-center"
               >
                 <User className="w-4 h-4" />
                 <span>Login / Register</span>

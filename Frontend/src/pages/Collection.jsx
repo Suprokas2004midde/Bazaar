@@ -41,7 +41,9 @@ const Collection = () => {
         params.append("subcategory", subCategory.join(","));
       }
 
-
+      if (showSearch && search) {
+        params.append("search", search);
+      }
       const response = await axios.get(`${backend}/api/product/list-page?${params.toString()}`);
       if (response.data.success) {
         setProductsList(response.data.products);

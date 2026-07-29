@@ -233,7 +233,7 @@ const Addresses = () => {
               key={addr.id || addr._id}
               className={`relative border transition-all ${
                 addr.isDefault
-                  ? "border-[var(--primary-accent)] bg-[var(--primary-accent)]/5 shadow-sm"
+                  ? "border-[#0980FF] bg-[#0980FF]/5 shadow-sm"
                   : "border-[var(--border-color)] hover:border-[var(--secondary-accent)]"
               }`}
             >
@@ -249,7 +249,7 @@ const Addresses = () => {
                       {addr.title || "Home"}
                     </span>
                     {addr.isDefault && (
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200">
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#0980FF]/10 text-[#0980FF] dark:bg-[#0980FF]/20 dark:text-[#0980FF]">
                         Default
                       </span>
                     )}
