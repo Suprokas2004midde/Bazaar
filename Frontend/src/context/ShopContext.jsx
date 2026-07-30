@@ -266,10 +266,14 @@ export const ShopContextProvider = (props) => {
         if (response.data.added) {
           toast.success(
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              {productImage && (
-                <img src={productImage} alt="" style={{ width: "50px", height: "50px", borderRadius: "8px", objectFit: "contain" }} />
-              )}
-              <div><p style={{ fontWeight: 600 }}>Added to Wishlist ♥</p></div>
+              <img
+                src={productImage}
+                alt="Item_Image"
+                style={{ width: "60px", height: "60px", borderRadius: "100%" }}
+              />
+              <div>
+                <p>Added to Wishlist</p>
+              </div>
             </div>,
           );
         } else {

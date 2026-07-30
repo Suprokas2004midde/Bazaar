@@ -490,9 +490,11 @@ export function OrderSummary1({
                       </h4>
                       <p className="text-xs text-[var(--text-muted)] mt-0.5">
                         {isCurrent
-                          ? deliveryDate.getTime() > Date.now() //both fetching date as an object...
-                            ? "Current status - Package is moving as scheduled."
-                            : "Your shipment is taking longer than expected. We apologize for the delay."
+                          ? stepName === "Delivered"
+                            ? "Completed"
+                            : deliveryDate.getTime() > Date.now() //both fetching date as an object...
+                              ? "Current status - Package is moving as scheduled."
+                              : "Your shipment is taking longer than expected. We apologize for the delay."
                           : isPassed
                             ? "Completed"
                             : "Pending next step"}

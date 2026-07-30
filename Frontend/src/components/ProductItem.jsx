@@ -13,7 +13,7 @@ const ProductItem = ({ item }) => {
 
   const avgRating =
     reviewCount > 0
-      ? item.reviews.reduce((sum, r) => sum + (r.star || 0), 0) / reviewCount
+      ? item.reviews.reduce((sum, review) => sum + (review.star || 0), 0) / reviewCount
       : item?.rating || 0;
 
   const inStock = item?.inStock !== false; // treat missing field as in-stock

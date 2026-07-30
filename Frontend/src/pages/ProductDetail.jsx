@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { ShopContext } from "../context/ShopContext";
-import { Star, Shield, Truck, RefreshCw, ShoppingCart, Loader2, Heart } from "lucide-react";
+import { Star, StarHalf, Shield, Truck, RefreshCw, ShoppingCart, Loader2, Heart } from "lucide-react";
 import RelatedProduct from "../components/RelatedProduct";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -92,6 +92,15 @@ const ProductDetail = () => {
     fetchProductData();
   }, [productID, currentUserId]);
 
+  const reviewCount = productData?.reviews?.length || 0;
+  const avgRating =
+    reviewCount > 0
+      ? productData?.reviews?.reduce(
+          (sum, review) => sum + (review.star || 0),
+          0,
+        ) / reviewCount
+      : 0;
+
 
   return productData ? (
     <div className="pt-8 border-t border-[var(--border-color)]/40 transition-all duration-300">
@@ -138,11 +147,20 @@ const ProductDetail = () => {
               {productData.name}
             </h1>
             <div className="flex items-center gap-1.5 mt-3 text-amber-400 text-sm">
-              <Star className="w-4 h-4 fill-amber-400" />
-              <Star className="w-4 h-4 fill-amber-400" />
-              <Star className="w-4 h-4 fill-amber-400" />
-              <Star className="w-4 h-4 fill-amber-400" />
-              <Star className="w-4 h-4 fill-amber-400 opacity-40" />
+              {[1,2,3,4,5].map((star,index)=>(
+                <span key={star}>
+                  {
+                    avgRating >= star 
+                    ? <Star className="w-4 h-4 fill-amber-400" />
+                    : avgRating >= star - 0.5
+                      ? <StarHalf className="w-4 h-4 fill-amber-400"/>
+                      : <Star className="w-4 h-4 fill-amber-400 opacity-40" />
+                  }
+                </span>
+              ))}
+              <span className="text-xs font-semibold text-[var(--text-muted)] ml-2">
+                {avgRating > 0 ? avgRating.toFixed(1) : 0}
+              </span>
               <span className="text-xs font-semibold text-[var(--text-muted)] ml-2">
                 ({productData?.reviews?.length || 0} Reviews)
               </span>
