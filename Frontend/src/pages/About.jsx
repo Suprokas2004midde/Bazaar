@@ -27,7 +27,7 @@ const About = () => {
             Bazaar was born out of a passion for innovation and a desire to revolutionize the modern shopping experience.
           </p>
           <p className="text-sm">
-            Since our inception, we've worked tirelessly to curate a diverse selection high-quality products catering to every taste and preference — from fashion and daily updates to premium electronics.
+            Since our inception, we've worked tirelessly to curate a diverse selection of high-quality products catering to every taste and preference — from fashion and daily updates to premium electronics.
           </p>
           <div className="p-4 rounded-xl bg-[var(--bg-subtle)] border border-[var(--border-color)]/40 space-y-2">
             <h3 className="font-extrabold text-[var(--text-main)] uppercase tracking-wider text-sm flex items-center gap-2">
