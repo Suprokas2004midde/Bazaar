@@ -1,21 +1,22 @@
-import React, { useContext, useState, useEffect } from 'react';
-import Title from '../components/Title';
-import CartTotal from '../components/CartTotal';
-import { ShopContext } from '../context/ShopContext';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { Card, CardContent } from '../components/ui/card';
-import { Input } from '../components/ui/input';
-import { Button } from '../components/ui/button';
-import { CheckCircle2 } from 'lucide-react';
+import React, { useContext, useState, useEffect } from "react";
+import Title from "../components/Title";
+import CartTotal from "../components/CartTotal";
+import { ShopContext } from "../context/ShopContext";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { Card, CardContent } from "../components/ui/card";
+import { Input } from "../components/ui/input";
+import { Button } from "../components/ui/button";
+import { CheckCircle2 } from "lucide-react";
 
 const PlaceOrder = () => {
-
-  const [method, setMethod] = useState('cod');
+  const [method, setMethod] = useState("cod");
   const [saveAddress, setSaveAddress] = useState(false); // Helps to save a new address
   const [userAddresses, setUserAddresses] = useState([]); //Stores all Addresses
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(null); //Stores the index
   const [addingNewAddress, setAddingNewAddress] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
 
   const {
     navigate,
@@ -32,15 +33,15 @@ const PlaceOrder = () => {
   } = useContext(ShopContext);
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    street: '',
-    city: '',
-    state: '',
-    zipcode: '',
-    country: '',
-    phone: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    street: "",
+    city: "",
+    state: "",
+    zipcode: "",
+    country: "",
+    phone: "",
   });
 
   const onChangeHandler = (event) => {
@@ -55,7 +56,7 @@ const PlaceOrder = () => {
       if (token) {
         try {
           const response = await axios.get(`${backend}/api/user/profile`, {
-            headers: { token }
+            headers: { token },
           });
           if (response.data.success && response.data.profile.address) {
             const fetchedAddresses = response.data.profile.address;
@@ -73,11 +74,56 @@ const PlaceOrder = () => {
     fetchProfile();
   }, [token, backend]);
 
+  const initPay = (order, key, addressToUse, saveAddressToUse) => {
+    const options = {
+      key: key || import.meta.env.VITE_RAZORPAY_API_KEY,
+      amount: order.amount,
+      currency: order.currency,
+      name: "Order Payment",
+      description: "Order Payment",
+      order_id: order.id,
+      receipt: order.receipt,
+      handler: async (response) => {
+        try {
+          const { data } = await axios.post(
+            `${backend}/api/order/verifyRazorpay`,
+            {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              address: addressToUse,
+              saveAddress: saveAddressToUse,
+            },
+            { headers: { token } }
+          );
+
+          if (data.success) {
+            toast.success(data.message || "Order Placed Successfully!");
+            setCartItems({});
+            navigate(`/track/${data.order._id}`);
+          } else {
+            toast.error(data.message);
+          }
+        } catch (error) {
+          console.log(error);
+          toast.error(error.response?.data?.message || error.message);
+        }
+      },
+      retry:{
+        enabled: false,  // Disables checkout.js background polling retries
+      }
+    };
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
+  
+
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    setIsSubmitting(true);
     //if not login forward to login page
     if (!token) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
     //Creating OrderItem array
@@ -86,7 +132,9 @@ const PlaceOrder = () => {
       for (const items in cartItems) {
         for (const item in cartItems[items]) {
           if (cartItems[items][item] > 0) {
-            const iteminfo = structuredClone(cartProductsData.find((product) => product._id === items));
+            const iteminfo = structuredClone(
+              cartProductsData.find((product) => product._id === items),
+            );
             if (iteminfo) {
               iteminfo.size = item;
               iteminfo.quantity = cartItems[items][item];
@@ -96,28 +144,32 @@ const PlaceOrder = () => {
         }
       }
 
-      const addressToUse = (!addingNewAddress && selectedAddressIndex !== null) 
-          ? userAddresses[selectedAddressIndex] 
+      const addressToUse =
+        !addingNewAddress && selectedAddressIndex !== null
+          ? userAddresses[selectedAddressIndex]
           : formData;
 
       const subtotal = getTotalAmount();
       const currentDeliveryFee = subtotal > 0 ? DeliveryFees : 0;
       const currentDiscount = subtotal >= 500 ? DeliveryFees : 0;
-      const finalAmount = (subtotal === 0 ? 0 : subtotal + currentDeliveryFee - currentDiscount);
+      const finalAmount =
+        subtotal === 0 ? 0 : subtotal + currentDeliveryFee - currentDiscount;
 
       const finalOrder = {
         items: orderItems,
         address: addressToUse,
         amount: finalAmount,
-        deliveryFee: currentDeliveryFee, 
+        deliveryFee: currentDeliveryFee,
         discount: currentDiscount,
         saveAddress: addingNewAddress ? saveAddress : false,
       };
 
       switch (method) {
-        case 'cod':
+        case "cod":
           if (finalOrder.items.length === 0) {
-            toast.warning("Your cart is empty. Please add items before placing an order.");
+            toast.warning(
+              "Your cart is empty. Please add items before placing an order.",
+            );
             return;
           }
           const response = await axios.post(
@@ -128,9 +180,27 @@ const PlaceOrder = () => {
           if (response.data.success) {
             toast.success(response.data.message);
             setCartItems({});
-            navigate("/orders");
+            navigate(`/track/${response.data.data._id}`);
           } else {
             toast.error(response.data.message);
+          }
+          break;
+
+        case "razorpay":
+          const responseRazorpay = await axios.post(
+            `${backend}/api/order/razorpay`,
+            finalOrder,
+            { headers: { token } },
+          );
+          if (responseRazorpay.data.success) {
+            initPay(
+              responseRazorpay.data.order,
+              responseRazorpay.data.key,
+              addressToUse,
+              addingNewAddress ? saveAddress : false
+            );
+          } else {
+            toast.error(responseRazorpay.data.message);
           }
           break;
 
@@ -140,6 +210,9 @@ const PlaceOrder = () => {
     } catch (error) {
       console.log(error.message);
       toast.error(error.message);
+    }
+    finally{
+      setIsSubmitting(false);
     }
   };
 
@@ -378,9 +451,10 @@ const PlaceOrder = () => {
             <Button
               type="submit"
               size="lg"
+              disabled={isSubmitting}
               className="w-full font-bold uppercase tracking-wider mt-4 hover:bg-[#0980FF]"
             >
-              Place Order
+              {isSubmitting ? "Processing..." : "Place Order"}
             </Button>
           </CardContent>
         </Card>

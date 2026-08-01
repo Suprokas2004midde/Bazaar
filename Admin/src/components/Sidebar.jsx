@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { assets } from '../assets/assets.js'
 
 import { FaListUl } from "react-icons/fa6";
-import { MdAddCircleOutline } from "react-icons/md";
+import { MdAddCircleOutline, MdOutlineImage } from "react-icons/md";
 import { LuShoppingBag } from "react-icons/lu";
 
 const Sidebar = () => {
@@ -49,6 +49,19 @@ const Sidebar = () => {
         >
           <LuShoppingBag className='w-6 h-6'/>
           <p className="hidden md:block font-medium">Orders</p>
+        </NavLink>
+
+        {/* Banners */}
+        <NavLink
+          to="/banners"
+          className={({ isActive }) =>
+            `flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-l-md
+             cursor-pointer transition-all duration-150
+             ${isActive ? "active" : "hover:bg-gray-50 text-gray-700"}`
+          }
+        >
+          <MdOutlineImage className="w-6 h-6" />
+          <p className="hidden md:block font-medium">Banners</p>
         </NavLink>
       </div>
     </aside>

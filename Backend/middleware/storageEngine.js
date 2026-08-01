@@ -7,7 +7,7 @@ const cldStorage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
     const extname = path.extname(file.originalname);
-    const basename = path.basename(file.originalname);
+    const basename = path.basename(file.originalname, extname);
 
     const customname = `${basename}-${Date.now()}`;
     let file_format = extname.substring(1).toLowerCase();

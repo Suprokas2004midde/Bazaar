@@ -111,7 +111,7 @@ export const bestSellerService = async()=>{
 
 export const latestCollectionService = async()=>{
     const productList = await listProductRepository();
-    const latestProductList = productList.reverse().slice(0,10);
+    const latestProductList = productList.slice(0,10);
     return latestProductList;
 }
 

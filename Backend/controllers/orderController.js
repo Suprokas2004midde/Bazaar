@@ -1,5 +1,6 @@
 import { success } from "zod";
-import { allOrderService, placeOrderService, singleOrderService, statusUpdateService, userOrderService } from "../services/orderService.js";
+import { allOrderService, placeOrderService, placeRazorpayService, singleOrderService, statusUpdateService, userOrderService, verifyRazorpayService } from "../services/orderService.js";
+
 
 // /api/order/place
 export const placeOrder = async(req, res)=>{
@@ -16,8 +17,8 @@ export const placeOrder = async(req, res)=>{
         );
         res.status(200).json({
             success: true,
-            messsage: "Order Placed",
-            data: response.data,
+            message: "Order Placed",
+            data: response,
         })
     } catch (error) {
         console.log(error);
@@ -54,7 +55,21 @@ export const placeOrderStripe = async(req, res)=>{
 
 export const placeOrderRazorpay = async(req, res)=>{
     try {
-        
+        const {userId, items, address, deliveryFee, discount, saveAddress} = req.body;
+        const response = await placeRazorpayService(
+          userId,
+          items,
+          address,
+          deliveryFee,
+          discount,
+          saveAddress,
+        );
+        res.status(200).json({
+            success: true,
+            message: "Order Placed",
+            order: response.order,
+            key: response.key,
+        })
     } catch (error) {
         console.log(error);
         if (error.status) {
@@ -70,16 +85,55 @@ export const placeOrderRazorpay = async(req, res)=>{
     }
 }
 
+export const verifyRazorpay = async(req, res) => {
+  try {
+    const {
+      userId,
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+      address,
+      saveAddress,
+    } = req.body;
+
+    const response = await verifyRazorpayService(
+      userId,
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+      address,
+      saveAddress
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Payment Verified and Order Placed Successfully",
+      order: response,
+    });
+  } catch (error) {
+    console.log(error);
+    if (error.status) {
+      return res.status(error.status).json({
+        message: error.message,
+        success: false,
+      });
+    }
+    return res.status(500).json({
+      message: "Internal server error",
+      success: false,
+    });
+  }
+}
+
 export const allOrder = async (req, res)=>{
     try {
       const response = await allOrderService();
       res.status(200).json({
         success: true,
-        messsage: "All Orderss fetched Successfully",
+        message: "All Orders fetched Successfully",
         orders: response,
       });
     } catch (error) {
-        console.log(error);
         if (error.status) {
           return res.status(error.status).json({
             message: error.message,
@@ -99,12 +153,11 @@ export const userOrder = async (req, res)=>{
       const response = await userOrderService(userId);
       res.status(200).json({
         success: true,
-        messsage: "Fetched Order Data Successfully",
+        message: "Fetched Order Data Successfully",
         orders: response,
       });
         
     } catch (error) {
-        console.log(error);
         if (error.status) {
           return res.status(error.status).json({
             message: error.message,
@@ -128,7 +181,6 @@ export const singleOrder = async (req, res) =>{
       order: response,
     })
   } catch (error) {
-    console.log(error);
     if (error.status) {
       return res.status(error.status).json({
         message: error.message,
@@ -152,7 +204,6 @@ export const updateOrderStatus = async (req, res)=>{
           response: response,
         })
     } catch (error) {
-        console.log(error);
         if (error.status) {
           return res.status(error.status).json({
             message: error.message,

@@ -10,6 +10,7 @@ import Login   from './components/Login'
 import Add    from './pages/Add'
 import List   from './pages/List'
 import Orders from './pages/Orders'
+import Banners from './pages/Banners'
 
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem('adminToken') || '')
@@ -41,6 +42,7 @@ const App = () => {
                 <Route path="/add"    element={<Add    token={token} />} />
                 <Route path="/list"   element={<List   token={token} />} />
                 <Route path="/orders" element={<Orders token={token} />} />
+                <Route path="/banners" element={<Banners token={token} />} />
                 <Route path="*"       element={<Navigate to="/add" replace />} />
               </Routes>
             </main>
