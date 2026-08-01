@@ -1,6 +1,6 @@
 import bannerModel from "../schema/bannerModel.js";
 
-// Create Banner
+// Create Banner function
 export const createBanner = async (req, res) => {
   try {
     const {

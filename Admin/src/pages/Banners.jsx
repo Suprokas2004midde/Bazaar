@@ -83,7 +83,7 @@ const Banners = ({ token }) => {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("list"); // "list" | "create"
 
-  // Form states
+  // Form stateses
   const [editId, setEditId] = useState(null);
   const [title, setTitle] = useState("");
   const [subtitle, setSubtitle] = useState("");
