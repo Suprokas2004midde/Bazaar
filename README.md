@@ -22,7 +22,7 @@
 
 | App | URL |
 |-----|-----|
-| 🛒 **User Frontend** | [https://bazaar-235b.vercel.app/collection](https://bazaar-d5d.pages.dev/) |
+| 🛒 **User Frontend** | [https://bazaar-d5d.pages.dev/](https://bazaar-d5d.pages.dev/) |
 
 ---
 
