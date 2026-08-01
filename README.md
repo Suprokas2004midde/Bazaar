@@ -22,8 +22,7 @@
 
 | App | URL |
 |-----|-----|
-| 🛒 **User Frontend** | [https://bazaar-235b.vercel.app/collection](https://bazaar-235b.vercel.app/collection) |
-| 🔧 **Admin Dashboard** | [https://bazaar-admin-alpha.vercel.app/](https://bazaar-admin-alpha.vercel.app/) |
+| 🛒 **User Frontend** | [https://bazaar-235b.vercel.app/collection](https://bazaar-d5d.pages.dev/) |
 
 ---
 
