@@ -10,6 +10,8 @@ import {
   relatedProductService,
   removeProductService,
   singeProductService,
+  updateProductStatusService,
+  getAdminProductStatsService,
 } from "../services/productService.js";
 import { totalProductCount } from "../repository/productRepository.js";
 import { success } from "zod";
@@ -262,5 +264,41 @@ export const getBulkProducts = async (req, res) => {
       message: "Internal server error",
       success: false,
     });
+  }
+};
+
+export const updateProductStatus = async (req, res) => {
+  try {
+    const { productId, status } = req.body;
+    if (!productId || !status) return res.status(400).json({ success: false, message: "Missing required fields" });
+    
+    const response = await updateProductStatusService(productId, status);
+    return res.status(200).json({
+      success: true,
+      message: "Product status updated successfully",
+      product: response,
+    });
+  } catch (error) {
+    if (error.status) {
+      return res.status(error.status).json({ success: false, message: error.message });
+    }
+    return res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+export const getAdminProductStats = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await getAdminProductStatsService(id);
+    return res.status(200).json({
+      success: true,
+      message: "Product stats fetched successfully",
+      stats: response,
+    });
+  } catch (error) {
+    if (error.status) {
+      return res.status(error.status).json({ success: false, message: error.message });
+    }
+    return res.status(500).json({ success: false, message: "Internal server error" });
   }
 };

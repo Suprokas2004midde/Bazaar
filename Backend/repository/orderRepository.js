@@ -4,6 +4,34 @@ import orderModel from "../schema/orderModel.js";
 import { updateCartRepository } from "./cartRepository.js";
 import userModel from "../schema/userModel.js";
 import productModel from "../schema/productModel.js";
+import inventoryLedgerModel from "../schema/inventoryLedgerModel.js";
+
+// Helper to deduct stock
+const deductStock = async (items, orderId) => {
+  for (const item of items) {
+    const product = await productModel.findById(item._id);
+    if (product) {
+      const sizeIndex = product.sizes.findIndex(s => s.size === item.size);
+      if (sizeIndex !== -1) {
+        const variant = product.sizes[sizeIndex];
+        if (variant.quantity < item.quantity && !variant.allowBackorder) {
+          throw { status: 400, message: `Insufficient stock for ${product.name} (Size: ${item.size})` };
+        }
+        product.sizes[sizeIndex].quantity -= item.quantity;
+        await product.save();
+
+        const ledgerEntry = new inventoryLedgerModel({
+          productId: product._id,
+          variantSize: item.size,
+          quantityChanged: -item.quantity,
+          reason: 'Sale',
+          referenceId: String(orderId)
+        });
+        await ledgerEntry.save();
+      }
+    }
+  }
+};
 
 //global variables
 const deliveryCharges = 100;
@@ -22,8 +50,18 @@ export const placeOrderRepository = async (userId, items, address, amount, deliv
       date: Date.now()
     };
 
-    const newOrder = new orderModel(orderData);
+    // Normalize items: ensure each has productId so the review check works
+    // (Mongoose auto-generates its own _id for untyped array subdocuments)
+    const normalizedItems = items.map(item => ({
+      ...item,
+      productId: String(item._id || item.productId || ''),
+    }));
+
+    const newOrder = new orderModel({ ...orderData, items: normalizedItems });
     const response = await newOrder.save();
+    
+    // Deduct stock
+    await deductStock(items, response._id);
     //After placing the Order the Cart Items get Removed...
     await updateCartRepository(userId, {cartData:{}});
     
@@ -68,6 +106,7 @@ export const orderDataRepository = async(userId, address, saveAddress)=>{
       if (quantity <= 0) continue;
 
       items.push({
+        productId: String(product._id), // explicit product ID safe from Mongoose subdoc auto _id
         _id: product._id,
         name: product.name,
         price: product.price,
@@ -116,8 +155,17 @@ export const saveRazorpayOrderRepository = async (userId, calculatedData) => {
     date: Date.now()
   };
 
-  const newOrder = new orderModel(orderData);
+  // Normalize items: ensure each has productId so the review check works
+  const normalizedItems = calculatedData.items.map(item => ({
+    ...item,
+    productId: String(item._id || item.productId || ''),
+  }));
+
+  const newOrder = new orderModel({ ...orderData, items: normalizedItems });
   const response = await newOrder.save();
+  
+  // Deduct stock
+  await deductStock(calculatedData.items, response._id);
   await updateCartRepository(userId, { cartData: {} });
   return response;
 };
@@ -141,6 +189,31 @@ export const singleOrderRepository = async (orderId) => {
 
 export const orderUpdateRepository = async (orderId, status) => {
     let targetId = orderId;
+    const order = await orderModel.findById(targetId);
+    
+    // If cancelling, restore stock
+    if (status === 'Cancelled' && order && order.status !== 'Cancelled') {
+      for (const item of order.items) {
+        const product = await productModel.findById(item._id);
+        if (product) {
+          const sizeIndex = product.sizes.findIndex(s => s.size === item.size);
+          if (sizeIndex !== -1) {
+            product.sizes[sizeIndex].quantity += item.quantity;
+            await product.save();
+            
+            const ledgerEntry = new inventoryLedgerModel({
+              productId: product._id,
+              variantSize: item.size,
+              quantityChanged: item.quantity,
+              reason: 'Cancelled Order',
+              referenceId: String(orderId)
+            });
+            await ledgerEntry.save();
+          }
+        }
+      }
+    }
+    
     const update = await orderModel.findByIdAndUpdate(targetId, { status }, { new: true });
     return update;
 }

@@ -183,19 +183,28 @@ const ProductDetail = () => {
                 Select Size
               </p>
               <div className="flex flex-wrap gap-3">
-                {productData.sizes.map((size, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectSize(size)}
-                    className={`py-2 px-4 rounded-md text-sm font-semibold border transition-all cursor-pointer ${
-                      size === selectsize
-                        ? "bg-[var(--primary-accent)] text-[var(--bg-main)] border-[var(--primary-accent)] shadow-md"
-                        : "bg-[var(--bg-card)] text-[var(--text-main)] border-[var(--border-color)] hover:border-[var(--border)]"
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
+                {productData.sizes.map((sizeObj, index) => {
+                  // Fallback for old data where size might still be a string
+                  const sizeName = typeof sizeObj === 'string' ? sizeObj : sizeObj.size;
+                  const isOutOfStock = typeof sizeObj === 'object' && sizeObj.quantity <= 0;
+                  
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => !isOutOfStock && setSelectSize(sizeName)}
+                      disabled={isOutOfStock}
+                      className={`py-2 px-4 rounded-md text-sm font-semibold border transition-all ${
+                        isOutOfStock 
+                          ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed opacity-60" 
+                          : sizeName === selectsize
+                            ? "bg-[var(--primary-accent)] text-[var(--bg-main)] border-[var(--primary-accent)] shadow-md cursor-pointer"
+                            : "bg-[var(--bg-card)] text-[var(--text-main)] border-[var(--border-color)] hover:border-[var(--border)] cursor-pointer"
+                      }`}
+                    >
+                      {sizeName} {isOutOfStock && <span className="text-xs ml-1">(Out of Stock)</span>}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}

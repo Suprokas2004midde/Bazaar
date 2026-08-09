@@ -18,7 +18,6 @@ export const addProductRepository = async ({
     description: description,
     price: Number(price),
     category: category,
-    quantity: Number(quantity),
     images: imageUrl,
     sizes: sizes ? JSON.parse(sizes) : [], // safely parse sizes string, default to [] if not sent
     subcategory: subcategory,

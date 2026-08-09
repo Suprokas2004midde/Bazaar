@@ -8,6 +8,7 @@ import cartRouter from './routes/cartRoutes.js'
 import orderRouter from './routes/orderRoutes.js';
 import wishlistRouter from './routes/wishlistRoutes.js';
 import bannerRouter from './routes/bannerRoutes.js';
+import inventoryRouter from './routes/inventoryRoutes.js';
 
 
 const app = express();
@@ -22,6 +23,7 @@ app.use('/api/cart', cartRouter);
 app.use('/api/order', orderRouter);
 app.use('/api/wishlist', wishlistRouter);
 app.use('/api/banner', bannerRouter);
+app.use('/api/inventory', inventoryRouter);
 
 app.get('/',(req,res)=>{
     res.send("Api server is Working");
